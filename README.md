@@ -1,9 +1,9 @@
 # Zhiqing Pan's website
 > Welcome to my personal website! 
 ## About me
-![](https://avatars.githubusercontent.com/u/82391775?v=4)
-I am an undergraduate student in [Shan Dong University of Science and Technology](https://en.sdust.edu.cn) at the [College of Geodesy and Geomatics](https://gc.sdust.edu.cn/). I am currently working on the topic of **Geographic Information Systems (GIS)** and **Medical Image Auto Analysis Systems**. High-performance 3D terrain rendering is my next topic to dive into.
+- ![](https://avatars.githubusercontent.com/u/82391775?v=4)
 
+- I am an undergraduate student in [Shan Dong University of Science and Technology](https://en.sdust.edu.cn) at the [College of Geodesy and Geomatics](https://gc.sdust.edu.cn/). I am currently working on the topic of **Geographic Information Systems (GIS)** and **Medical Image Auto Analysis Systems**. High-performance 3D terrain rendering is my next topic to dive into.
 
 ## Skills
 
@@ -15,9 +15,11 @@ I am an undergraduate student in [Shan Dong University of Science and Technology
 |Java| [JavaHelloWorld](https://github.com/pzq123456/JAVAhelloWorld) | Simple Java homework |
 
 ### 2. Frontend demo
-| results-summary-component | Interactive-rating-component |
-|:---:|:---:|
-|<iframe src="https://pzq123456.github.io/results-summary-component/" width="560px" height="500px"></iframe>|<iframe src="https://pzq123456.github.io/Interactive-rating-component/" width="430px" height="430px"></iframe>|
+
+|name|screenshot|url|
+| :--: | :--: | :--: |
+| results-summary-component | ![](imgs/demo2.png) | https://pzq123456.github.io/results-summary-component/ |
+| Interactive-rating-component | ![](imgs/demo1.png) | https://pzq123456.github.io/Interactive-rating-component/ |
 
 > Thanks for Frontend Mentor's challenge!
 

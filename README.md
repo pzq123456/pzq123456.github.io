@@ -25,10 +25,9 @@
 > Thanks for Frontend Mentor's challenge!
 
 ### 3. Data analysis and Intelligent algorithm
-| ID | repository | description |
-| :--: |:---:|:---:|
-| 0 | [MedicalAI](https://github.com/pzq123456/MdicalAI) | medical image auto segmentation model |
-| 1 | [MIP](https://github.com/pzq123456/MIP) | Medical Image analysis and processing platform based on Web (we will opensource it soon!) |
+
+* [MedicalAI](https://github.com/pzq123456/MdicalAI): medical image auto segmentation model
+* [MIP](https://github.com/pzq123456/MIP): Medical Image analysis and processing platform based on the Web (we will open-source it soon!)
 
 ## Contact me
 - Email: 1812673119@qq.com

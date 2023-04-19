@@ -1,2 +1,2 @@
-# pzq123456.github.io
-Personal web site
+# Zhiqing Pan's website
+> Welcome to my personal website! 

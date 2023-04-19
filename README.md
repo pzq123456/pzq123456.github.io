@@ -1,9 +1,10 @@
 # Zhiqing Pan's website
 > Welcome to my personal website! 
 ## About me
-- ![](https://avatars.githubusercontent.com/u/82391775?v=4)
 
-- I am an undergraduate student in [Shan Dong University of Science and Technology](https://en.sdust.edu.cn) at the [College of Geodesy and Geomatics](https://gc.sdust.edu.cn/). I am currently working on the topic of **Geographic Information Systems (GIS)** and **Medical Image Auto Analysis Systems**. High-performance 3D terrain rendering is my next topic to dive into.
+> <img src="https://avatars.githubusercontent.com/u/82391775?v=4" width="50" height="50" alt="avatar"/>
+
+> I am an undergraduate student in [Shan Dong University of Science and Technology](https://en.sdust.edu.cn) at the [College of Geodesy and Geomatics](https://gc.sdust.edu.cn/). I am currently working on the topic of **Geographic Information Systems (GIS)** and **Medical Image Auto Analysis Systems**. High-performance 3D terrain rendering is my next topic to dive into.
 
 ## Skills
 
@@ -24,14 +25,15 @@
 > Thanks for Frontend Mentor's challenge!
 
 ### 3. Data analysis and Intelligent algorithm
-| repository | description |
-|:---:|:---:|
-| [MedicalAI](https://github.com/pzq123456/MdicalAI) | medical image auto segmentation model |
-| [MIP](https://github.com/pzq123456/MIP) | Medical Image analysis and processing platform based on Web (we will opensource it soon!) |
+| ID | repository | description |
+| :--: |:---:|:---:|
+| 0 | [MedicalAI](https://github.com/pzq123456/MdicalAI) | medical image auto segmentation model |
+| 1 | [MIP](https://github.com/pzq123456/MIP) | Medical Image analysis and processing platform based on Web (we will opensource it soon!) |
 
 ## Contact me
 - Email: 1812673119@qq.com
 
 > This website will be updated regularly. If you have any questions, please contact me by email. Thank you for your support!
+
 > Next version will be constructed by Vue3.js, and will have more functions. Stay tuned!
 

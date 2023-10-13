@@ -1,0 +1,26 @@
+table{
+    width: 100%;
+    margin-bottom: 1rem;
+    color: #212529;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+table th,
+table td{
+    padding: 0.75rem;
+    vertical-align: top;
+    border-top: 1px solid #dee2e6;
+}
+body{
+    font-family: 'Nunito', sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #858796;
+    background-color: #e9ecf4;
+}
+/* #content{
+    width: 80%;
+    border: 1px solid #121010;
+    overflow: auto;
+} */

@@ -1,5 +1,6 @@
 # Zhiqing Pan's website
 > Welcome to my personal website! 
+> - 纯手工打造的博客网站 不使用前端框架
 ## About me
 
 > <img src="https://avatars.githubusercontent.com/u/82391775?v=4" width="50" height="50" alt="avatar"/>
@@ -13,12 +14,6 @@
 * `Python`: [MapCommunity](https://github.com/pzq123456/mapcommunity) --- A Flask web application for map community. 
 * `Java`: [JavaHelloWorld](https://github.com/pzq123456/JAVAhelloWorld) --- Simple Java homework 
 
-### 2. Frontend demo
-
-|name|screenshot|url|
-| :--: | :--: | :--: |
-| results-summary-component | ![](imgs/demo2.png) | https://pzq123456.github.io/results-summary-component/ |
-| Interactive-rating-component | ![](imgs/demo1.png) | https://pzq123456.github.io/Interactive-rating-component/ |
 
 > Thanks for Frontend Mentor's challenge!
 

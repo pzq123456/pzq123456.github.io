@@ -37,9 +37,6 @@ export function fileToHtml(filePath, element, style) {
         // handle success
         element.innerHTML =
         marked.parse(response.data);
-        console.log(
-            parseStyle(style)
-        )
         // add style
         if (style) {
             element.setAttribute('style',parseStyle(style));

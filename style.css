@@ -17,7 +17,14 @@ body{
     font-weight: 400;
     line-height: 1.5;
     color: #858796;
-    background-color: #e9ecf4;
+    background-color: #0d1117;
+}
+.wrapper{
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 /* #content{
     width: 80%;

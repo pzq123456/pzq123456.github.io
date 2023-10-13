@@ -4,7 +4,7 @@
 import { parseStyle } from './utils.js';
 /**
  * fill a existing element with a nav bar
- * @param {HTMLElement} elementId 
+ * @param {HTMLElement} element 
  * @param {*} list 
  * @param {*} style 
  */
@@ -24,7 +24,27 @@ export function fillNavBar(
      * ]
      */
 
+    let btns = [];
+    const btnStyle = {
+        'font-size': '14px',
+        'padding': '10px',
+        'border': '1px solid #ddd',
+        'background-color': '#f6f8fa',
+        'margin': '5px',
+        'border-radius': '5px',
+        'cursor': 'pointer',
+    };
+    list.forEach(item => {
+        btns.push(createBtn(item.text, item.action, parseStyle(btnStyle)));
+    });
 
+
+
+    element.appendChild(createBtnGroup(btns));
+
+    if (style){
+        element.setAttribute('style', parseStyle(style));
+    }
 }
 
 /**

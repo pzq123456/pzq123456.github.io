@@ -73,7 +73,7 @@ fillNavBar(document.getElementById('navBar'),[
 ```
 
 ### 1. programming language
-* `JavaScript`: [RVGeo](https://github.com/pzq123456/RVGeo/tree/main/rvgeo) --- A JavaScript library for spacial information analysis and visualization. 
+* `JavaScript`: [RVGeo](https://github.com/pzq123456/RVGeo) --- A JavaScript library for spacial information analysis and visualization. 
 * `Python`: [MapCommunity](https://github.com/pzq123456/mapcommunity) --- A Flask web application for map community. 
 * `Java`: [JavaHelloWorld](https://github.com/pzq123456/JAVAhelloWorld) --- Simple Java homework 
 

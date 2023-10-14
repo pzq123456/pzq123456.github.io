@@ -26,8 +26,8 @@ body{
     flex-wrap: wrap;
     justify-content: center;
 }
-/* #content{
+#content{
     width: 80%;
     border: 1px solid #121010;
     overflow: auto;
-} */
+}

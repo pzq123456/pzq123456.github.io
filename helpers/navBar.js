@@ -33,14 +33,24 @@ export function fillNavBar(
         'margin': '5px',
         'border-radius': '5px',
         'cursor': 'pointer',
+        'width': '100%',
     };
     list.forEach(item => {
-        btns.push(createBtn(item.text, item.action, parseStyle(btnStyle)));
+        btns.push(createBtn(item.text, item.action, btnStyle));
     });
 
 
 
-    element.appendChild(createBtnGroup(btns));
+    element.appendChild(createBtnGroup(btns,
+        {
+            'width': '100%',
+            'background-color': '#f6f8fa',
+            'height': '100%',
+            'display': 'flex',
+            'flex-direction': 'column',
+            'align-items': 'center',
+        }
+        ));
 
     if (style){
         element.setAttribute('style', parseStyle(style));
@@ -79,7 +89,10 @@ export function createBtnGroup(
     style,
 ) {
     let btnGroup = document.createElement('div');
-    btnGroup.setAttribute('style', parseStyle(style));
+    if(style){
+        btnGroup.setAttribute('style', parseStyle(style));
+    }
+    
     btns.forEach(btn => {
         btnGroup.appendChild(btn);
     });

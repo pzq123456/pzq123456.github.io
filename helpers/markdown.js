@@ -1,5 +1,6 @@
 // using marked.js to convert markdown to html
 // fetch the md file using axios
+
 /**
  * Generate UUID
  * @returns - UUID
@@ -27,7 +28,7 @@ function parseStyle(style) {
  * @param {*} elementId 
  * @param {JSON} style - optional
  */
-export function fileToHtml(filePath, element, style) {
+export function fileToHtml(filePath, element, style) {      
     axios.get(filePath)
     .then(function (response) {
         // if no elementId, create one

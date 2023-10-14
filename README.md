@@ -3,6 +3,14 @@
 > - 纯手工打造的博客网站 不使用前端框架
 ## About me
 
+> I am working on this Blog website. It will be updated regularly. Stay tuned!
+> - no Vue or any other front-end framework
+> - just pure HTML, CSS and JavaScript
+> - make it simple and easy to use
+> - no database, no server, no backend
+
+
+
 > <img src="https://avatars.githubusercontent.com/u/82391775?v=4" width="50" height="50" alt="avatar"/>
 
 > I am an undergraduate student in [Shan Dong University of Science and Technology](https://en.sdust.edu.cn) at the [College of Geodesy and Geomatics](https://gc.sdust.edu.cn/). I am currently working on the topic of **Geographic Information Systems (GIS)** and **Medical Image Auto Analysis Systems**. High-performance 3D terrain rendering is my next topic to dive into.
@@ -29,3 +37,7 @@
 
 > Next version will be constructed by Vue3.js, and will have more functions. Stay tuned!
 
+```javascript
+// test code block
+console.log('Hello World!')
+```

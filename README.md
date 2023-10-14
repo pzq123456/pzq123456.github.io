@@ -10,12 +10,60 @@
 > - no database, no server, no backend
 
 
-
 > <img src="https://avatars.githubusercontent.com/u/82391775?v=4" width="50" height="50" alt="avatar"/>
 
 > I am an undergraduate student in [Shan Dong University of Science and Technology](https://en.sdust.edu.cn) at the [College of Geodesy and Geomatics](https://gc.sdust.edu.cn/). I am currently working on the topic of **Geographic Information Systems (GIS)** and **Medical Image Auto Analysis Systems**. High-performance 3D terrain rendering is my next topic to dive into.
 
 ## Skills
+```js
+import { fileToHtml } from './helpers/markdown.js';
+import { fillNavBar } from './helpers/navBar.js';
+import {markedHighlight} from './helpers/highlight.js';
+
+// config code highlight into the marked.js
+marked = new marked.Marked(
+    markedHighlight({
+      langPrefix: 'hljs language-',
+      highlight(code, lang) {
+        const language = hljs.getLanguage(lang) ? lang : 'plaintext';
+        // console.log(language);
+        return hljs.highlight(code, { language }).value;
+      }
+    })
+);
+
+
+const mdStyle = {
+    'padding': '10px',
+    'font-family': 'monospace',
+    'font-size': '30px',
+    'overflow': 'auto',
+    'border': '1px solid #8b949e',
+    'border-radius': '5px',
+    'background-color': '#0d1117',
+    'width': '80%',
+    'color': 'white',
+};
+fileToHtml('/README.md',document.getElementById('content'), mdStyle);
+
+
+fillNavBar(document.getElementById('navBar'),[
+    {
+        "text": "Home",
+        "action": function(){
+            fileToHtml('/README.md',document.getElementById('content'), mdStyle);
+        }
+    },{
+        "text": "Blog0",
+        "action": function(){
+            fileToHtml('/blogs/Blog0.md',document.getElementById('content'), mdStyle);
+        }
+
+    }
+],
+);
+
+```
 
 ### 1. programming language
 * `JavaScript`: [RVGeo](https://github.com/pzq123456/RVGeo/tree/main/rvgeo) --- A JavaScript library for spacial information analysis and visualization. 

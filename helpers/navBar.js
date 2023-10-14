@@ -29,11 +29,11 @@ export function fillNavBar(
         'font-size': '14px',
         'padding': '10px',
         'border': '1px solid #ddd',
-        'background-color': '#f6f8fa',
+        'background-color': '#0d1117',
         'margin': '5px',
         'border-radius': '5px',
         'cursor': 'pointer',
-        'width': '100%',
+        'color': 'white',
     };
     list.forEach(item => {
         btns.push(createBtn(item.text, item.action, btnStyle));
@@ -44,11 +44,12 @@ export function fillNavBar(
     element.appendChild(createBtnGroup(btns,
         {
             'width': '100%',
-            'background-color': '#f6f8fa',
+            'background-color': '#010409',
             'height': '100%',
             'display': 'flex',
-            'flex-direction': 'column',
+            'flex-direction': 'row',
             'align-items': 'center',
+            'border-bottom': '1px solid #8b949e',
         }
         ));
 

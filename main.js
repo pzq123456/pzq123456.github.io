@@ -22,7 +22,7 @@ const mdStyle = {
     'overflow': 'auto',
     'border': '1px solid #8b949e',
     'border-radius': '5px',
-    'background-color': '#0d1117',
+    'background-color': '#161b22',
     'width': '80%',
     'color': 'white',
 };

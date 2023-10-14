@@ -31,4 +31,33 @@ body{
     border: 1px solid #121010;
     overflow: auto;
 }
+blockquote{
+    background-color: #ccc7f024;
+    border: 1px solid #ffffff24;
+    border-left: 6px solid #ffffff7d;
+    padding: 0.5rem 1rem;
+    margin: 0 0 1rem 0;
+}
+
+/* 定义 链接样式 使得其在深色背景下更加利于阅读 */
+a{
+    color: #ffffff;
+    text-decoration: none;
+    background-color: #ffffff24;
+    padding: 0.2rem 0.4rem;
+    border-radius: 0.25rem;
+}
+a:hover{
+    color: #053e80;
+    text-decoration: none;
+    background-color: #ffffff80;
+    padding: 0.2rem 0.4rem;
+    border-radius: 0.25rem;
+}
+
+code{
+    border: 1px solid #ffffff3a;
+    background-color: #156f2c70;
+}
+
 

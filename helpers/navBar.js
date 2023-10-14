@@ -13,17 +13,6 @@ export function fillNavBar(
     list,
     style
 ) {
-    /**
-     * list = [
-     * {
-     *      text: 'text',
-     *      action: function(){},
-     *      style: {...}
-     * }
-     * ...
-     * ]
-     */
-
     let btns = [];
     const btnStyle = {
         'font-size': '14px',
@@ -36,26 +25,10 @@ export function fillNavBar(
         'color': 'white',
     };
     list.forEach(item => {
-        btns.push(createBtn(item.text, item.action, btnStyle));
+        btns.push(createBtn(item.text, item.action, btnStyle, item.info));
     });
 
-
-
-    element.appendChild(createBtnGroup(btns,
-        {
-            'width': '100%',
-            'background-color': '#010409',
-            'height': '100%',
-            'display': 'flex',
-            'flex-direction': 'row',
-            'align-items': 'center',
-            'border-bottom': '1px solid #8b949e',
-        }
-        ));
-
-    if (style){
-        element.setAttribute('style', parseStyle(style));
-    }
+    element.appendChild(createBtnGroup(btns,style));
 }
 
 /**
@@ -69,6 +42,7 @@ export function createBtn(
     text,
     action,
     style,
+    info,
 ) {
     let btn = document.createElement('button');
     btn.innerHTML = text;
@@ -76,6 +50,12 @@ export function createBtn(
         btn.setAttribute('style', parseStyle(style));
     }
     btn.onclick = action;
+
+    if(info){
+        // 设置鼠标悬停提示
+        btn.setAttribute('title', info);
+    }
+
     return btn;
 }
 

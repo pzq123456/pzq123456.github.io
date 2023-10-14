@@ -1,6 +1,13 @@
 # Zhiqing Pan's website
 > Welcome to my personal website! 
 > - 纯手工打造的博客网站 不使用前端框架
+
+> <h3 style="color: red;">开发状态：<h3>
+>   - 博客当前处于开发状态，变动较大。
+
+> <h3 style="color: red;">Development status: <h3>
+>   - The blog-site is currently under development and is subject to change.
+
 ## About me
 
 > I am working on this Blog website. It will be updated regularly. Stay tuned!

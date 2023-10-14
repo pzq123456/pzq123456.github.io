@@ -1,7 +1,7 @@
 export const metalist = [
     {
         "title" : "Blog0",
-        "path" : "blogs/blog0.md",
+        "path" : "blogs/Blog0.md",
         "date" : "2023-10-14",
         "tag" : "info"
     },

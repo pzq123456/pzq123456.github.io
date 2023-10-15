@@ -23,6 +23,9 @@ export function fillNavBar(
         'border-radius': '5px',
         'cursor': 'pointer',
         'color': 'white',
+        // 动画
+        'transition': 'all 1s',
+        // 鼠标悬停样式
     };
     list.forEach(item => {
         btns.push(createBtn(item.text, item.action, btnStyle, item.info));
@@ -50,10 +53,18 @@ export function createBtn(
         btn.setAttribute('style', parseStyle(style));
     }
     btn.onclick = action;
-
+    // 添加按钮鼠标悬浮样式
+    btn.onmouseover = function(){
+        btn.style.backgroundColor = '#e6ffec70';
+    }
+    // 添加按钮鼠标离开样式
+    btn.onmouseout = function(){
+        btn.style.backgroundColor = '#0d1117';
+    }
     if(info){
         // 设置鼠标悬停提示
         btn.setAttribute('title', info);
+
     }
 
     return btn;

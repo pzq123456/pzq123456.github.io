@@ -1,12 +1,15 @@
 # Zhiqing Pan's website
-> Welcome to my personal website! 
-> - 纯手工打造的博客网站 不使用前端框架
+<div class="colorbox" style="
+    width: 20px;
+    height: 20px;
+    background-color: green;
+    border-radius: 50%;
+"></div>
 
-> <h3 style="color: red;">开发状态：<h3>
->   - 博客当前处于开发状态，变动较大。
+> 网站布局简介：
+> - 最上面一栏为导航栏兼精选栏，点击导航栏可以跳转到相应的页面，点击精选栏可以跳转到精选文章。
+> - 右侧导航栏用于访问所有博客文章。
 
-> <h3 style="color: red;">Development status: <h3>
->   - The blog-site is currently under development and is subject to change.
 
 ## About me
 

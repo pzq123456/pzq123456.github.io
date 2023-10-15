@@ -54,7 +54,6 @@ fillNavBar(document.getElementById('navBar'),
     'align-items': 'center',
     'border-radius': '5px',
     'border-bottom':'1px solid #8b949e',
-    'padding': '10px',
 }
 );
 

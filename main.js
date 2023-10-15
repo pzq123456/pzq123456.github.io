@@ -2,6 +2,7 @@ import { fileToHtml } from './helpers/markdown.js';
 import { fillNavBar } from './helpers/navBar.js';
 import {markedHighlight} from './helpers/highlight.js';
 import { metalist } from './blogs/meta.js'; // metalist is a list of blog metadata
+import { createCanvas } from './src/Terminal/view.js'
 // config code highlight into the marked.js
 marked = new marked.Marked(
     markedHighlight({
@@ -13,6 +14,10 @@ marked = new marked.Marked(
       }
     })
 );
+
+// Terminal
+createCanvas(document.getElementById('terminal'), 1655, 300);
+
 
 
 const mdStyle = {
@@ -38,9 +43,9 @@ fillNavBar(document.getElementById('navBar'),
             fileToHtml('/README.md',document.getElementById('content'), mdStyle);
         }
     },{
-        "text": "Blog0",
+        "text": "Blog1",
         "action": function(){
-            fileToHtml('/blogs/Blog0.md',document.getElementById('content'), mdStyle);
+            fileToHtml('/blogs/Blog1.md',document.getElementById('content'), mdStyle);
         }
 
     }
@@ -52,8 +57,7 @@ fillNavBar(document.getElementById('navBar'),
     'display': 'flex',
     'flex-direction': 'row',
     'align-items': 'center',
-    'border-radius': '5px',
-    'border-bottom':'1px solid #8b949e',
+    'border-bottom':'1px solid white',
 }
 );
 
@@ -74,7 +78,6 @@ fillNavBar(document.getElementById("blogsColumn"),
         'display': 'flex',
         'flex-direction': 'column',
         'align-items': 'center',
-        'border-radius': '5px',
         'border-bottom':'1px solid #8b949e',
         'padding': '10px',
     }

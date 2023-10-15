@@ -43,11 +43,28 @@ fillNavBar(document.getElementById('navBar'),
             fileToHtml('/README.md',document.getElementById('content'), mdStyle);
         }
     },{
+        'text':'toggleTerminal',
+        'action': function(){
+            // 控制 terminal 是否固定在顶部
+            const terminal = document.getElementById('terminal');
+            // 在固定模式与非固定模式之间切换
+            if (terminal.style.position === 'sticky'){
+                terminal.style.position = 'static';
+                terminal.style.top = '0';
+                terminal.style.zIndex = '1';
+            } else {
+                terminal.style.position = 'sticky';
+                terminal.style.top = '0';
+                terminal.style.zIndex = '1';
+            }}
+
+
+        },
+    {
         "text": "Blog1",
         "action": function(){
             fileToHtml('/blogs/Blog1.md',document.getElementById('content'), mdStyle);
         }
-
     }
 ],
 {

@@ -2,7 +2,7 @@ import { fileToHtml } from './helpers/markdown.js';
 import { fillNavBar } from './helpers/navBar.js';
 import {markedHighlight} from './helpers/highlight.js';
 import { metalist } from './blogs/meta.js'; // metalist is a list of blog metadata
-import { createCanvas } from './src/Terminal/view.js'
+import { createCanvas,HelloWorld } from './src/Terminal/view.js'
 // config code highlight into the marked.js
 marked = new marked.Marked(
     markedHighlight({
@@ -16,8 +16,8 @@ marked = new marked.Marked(
 );
 
 // Terminal
-createCanvas(document.getElementById('terminal'), 1655, 300);
-
+let myCanvas = createCanvas(document.getElementById('terminal'), 1655, 300);
+HelloWorld(myCanvas);
 
 
 const mdStyle = {

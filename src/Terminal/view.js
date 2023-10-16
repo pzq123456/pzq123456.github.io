@@ -22,10 +22,10 @@ export function createCanvas(
         // 在canvas 左上角绘制长方形
         const ctx = canvas.getContext('2d');
         ctx.strokeStyle = 'white';
-        ctx.strokeRect(0, 0, canvas.width/100, canvas.height/10);
+        ctx.strokeRect(0, 0, canvas.width/100, canvas.height/15);
         // fill
         ctx.fillStyle = 'white';
-        ctx.fillRect(0, 0, canvas.width/100, canvas.height/10);
+        ctx.fillRect(0, 0, canvas.width/100, canvas.height/15);
         // 父节点高亮边框
         container.style.borderBottom = '1px solid white';
     });
@@ -33,11 +33,11 @@ export function createCanvas(
     canvas.addEventListener('blur', () => {
         // 在canvas 左上角绘制长方形
         const ctx = canvas.getContext('2d');
-        ctx.strokeStyle = 'gray';
-        ctx.strokeRect(0, 0, canvas.width/100, canvas.height/10);
+        ctx.strokeStyle = 'white';
+        ctx.strokeRect(0, 0, canvas.width/100, canvas.height/15);
         // fill
         ctx.fillStyle = 'gray';
-        ctx.fillRect(0, 0, canvas.width/100, canvas.height/10);
+        ctx.fillRect(0, 0, canvas.width/100, canvas.height/15);
         // 父节点取消高亮边框 只保留最下面的边框
         container.style.borderBottom = '1px solid gray';
     });
@@ -60,6 +60,37 @@ export function createCanvas(
 }
 
 
-export function HelloWorld(){
+export function HelloWorld(
+    canvas,
+){
+    // 向 canvas 中绘制文字 Hello World
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = 'white';
+    ctx.font = '30px monospace';
+    // 打印字体的宽度和高度
+    // 遍历计算每一个字符的宽度
+    console.log(measure('B'));
+    console.log(measure('H'));
+    console.log(measure('D'));
+    console.log(measure('L'));
+    console.log(measure('W'));
+    console.log(measure(' '));
+    // 绘制光标
+    ctx.fillStyle = 'white';
+    ctx.fillRect(0, 0, 18, 20);
+    // 绘制文字
 
+
+
+
+    ctx.fillText('Hello World', 0, 20);
+
+    function measure(text){
+        let metrics = ctx.measureText(text);
+        let actualHeight = metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent;
+        return {
+            width: metrics.width,
+            height: actualHeight,
+        };
+    }
 }

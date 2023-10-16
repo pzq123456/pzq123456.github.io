@@ -2,7 +2,14 @@ import { fileToHtml } from './helpers/markdown.js';
 import { fillNavBar } from './helpers/navBar.js';
 import {markedHighlight} from './helpers/highlight.js';
 import { metalist } from './blogs/meta.js'; // metalist is a list of blog metadata
-import { createCanvas,HelloWorld } from './src/Terminal/view.js'
+import { createCanvas,HelloWorld } from './src/Terminal/view.js';
+
+import { drawBlock } from './src/Terminal/renderer.js';
+import { Block } from './src/Terminal/data.js';
+
+
+
+
 // config code highlight into the marked.js
 marked = new marked.Marked(
     markedHighlight({
@@ -17,7 +24,27 @@ marked = new marked.Marked(
 
 // Terminal
 let myCanvas = createCanvas(document.getElementById('terminal'), 1655, 300);
-HelloWorld(myCanvas);
+// HelloWorld(myCanvas);
+let blockStyle = {
+    'font-family': 'monospace',
+    'font-size': '30px',
+    'background-color': 'black',
+    'color': 'white',
+    'cursor-color': 'white',
+}; // style for the markdown content
+
+drawBlock(myCanvas, Block.fromString('Hello World Hello World Hello World Hello World! 123123'), 0, 20,blockStyle,0);
+drawBlock(myCanvas, Block.fromString('Hello World Hello World Hello World Hello World! 123123'), 0, 45,blockStyle,1);
+drawBlock(myCanvas, Block.fromString('Hello World Hello World Hello World Hello World! 123123'), 0, 70,blockStyle,2);
+drawBlock(myCanvas, Block.fromString('Hello World Hello World Hello World Hello World! 123123'), 0, 95,blockStyle,3);
+drawBlock(myCanvas, Block.fromString('Hello World Hello World Hello World Hello World! 123123'), 0, 120,blockStyle,4);
+drawBlock(myCanvas, Block.fromString('Hello World Hello World Hello World Hello World! 123123'), 0, 145,blockStyle,5);
+drawBlock(myCanvas, Block.fromString('Hello World Hello World Hello World Hello World! 123123'), 0, 170,blockStyle,6);
+drawBlock(myCanvas, Block.fromString('Hello World Hello World Hello World Hello World! 123123'), 0, 195,blockStyle,7);
+drawBlock(myCanvas, Block.fromString('Hello World Hello World Hello World Hello World! 123123'), 0, 220,blockStyle,8);
+drawBlock(myCanvas, Block.fromString('Hello World Hello World Hello World Hello World! 123123'), 0, 245,blockStyle,9);
+drawBlock(myCanvas, Block.fromString('Hello World Hello World Hello World Hello World! 123123'), 0, 270,blockStyle,10);
+drawBlock(myCanvas, Block.fromString('Hello World Hello World Hello World Hello World! 123123'), 0, 295,blockStyle,11);
 
 
 const mdStyle = {

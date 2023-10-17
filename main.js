@@ -39,11 +39,23 @@ let blockStyle = {
 // 光标亮状态
 //drawBlock(myCanvas, Block.fromString('Hello World Hello World Hello World Hello World! 123123'), 0, 20,blockStyle,i);
 let i = 0;
+let c = 0;
+// 为canvas 添加键盘事件 右方向键
+myCanvas.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight'){
+        c++;
+    }
+})
+myCanvas.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft'){
+        c--;
+    }
+})
 setInterval(() => {
     i++;
     // 若为偶数则绘制光标
     if (i % 2 === 0){
-        drawBlock(myCanvas, Block.fromString('Hello World Hello World Hello World Hello World! 123123'), 0, 20,blockStyle,0);
+        drawBlock(myCanvas, Block.fromString('Hello World Hello World Hello World Hello World! 123123'), 0, 20,blockStyle,c);
     } else {
         drawBlock(myCanvas, Block.fromString('Hello World Hello World Hello World Hello World! 123123'), 0, 20,blockStyle);
     }

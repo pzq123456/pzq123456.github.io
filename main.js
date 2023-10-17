@@ -4,8 +4,8 @@ import {markedHighlight} from './helpers/highlight.js';
 import { metalist } from './blogs/meta.js'; // metalist is a list of blog metadata
 import { createCanvas,HelloWorld } from './src/Terminal/view.js';
 
-import { drawBlock } from './src/Terminal/renderer.js';
-import { Block } from './src/Terminal/data.js';
+import { drawBlock, drawLine } from './src/Terminal/renderer.js';
+import { Block, Line } from './src/Terminal/data.js';
 
 
 
@@ -28,16 +28,35 @@ let myCanvas = createCanvas(document.getElementById('terminal'), 1655, 300);
 let blockStyle = {
     'font-family': 'monospace',
     'font-size': '30px',
-    'background-color': 'black',
+    'background-color': 'blue',
     'color': 'white',
     'cursor-color': 'white',
 }; // style for the markdown content
-
+let blockStyle2 = {
+    'font-family': 'monospace',
+    'font-size': '30px',
+    'background-color': 'red',
+    'color': 'white',
+    'cursor-color': 'white',
+}; // style for the markdown content
+let blockStyle3 = {
+    'font-family': 'monospace',
+    'font-size': '30px',
+    'background-color': 'blue',
+    'color': 'white',
+    'cursor-color': 'green',
+}; // style for the markdown content
+let blockStyle4 = {
+    'font-family': 'monospace',
+    'font-size': '30px',
+    'background-color': 'white',
+    'color': 'black',
+    'cursor-color': 'red',
+}; // style for the markdown content
+let line = Line.fromString('panzhiqing@panzhiqingdeMacBook-Air pzq123456.github.io % ');
+// drawLine(myCanvas, line, 0, 30, [blockStyle,blockStyle2,blockStyle3,blockStyle4], 0);
 // 动画窗口绘制光标闪烁
-// 光标暗状态
-// drawBlock(myCanvas, Block.fromString('Hello World Hello World Hello World Hello World! 123123'), 0, 20,blockStyle);
-// 光标亮状态
-//drawBlock(myCanvas, Block.fromString('Hello World Hello World Hello World Hello World! 123123'), 0, 20,blockStyle,i);
+
 let i = 0;
 let c = 0;
 // 为canvas 添加键盘事件 右方向键
@@ -55,11 +74,44 @@ setInterval(() => {
     i++;
     // 若为偶数则绘制光标
     if (i % 2 === 0){
-        drawBlock(myCanvas, Block.fromString('Hello World Hello World Hello World Hello World! 123123'), 0, 20,blockStyle,c);
+        drawLine(myCanvas, line, 0, 30, [blockStyle,blockStyle2,blockStyle3,blockStyle4], c);
     } else {
-        drawBlock(myCanvas, Block.fromString('Hello World Hello World Hello World Hello World! 123123'), 0, 20,blockStyle);
+        drawLine(myCanvas, line, 0, 30, [blockStyle,blockStyle2,blockStyle3,blockStyle4]);
     }
 }, 500);
+
+
+
+
+
+
+// 动画窗口绘制光标闪烁
+// 光标暗状态
+// drawBlock(myCanvas, Block.fromString('Hello World Hello World Hello World Hello World! 123123'), 0, 20,blockStyle);
+// 光标亮状态
+//drawBlock(myCanvas, Block.fromString('Hello World Hello World Hello World Hello World! 123123'), 0, 20,blockStyle,i);
+// let i = 0;
+// let c = 0;
+// // 为canvas 添加键盘事件 右方向键
+// myCanvas.addEventListener('keydown', (e) => {
+//     if (e.key === 'ArrowRight'){
+//         c++;
+//     }
+// })
+// myCanvas.addEventListener('keydown', (e) => {
+//     if (e.key === 'ArrowLeft'){
+//         c--;
+//     }
+// })
+// setInterval(() => {
+//     i++;
+//     // 若为偶数则绘制光标
+//     if (i % 2 === 0){
+//         drawBlock(myCanvas, Block.fromString('Hello World Hello World Hello World Hello World! 123123'), 0, 20,blockStyle,c);
+//     } else {
+//         drawBlock(myCanvas, Block.fromString('Hello World Hello World Hello World Hello World! 123123'), 0, 20,blockStyle);
+//     }
+// }, 500);
 
 const mdStyle = {
     'padding': '20px',

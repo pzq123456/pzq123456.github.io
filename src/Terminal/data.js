@@ -65,3 +65,62 @@ export class Block{
         return block;
     }
 }
+
+/**
+ * 行
+ */
+export class Line{
+    constructor(){
+        this.data = [];
+    }
+
+    // 获取索引为 index 的字符块
+    get(index){
+        return this.data[index];
+    }
+
+    // 添加字符块
+    addBlock(block){
+        this.data.push(block);
+    }
+
+    // 删除字符块
+    deleteBlock(){
+        if(this.data.length > 0){
+            this.data.pop();
+        }else{
+            throw new Error('Line is empty');
+        }
+    }
+
+    // 获取行的字符串
+    getLine(){
+        // block 之间加空格 末尾加换行符
+        // return this.data.map(block => block.getChar()).join('');
+        return this.data.map(block => block.getChar()).join(' ').concat('\n');
+    }
+
+    // 获取行的长度
+    get length(){
+        return this.data.length;
+    }
+
+    // 清空行
+    clear(){
+        this.data = [];
+    }
+
+    // -- 静态方法 -- //
+
+    // 将字符串转换为行
+    static fromString(str){
+        let line = new Line();
+        // 将 str 以空格分割为单词
+        let words = str.split(' ');
+        // 将每一个单词转换为字符块
+        for(let word of words){
+            line.addBlock(Block.fromString(word));
+        }
+        return line;
+    }
+}

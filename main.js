@@ -33,19 +33,21 @@ let blockStyle = {
     'cursor-color': 'white',
 }; // style for the markdown content
 
-drawBlock(myCanvas, Block.fromString('Hello World Hello World Hello World Hello World! 123123 测试测试测试！'), 0, 20,blockStyle,0);
-drawBlock(myCanvas, Block.fromString('Hello World Hello World Hello World Hello World! 123123 测试测试测试！'), 0, 45,blockStyle,1);
-drawBlock(myCanvas, Block.fromString('Hello World Hello World Hello World Hello World! 123123 测试测试测试！'), 0, 70,blockStyle,2);
-drawBlock(myCanvas, Block.fromString('Hello World Hello World Hello World Hello World! 123123 测试测试测试！'), 0, 95,blockStyle,3);
-drawBlock(myCanvas, Block.fromString('Hello World Hello World Hello World Hello World! 123123 测试测试测试！'), 0, 120,blockStyle,4);
-drawBlock(myCanvas, Block.fromString('Hello World Hello World Hello World Hello World! 123123 测试测试测试！'), 0, 145,blockStyle,5);
-drawBlock(myCanvas, Block.fromString('Hello World Hello World Hello World Hello World! 123123 测试测试测试！'), 0, 170,blockStyle,6);
-drawBlock(myCanvas, Block.fromString('Hello World Hello World Hello World Hello World! 123123 测试测试测试！'), 0, 195,blockStyle,7);
-drawBlock(myCanvas, Block.fromString('Hello World Hello World Hello World Hello World! 123123 测试测试测试！'), 0, 220,blockStyle,8);
-drawBlock(myCanvas, Block.fromString('Hello World Hello World Hello World Hello World! 123123 测试测试测试！'), 0, 245,blockStyle,9);
-drawBlock(myCanvas, Block.fromString('Hello World Hello World Hello World Hello World! 123123 测试测试测试！'), 0, 270,blockStyle,10);
-drawBlock(myCanvas, Block.fromString('Hello World Hello World Hello World Hello World! 123123 测试测试测试！'), 0, 295,blockStyle,11);
-
+// 动画窗口绘制光标闪烁
+// 光标暗状态
+// drawBlock(myCanvas, Block.fromString('Hello World Hello World Hello World Hello World! 123123'), 0, 20,blockStyle);
+// 光标亮状态
+//drawBlock(myCanvas, Block.fromString('Hello World Hello World Hello World Hello World! 123123'), 0, 20,blockStyle,i);
+let i = 0;
+setInterval(() => {
+    i++;
+    // 若为偶数则绘制光标
+    if (i % 2 === 0){
+        drawBlock(myCanvas, Block.fromString('Hello World Hello World Hello World Hello World! 123123'), 0, 20,blockStyle,0);
+    } else {
+        drawBlock(myCanvas, Block.fromString('Hello World Hello World Hello World Hello World! 123123'), 0, 20,blockStyle);
+    }
+}, 500);
 
 const mdStyle = {
     'padding': '20px',

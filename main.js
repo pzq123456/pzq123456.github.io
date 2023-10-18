@@ -28,7 +28,7 @@ let myCanvas = createCanvas(document.getElementById('terminal'), 1655, 300);
 let blockStyle = {
     'font-family': 'monospace',
     'font-size': '30px',
-    'background-color': 'blue',
+    'background-color': 'black',
     'color': 'white',
     'cursor-color': 'white',
 }; // style for the markdown content
@@ -53,34 +53,57 @@ let blockStyle4 = {
     'color': 'black',
     'cursor-color': 'red',
 }; // style for the markdown content
-let line = Line.fromString('panzhiqing@panzhiqingdeMacBook-Air pzq123456.github.io% panzhiqing@panzhiqingdeMacBook-Air');
-drawLine(myCanvas, line, 0, 30, [blockStyle,blockStyle2,blockStyle3,blockStyle4], 0);
+let line = Line.fromString('Abcj abc jkls');
+// let myMBR =  drawLine(myCanvas, line, 0, 30, [blockStyle,blockStyle2,blockStyle3,blockStyle4], 0);
 
-console.log(line);
+// drawLine(myCanvas, line, 0, 30, blockStyle, 0);
+
+
+
 // 动画窗口绘制光标闪烁
 
 let i = 0;
 let c = 0;
 // 为canvas 添加键盘事件 右方向键
-// myCanvas.addEventListener('keydown', (e) => {
-//     if (e.key === 'ArrowRight'){
-//         c++;
-//     }
-// })
-// myCanvas.addEventListener('keydown', (e) => {
-//     if (e.key === 'ArrowLeft'){
-//         c--;
-//     }
-// })
-// setInterval(() => {
-//     i++;
-//     // 若为偶数则绘制光标
-//     if (i % 2 === 0){
-//         drawLine(myCanvas, line, 0, 30, [blockStyle,blockStyle2,blockStyle3,blockStyle4], c);
-//     } else {
-//         drawLine(myCanvas, line, 0, 30, [blockStyle,blockStyle2,blockStyle3,blockStyle4]);
-//     }
-// }, 500);
+myCanvas.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight'){
+        c++;
+    }
+})
+myCanvas.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft'){
+        c--;
+    }
+})
+myCanvas.addEventListener('keydown', (e) => {
+    // 键盘输入
+    if (e.key.length === 1){
+        line.insertChar(c, e.key);
+        c++;
+    }
+})
+myCanvas.addEventListener('keydown', (e) => {
+    // 删除字符
+    if (e.key === 'Backspace'){
+        line.deleteCharBefore(c);
+        c--;
+        console.log(c);
+        console.log(line);
+        console.log(drawLine(myCanvas, line, 0, 30, [blockStyle,blockStyle2,blockStyle3,blockStyle4], c));
+    }
+})
+
+setInterval(() => {
+    const ctx = myCanvas.getContext('2d');
+    ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
+    i++;
+    // 若为偶数则绘制光标
+    if (i % 2 === 0){
+        drawLine(myCanvas, line, 0, 30, [blockStyle,blockStyle2,blockStyle3,blockStyle4], c);
+    } else {
+        drawLine(myCanvas, line, 0, 30, [blockStyle,blockStyle2,blockStyle3,blockStyle4]);
+    }
+}, 100);
 
 
 
@@ -94,6 +117,7 @@ let c = 0;
 //drawBlock(myCanvas, Block.fromString('Hello World Hello World Hello World Hello World! 123123'), 0, 20,blockStyle,i);
 // let i = 0;
 // let c = 0;
+// let block = Block.fromString('Hello');
 // // 为canvas 添加键盘事件 右方向键
 // myCanvas.addEventListener('keydown', (e) => {
 //     if (e.key === 'ArrowRight'){
@@ -105,15 +129,28 @@ let c = 0;
 //         c--;
 //     }
 // })
-// setInterval(() => {
-//     i++;
-//     // 若为偶数则绘制光标
-//     if (i % 2 === 0){
-//         drawBlock(myCanvas, Block.fromString('Hello World Hello World Hello World Hello World! 123123'), 0, 20,blockStyle,c);
-//     } else {
-//         drawBlock(myCanvas, Block.fromString('Hello World Hello World Hello World Hello World! 123123'), 0, 20,blockStyle);
+// myCanvas.addEventListener('keydown', (e) => {
+//     // 删除字符
+//     if (e.key === 'Backspace'){
+//         block.deleteCharBefore(c);
+//         console.log(block.getChar());
+//         c--;
 //     }
-// }, 500);
+// })
+// myCanvas.addEventListener('keydown', (e) => {
+//     // 键盘输入
+//     if (e.key.length === 1){
+//         block.insertChar(c, e.key);
+//         c++;
+//     }
+// })
+// setInterval(() => {
+//     // 清除画布
+//     const ctx = myCanvas.getContext('2d');
+//     ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
+//     drawBlock(myCanvas, block, 0, 30,blockStyle,c);
+
+// }, 100);
 
 const mdStyle = {
     'padding': '20px',

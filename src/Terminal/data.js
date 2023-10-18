@@ -1,6 +1,8 @@
 /**
  * 用于设计终端的数据结构
  */
+import { calCursorIndex } from './renderer.js'
+
 
 /**
  * 单词块
@@ -28,6 +30,18 @@ export class Block{
         }else{
             throw new Error('Block is empty');
         }
+    }
+
+    // 在index 处插入字符
+    insertChar(index, char){
+        this.data.splice(index, 0, char);
+    }
+
+    // 删除index 前的一个字符
+    deleteCharBefore(index){
+        this.data.splice(index - 1, 1);
+
+        // hello
     }
 
     // 获取字符
@@ -73,6 +87,28 @@ export class Line{
     constructor(){
         this.data = [];
     }
+
+    // calCursorIndex
+
+    // 在index 处插入字符
+    insertChar(index, char){
+        // this.data.splice(index, 0, char);
+        let currentCursor = calCursorIndex(this, index);
+        this.data[currentCursor[0]].insertChar(currentCursor[1], char);
+    }
+
+    // 删除index 前的一个字符
+    deleteCharBefore(index){
+        // 若当前字符块有一个元素 则删除当前字符块
+        let currentCursor = calCursorIndex(this, index);
+        if(this.data[currentCursor[0]].length === 1){
+            this.data.splice(currentCursor[0], 1);
+            console.log(this.data);
+        }else{
+            this.data[currentCursor[0]].deleteCharBefore(currentCursor[1]);
+        }
+    }
+
 
     // 获取索引为 index 的字符块
     get(index){
@@ -127,7 +163,7 @@ export class Line{
         let words = str.split(' ');
         // 将每一个单词转换为字符块
         for(let word of words){
-            line.addBlock(Block.fromString(word));
+            line.addBlock(Block.fromString(word+' '));
         }
         return line;
     }

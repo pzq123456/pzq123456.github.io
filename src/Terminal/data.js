@@ -99,11 +99,11 @@ export class Line{
 
     // 删除index 前的一个字符
     deleteCharBefore(index){
-        // 若当前字符块有一个元素 则删除当前字符块
         let currentCursor = calCursorIndex(this, index);
-        if(this.data[currentCursor[0]].length === 1){
-            this.data.splice(currentCursor[0], 1);
-            console.log(this.data);
+        // 若为行首则不删除
+        if(currentCursor[1] === 0 && currentCursor[0] === 0){
+            console.log('Line is empty');
+            return;
         }else{
             this.data[currentCursor[0]].deleteCharBefore(currentCursor[1]);
         }
@@ -144,7 +144,7 @@ export class Line{
     getFullLength(){
         let len = 0;
         this.data.forEach((block) => {
-            len += block.length + 1; // 加上空格
+            len += block.length; // 加上空格
         })
         return len;
     }
@@ -163,7 +163,7 @@ export class Line{
         let words = str.split(' ');
         // 将每一个单词转换为字符块
         for(let word of words){
-            line.addBlock(Block.fromString(word+' '));
+            line.addBlock(Block.fromString(word+'^'));
         }
         return line;
     }

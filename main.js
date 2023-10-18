@@ -35,16 +35,16 @@ let blockStyle = {
 let blockStyle2 = {
     'font-family': 'monospace',
     'font-size': '30px',
-    'background-color': 'red',
-    'color': 'white',
-    'cursor-color': 'white',
+    'background-color': 'black',
+    'color': 'blue',
+    'cursor-color': 'red',
 }; // style for the markdown content
 let blockStyle3 = {
     'font-family': 'monospace',
     'font-size': '30px',
     'background-color': 'blue',
     'color': 'white',
-    'cursor-color': 'green',
+    'cursor-color': 'red',
 }; // style for the markdown content
 let blockStyle4 = {
     'font-family': 'monospace',
@@ -53,7 +53,7 @@ let blockStyle4 = {
     'color': 'black',
     'cursor-color': 'red',
 }; // style for the markdown content
-let line = Line.fromString('Abcj abc jkls');
+let line = Line.fromString('PS E: pzq123456.github.io j%>');
 // let myMBR =  drawLine(myCanvas, line, 0, 30, [blockStyle,blockStyle2,blockStyle3,blockStyle4], 0);
 
 // drawLine(myCanvas, line, 0, 30, blockStyle, 0);
@@ -68,11 +68,19 @@ let c = 0;
 myCanvas.addEventListener('keydown', (e) => {
     if (e.key === 'ArrowRight'){
         c++;
+        // 若光标超出行的长度 则不移动
+        if (c > line.length){
+            c = line.getFullLength() - 1;
+            console.log('line length: ' + line.getFullLength());
+        }
     }
 })
 myCanvas.addEventListener('keydown', (e) => {
     if (e.key === 'ArrowLeft'){
         c--;
+        if (c < 0){
+            c = 0;
+        }
     }
 })
 myCanvas.addEventListener('keydown', (e) => {
@@ -87,9 +95,9 @@ myCanvas.addEventListener('keydown', (e) => {
     if (e.key === 'Backspace'){
         line.deleteCharBefore(c);
         c--;
-        console.log(c);
-        console.log(line);
-        console.log(drawLine(myCanvas, line, 0, 30, [blockStyle,blockStyle2,blockStyle3,blockStyle4], c));
+        if (c < 0){
+            c = 0;
+        }
     }
 })
 

@@ -53,32 +53,34 @@ let blockStyle4 = {
     'color': 'black',
     'cursor-color': 'red',
 }; // style for the markdown content
-let line = Line.fromString('panzhiqing@panzhiqingdeMacBook-Air pzq123456.github.io % ');
-// drawLine(myCanvas, line, 0, 30, [blockStyle,blockStyle2,blockStyle3,blockStyle4], 0);
+let line = Line.fromString('panzhiqing@panzhiqingdeMacBook-Air pzq123456.github.io% panzhiqing@panzhiqingdeMacBook-Air');
+drawLine(myCanvas, line, 0, 30, [blockStyle,blockStyle2,blockStyle3,blockStyle4], 0);
+
+console.log(line);
 // 动画窗口绘制光标闪烁
 
 let i = 0;
 let c = 0;
 // 为canvas 添加键盘事件 右方向键
-myCanvas.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowRight'){
-        c++;
-    }
-})
-myCanvas.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowLeft'){
-        c--;
-    }
-})
-setInterval(() => {
-    i++;
-    // 若为偶数则绘制光标
-    if (i % 2 === 0){
-        drawLine(myCanvas, line, 0, 30, [blockStyle,blockStyle2,blockStyle3,blockStyle4], c);
-    } else {
-        drawLine(myCanvas, line, 0, 30, [blockStyle,blockStyle2,blockStyle3,blockStyle4]);
-    }
-}, 500);
+// myCanvas.addEventListener('keydown', (e) => {
+//     if (e.key === 'ArrowRight'){
+//         c++;
+//     }
+// })
+// myCanvas.addEventListener('keydown', (e) => {
+//     if (e.key === 'ArrowLeft'){
+//         c--;
+//     }
+// })
+// setInterval(() => {
+//     i++;
+//     // 若为偶数则绘制光标
+//     if (i % 2 === 0){
+//         drawLine(myCanvas, line, 0, 30, [blockStyle,blockStyle2,blockStyle3,blockStyle4], c);
+//     } else {
+//         drawLine(myCanvas, line, 0, 30, [blockStyle,blockStyle2,blockStyle3,blockStyle4]);
+//     }
+// }, 500);
 
 
 
@@ -145,10 +147,18 @@ fillNavBar(document.getElementById('navBar'),
                 terminal.style.position = 'static';
                 terminal.style.top = '0';
                 terminal.style.zIndex = '1';
+
+                // 改变自身样式
+                this.style.backgroundColor = '#0d1117';
+                this.style.color = 'white';
+
             } else {
                 terminal.style.position = 'sticky';
                 terminal.style.top = '0';
                 terminal.style.zIndex = '1';
+                // 改变自身样式
+                this.style.backgroundColor = 'white';
+                this.style.color = 'green';
             }}
 
 

@@ -105,6 +105,14 @@ export class Line{
         return this.data.length;
     }
 
+    getFullLength(){
+        let len = 0;
+        this.data.forEach((block) => {
+            len += block.length + 1; // 加上空格
+        })
+        return len;
+    }
+
     // 清空行
     clear(){
         this.data = [];

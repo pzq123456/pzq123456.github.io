@@ -2,7 +2,7 @@
  * 渲染器
  */
 import { Block, Line } from './data.js';
-
+// [x,y,w,h] // MBR
 /**
  * 绘制字符块
  * @param {HTMLCanvasElement} canvas - 画布
@@ -65,7 +65,6 @@ export function drawLine(
     let charWidth = metrics.charWidth;
     let height = metrics.height;
 
-
     let currentCursor = calCursorIndex(line, i); // [blockindex, charindex]
     // See: block_ ==> (last char in block is _ space) !
 
@@ -108,6 +107,7 @@ export function drawLine(
         });
     }
 
+    return [x, y - height, charWidth * line.getFullLength(), height] // 返回 MBR [x,y,w,h] (x,y) -> (屏幕坐标系)左上角
 }
 
 function measureByStyle(

@@ -18,3 +18,27 @@
 
 ## 数据结构设计
 对于这个简易命令行窗口，我设计了由小到大的三种数据结构：Block、Line、TerminalData。它们之间是逐级包裹的关系。
+## 基于动画窗口的动画渲染
+下面，我们以某一名为`line`的行类别数据渲染为例：
+- 使用样例：需要注意的是，其中`i`及`c`需要作为全局变量对待。`i`用于检测当前动画帧的奇偶性并以此为凭据绘制闪烁光标动画。`c`代表当前行中光标的位置，为一个整数，渲染函数会计算出当前光标所在的具体层级。
+    ```js
+    animationEngine(100, myDraw);
+
+    function myDraw(){ // 客制化的绘制函数
+        // clear canvas 需要手动清除canvas
+        const ctx = myCanvas.getContext('2d');
+        ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
+
+        i++;
+        // 若为偶数则绘制光标
+        if (i % 2 === 0){
+            drawLine(myCanvas, line, 0, 30, [blockStyle,blockStyle2], c);
+        } else {
+            drawLine(myCanvas, line, 0, 30, [blockStyle,blockStyle2]);
+        }
+    }
+    ```
+- 实现代码及原理：您可以在 view.js 中找到
+- 
+## 简易键盘事件控制
+

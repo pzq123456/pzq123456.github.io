@@ -65,7 +65,7 @@ export function HelloWorld(
 }
 
 /**
- * 动画引擎 用于向浏览器请求动画帧
+ * 动画引擎 用于向浏览器请求动画帧并绘制
  * @param {Number} timeInterval - 间隔时间例如 100 表示每 100ms 请求一次动画帧
  * @param {Function} callback - 回调函数用于绘制动画
  */
@@ -81,69 +81,16 @@ export function animationEngine(timeInterval, callback){
     requestAnimationFrame(animate);
 }
 
-// export function eventEngine(myCanvas,c){
-//     // 为canvas 添加键盘事件 右方向键
-//     myCanvas.addEventListener('keydown', (e) => {
-//         if (e.key === 'ArrowRight'){
-//             c++;
-//             // 若光标超出行的长度 则不移动
-//             if (c >= line.getFullLength()){
-//                 c = line.getFullLength() - 1;
-//             }
-//         }
-//     })
-//     myCanvas.addEventListener('keydown', (e) => {
-//         if (e.key === 'ArrowLeft'){
-//             c--;
-//             if (c < 0){
-//                 c = 0;
-//             }
-//         }
-//     })
-//     myCanvas.addEventListener('keydown', (e) => {
-//         // 键盘输入
-//         if (e.key.length === 1 && e.key !== ' '){
-//             line.insertChar(c, e.key);
-//             c++;
-//         }
-//     })
-//     myCanvas.addEventListener('keydown', (e) => {
-//         // 删除字符
-//         if (e.key === 'Backspace'){
-//             line.deleteCharBefore(c);
-//             c--;
-//             if (c < 0){
-//                 c = 0;
-//             }
-//         }
-//     })
-//     // 空格键则创建空block
-//     myCanvas.addEventListener('keydown', (e) => {
-//         // 删除字符
-//         if (e.key === ' '){
-//             if(line.splitBlock(c)){
-//                 c++;
-//             }
-//         }
-//     })
-//     return c;
-// }
-
-
-
-
 function addEventFor(element, eventName, callback){
     element.addEventListener(eventName, callback);
 }
 
 /**
- * eventCallbackList = [
- * {
- * eventName: 'keydown',
- * callback: (e) => {
- * // ...
- * }}
- * ]
+ * 事件引擎 用于向元素添加事件
+ * @param {HTMLElement} element - 元素
+ * @param {any[]} eventCallbackList - 事件回调列表
+ * @param {Number} c - 光标位置
+ * @returns {Number} - 操作后的推荐光标位置
  */
 export function eventEngine(element, eventCallbackList, c){
     eventCallbackList.forEach((eventCallback) => {

@@ -7,7 +7,15 @@ import { createCanvas,HelloWorld } from './src/Terminal/view.js';
 import { drawBlock, drawLine } from './src/Terminal/renderer.js';
 import { Block, Line } from './src/Terminal/data.js';
 
-
+document.body.onkeydown = function (event) { 
+    // 禁止键盘事件 滚动页面
+    var e = window.event || event;
+    if(e.preventDefault){
+        e.preventDefault();
+    }else{
+        window.event.returnValue = false;
+    }
+}
 
 
 // config code highlight into the marked.js
@@ -60,7 +68,7 @@ let blockStyle5 = {
     'color': 'black',
     'cursor-color': 'blue',
 }; // style for the markdown content
-let line = Line.fromString('ABCDEFG 1234567890');
+let line = Line.fromString('ABCDEFG 1234567890 Test');
 // let myMBR =  drawLine(myCanvas, line, 0, 30, [blockStyle,blockStyle2,blockStyle3,blockStyle4], 0);
 
 // drawLine(myCanvas, line, 0, 30, blockStyle, 0);
@@ -76,7 +84,7 @@ myCanvas.addEventListener('keydown', (e) => {
     if (e.key === 'ArrowRight'){
         c++;
         // 若光标超出行的长度 则不移动
-        if (c > line.length){
+        if (c >= line.getFullLength()){
             c = line.getFullLength() - 1;
         }
     }
@@ -110,13 +118,9 @@ myCanvas.addEventListener('keydown', (e) => {
 myCanvas.addEventListener('keydown', (e) => {
     // 删除字符
     if (e.key === ' '){
-        // line.createBlock(c);
-        console.log(c);
         if(line.splitBlock(c)){
             c++;
         }
-
-        console.log(line);
     }
 })
 

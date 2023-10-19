@@ -102,11 +102,15 @@ export class Line{
         let currentCursor = calCursorIndex(this, index);
         // 若为行首则不删除
         if(currentCursor[1] === 0 && currentCursor[0] === 0){
-            console.log('Line is empty');
-            return;
+            return false;
+        }
+        // 若当前字符块仅有一个字符 则删除当前字符块
+        if(currentCursor[1] === 0){
+            this.data.splice(currentCursor[0], 1);
         }else{
             this.data[currentCursor[0]].deleteCharBefore(currentCursor[1]);
         }
+        return true;
     }
 
 
@@ -134,13 +138,22 @@ export class Line{
     // 在当前索引处分割 block
     splitBlock(index){
         let currentCursor = calCursorIndex(this, index);
-        console.log(currentCursor);
+        // console.log(currentCursor);
         let block = this.data[currentCursor[0]];
-        console.log(block.length);
-        // 首先判断是否在 block 的末尾
-        if(currentCursor[1] == block.length - 1){
+        // console.log(block.length);
+        // 首先判断是否在 block 的末尾 却不在行末尾
+        if(currentCursor[1] == block.length - 1 && currentCursor[0] !== this.data.length - 1){
+            console.log(this.data);
+            console.log(currentCursor);
             // 若在末尾则不分割
             return false;
+        }else if(  // 若在行末尾 则创建一个空 block
+            currentCursor[1] == block.length - 1 && currentCursor[0] == this.data.length - 1 
+        ){
+            // 创建空 block 并插入 末尾
+            let newBlock = new Block();
+            newBlock.addChar('^');
+            this.data.push(newBlock);
         }else{
             // 只需要新建一个 block 并将后半部分的字符插入
             let newBlock = new Block();

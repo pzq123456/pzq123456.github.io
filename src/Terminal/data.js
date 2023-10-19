@@ -120,6 +120,44 @@ export class Line{
         this.data.push(block);
     }
 
+    // 在索引处创建空字符块
+    createBlock(index){
+        let block = new Block();
+        // 并首先插入 ^ 字符
+        block.addChar('^');
+        let currentCursor = calCursorIndex(this, index);
+
+        // 在当前索引处插入字符块
+        this.data.splice(currentCursor[0], 0, block);
+    }
+
+    // 在当前索引处分割 block
+    splitBlock(index){
+        let currentCursor = calCursorIndex(this, index);
+        console.log(currentCursor);
+        let block = this.data[currentCursor[0]];
+        console.log(block.length);
+        // 首先判断是否在 block 的末尾
+        if(currentCursor[1] == block.length - 1){
+            // 若在末尾则不分割
+            return false;
+        }else{
+            // 只需要新建一个 block 并将后半部分的字符插入
+            let newBlock = new Block();
+            // 将 block 从 index 处分割为两份
+            let secondPart = block.data.splice(currentCursor[1] + 1);
+            // 将 secondPart 插入到新的 block 中
+            secondPart.forEach((char) => {
+                newBlock.addChar(char);
+            })
+            // 再在 block 中插入 ^ 字符
+            block.addChar('^');
+            // 将新的 block 插入到 index + 1 处
+            this.data.splice(currentCursor[0] + 1, 0, newBlock);
+        }
+        return true;
+    }
+
     // 删除字符块
     deleteBlock(){
         if(this.data.length > 0){

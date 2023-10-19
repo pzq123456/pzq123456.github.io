@@ -50,10 +50,17 @@ let blockStyle4 = {
     'font-family': 'monospace',
     'font-size': '30px',
     'background-color': 'white',
-    'color': 'black',
-    'cursor-color': 'red',
+    'color': 'yellow',
+    'cursor-color': 'green',
 }; // style for the markdown content
-let line = Line.fromString('PS E: pzq123456.github.io j%>');
+let blockStyle5 = {
+    'font-family': 'monospace',
+    'font-size': '30px',
+    'background-color': 'gray',
+    'color': 'black',
+    'cursor-color': 'blue',
+}; // style for the markdown content
+let line = Line.fromString('ABCDEFG 1234567890');
 // let myMBR =  drawLine(myCanvas, line, 0, 30, [blockStyle,blockStyle2,blockStyle3,blockStyle4], 0);
 
 // drawLine(myCanvas, line, 0, 30, blockStyle, 0);
@@ -71,7 +78,6 @@ myCanvas.addEventListener('keydown', (e) => {
         // 若光标超出行的长度 则不移动
         if (c > line.length){
             c = line.getFullLength() - 1;
-            console.log('line length: ' + line.getFullLength());
         }
     }
 })
@@ -85,7 +91,7 @@ myCanvas.addEventListener('keydown', (e) => {
 })
 myCanvas.addEventListener('keydown', (e) => {
     // 键盘输入
-    if (e.key.length === 1){
+    if (e.key.length === 1 && e.key !== ' '){
         line.insertChar(c, e.key);
         c++;
     }
@@ -100,6 +106,19 @@ myCanvas.addEventListener('keydown', (e) => {
         }
     }
 })
+// 空格键则创建空block
+myCanvas.addEventListener('keydown', (e) => {
+    // 删除字符
+    if (e.key === ' '){
+        // line.createBlock(c);
+        console.log(c);
+        if(line.splitBlock(c)){
+            c++;
+        }
+
+        console.log(line);
+    }
+})
 
 setInterval(() => {
     const ctx = myCanvas.getContext('2d');
@@ -107,9 +126,9 @@ setInterval(() => {
     i++;
     // 若为偶数则绘制光标
     if (i % 2 === 0){
-        drawLine(myCanvas, line, 0, 30, [blockStyle,blockStyle2,blockStyle3,blockStyle4], c);
+        drawLine(myCanvas, line, 0, 30, [blockStyle,blockStyle2,blockStyle3,blockStyle4,blockStyle5], c);
     } else {
-        drawLine(myCanvas, line, 0, 30, [blockStyle,blockStyle2,blockStyle3,blockStyle4]);
+        drawLine(myCanvas, line, 0, 30, [blockStyle,blockStyle2,blockStyle3,blockStyle4,blockStyle5]);
     }
 }, 100);
 

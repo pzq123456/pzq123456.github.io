@@ -50,23 +50,23 @@ let blockStyle2 = {
 let blockStyle3 = {
     'font-family': 'monospace',
     'font-size': '30px',
-    'background-color': 'blue',
+    'background-color': 'purple',
     'color': 'white',
     'cursor-color': 'red',
 }; // style for the markdown content
 let blockStyle4 = {
     'font-family': 'monospace',
     'font-size': '30px',
-    'background-color': 'white',
+    'background-color': 'BlueViolet',
     'color': 'yellow',
     'cursor-color': 'green',
 }; // style for the markdown content
 let blockStyle5 = {
     'font-family': 'monospace',
     'font-size': '30px',
-    'background-color': 'gray',
-    'color': 'black',
-    'cursor-color': 'blue',
+    'background-color': 'SlateGray',
+    'color': 'white',
+    'cursor-color': 'red',
 }; // style for the markdown content
 let line = Line.fromString('ABCDEFG 1234567890 Test');
 // let myMBR =  drawLine(myCanvas, line, 0, 30, [blockStyle,blockStyle2,blockStyle3,blockStyle4], 0);

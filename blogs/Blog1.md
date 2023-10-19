@@ -15,3 +15,6 @@
 2. [command-line interface](https://en.wikipedia.org/wiki/Command-line_interface#Command-line_interpreter): CLIs are made possible by **command-line interpreters** or command-line processors, which are programs that read command-lines and carry out the commands.
 3. [Canvas text1](https://www.cnblogs.com/OrochiZ-/p/11645217.html)
 4. [Canvas text2](https://zhuanlan.zhihu.com/p/639209644)
+
+## 数据结构设计
+对于这个简易命令行窗口，我设计了由小到大的三种数据结构：Block、Line、TerminalData。它们之间是逐级包裹的关系。

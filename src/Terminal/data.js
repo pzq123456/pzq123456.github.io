@@ -142,14 +142,20 @@ export class Line{
         let block = this.data[currentCursor[0]];
         // console.log(block.length);
         // 首先判断是否在 block 的末尾 却不在行末尾
-        if(currentCursor[1] == block.length - 1 && currentCursor[0] !== this.data.length - 1){
-            console.log(this.data);
-            console.log(currentCursor);
-            // 若在末尾则不分割
+        // if(currentCursor[1] == block.length - 1 && currentCursor[0] !== this.data.length - 1){
+        //     console.log(this.data);
+        //     console.log(currentCursor);
+        //     // 若在末尾则不分割
+        //     return false;
+        // }else 
+
+        // 若是第一个字符块的第一个元素 则不分割
+        if(currentCursor[1] === 0 && currentCursor[0] === 0){
             return false;
         }else if(  // 若在行末尾 则创建一个空 block
             currentCursor[1] == block.length - 1 && currentCursor[0] == this.data.length - 1 
-        ){
+        ){     
+            console.log(this.data);
             // 创建空 block 并插入 末尾
             let newBlock = new Block();
             newBlock.addChar('^');
@@ -158,7 +164,7 @@ export class Line{
             // 只需要新建一个 block 并将后半部分的字符插入
             let newBlock = new Block();
             // 将 block 从 index 处分割为两份
-            let secondPart = block.data.splice(currentCursor[1] + 1);
+            let secondPart = block.data.splice(currentCursor[1]);
             // 将 secondPart 插入到新的 block 中
             secondPart.forEach((char) => {
                 newBlock.addChar(char);
@@ -219,3 +225,5 @@ export class Line{
         return line;
     }
 }
+
+// export class 

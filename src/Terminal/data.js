@@ -88,8 +88,6 @@ export class Line{
         this.data = [];
     }
 
-    // calCursorIndex
-
     // 在index 处插入字符
     insertChar(index, char){
         // this.data.splice(index, 0, char);
@@ -113,8 +111,11 @@ export class Line{
         return true;
     }
 
-
-    // 获取索引为 index 的字符块
+    /**
+     * 获取索引为 index 的字符块
+     * @param {Number} index 
+     * @returns 
+     */
     get(index){
         return this.data[index];
     }
@@ -212,7 +213,6 @@ export class Line{
     }
 
     // -- 静态方法 -- //
-
     // 将字符串转换为行
     static fromString(str){
         let line = new Line();
@@ -226,4 +226,35 @@ export class Line{
     }
 }
 
-// export class 
+/**
+ * 终端数据
+ * - 用于存储终端的数据
+ * - 以行来组织数据
+ */
+export class TerminalData{
+    constructor(){
+        this.data = [];
+    }
+
+    /**
+     * 添加行
+     * @param {Line} line 
+     */
+    addLine(line){
+        this.data.push(line);
+    }
+
+    // 静态方法
+    // 将字符串转换为终端数据
+    static fromString(str){
+        let terminalData = new TerminalData();
+        // 将 str 以换行符分割为行
+        let lines = str.split('\n');
+        // 将每一行转换为行
+        for(let line of lines){
+            terminalData.addLine(Line.fromString(line));
+        }
+        return terminalData;
+    }
+}
+

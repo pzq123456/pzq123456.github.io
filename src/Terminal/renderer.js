@@ -122,7 +122,7 @@ export function drawLine(
                 // 超过屏幕边界 则换行
                 offsetX = 0;
                 offsetY += height;
-                console.log(offsetY);
+                // console.log(offsetY);
                 MBR[3] += height;
                 // 清空 MBR 区域再次绘制
                 const ctx = canvas.getContext('2d');

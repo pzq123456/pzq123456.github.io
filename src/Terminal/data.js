@@ -1,7 +1,7 @@
 /**
  * 用于设计终端的数据结构
  */
-import { calCursorIndex } from './renderer.js'
+import { calCursorIndex, calCursorIndex2, deCalCursorIndex, deCalCursorIndex2 } from './renderer.js'
 
 
 /**
@@ -55,7 +55,9 @@ export class Block{
      * @returns {boolean} 是否相等
      */
     equals(str){
-        return this.getChar() === str;
+        if(this.getChar().endsWith('^')){
+            return this.getChar().slice(0, -1) === str;
+        }
     }
 
     // 获取字符块的长度
@@ -242,6 +244,83 @@ export class TerminalData{
      */
     addLine(line){
         this.data.push(line);
+    }
+
+    get(index){
+        return this.data[index];
+    }
+
+    get length(){
+        return this.data.length;
+    }
+
+    getFullLength(){
+        let len = 0;
+        this.data.forEach((line) => {
+            len += line.getFullLength();
+        })
+        return len;
+    }
+
+
+    downIndex(currIndex){
+        // 从当前index 起算 返回下一行合适位置的一纬索引
+        // 若下一行较长可以到达当前位置的正下方 则返回当前位置的正下方
+        // 否则返回下一行的末尾
+        // 每一行的长度不一定相等 = [5, 5, 6, 7, 8, 9, 10] currIndex = 11 --> 17
+
+        let currentCursor = calCursorIndex2(this, currIndex); // [lineIndex, blockIndex, charIndex]
+        // 首先判断是否为最后一行
+        if(currentCursor[0] === this.length - 1){
+            return this.getFullLength() - 1;
+        }else{
+            // 找到下一行的长度
+            let nextLineLength = this.data[currentCursor[0] + 1].getFullLength();
+            // 获取行内索引
+            let inLineIndex = deCalCursorIndex(this, [currentCursor[1],currentCursor[2]]);
+            if(inLineIndex < nextLineLength){
+                let aim = [currentCursor[0] + 1, ...calCursorIndex(this.data[currentCursor[0] + 1], inLineIndex)];
+                return deCalCursorIndex2(this, aim);
+            }else{
+                // 直接到下一行的末尾
+                return deCalCursorIndex2(this, [currentCursor[0] + 1, this.data[currentCursor[0] + 1].length - 1, this.data[currentCursor[0] + 1].get(this.data[currentCursor[0] + 1].length - 1).length - 1]);
+            }
+        }
+    }
+
+    upIndex(currIndex){
+        // 从当前index 起算 返回上一行合适位置的一纬索引
+        // 若上一行较长可以到达当前位置的正上方 则返回当前位置的正上方
+        // 否则返回上一行的末尾
+        // 每一行的长度不一定相等 = [5, 5, 6, 7, 8, 9, 10] currIndex = 11 --> 17
+
+        let currentCursor = calCursorIndex2(this, currIndex); // [lineIndex, blockIndex, charIndex]
+        // 首先判断是否为第一行
+        if(currentCursor[0] === 0){
+            return 0;
+        }else{
+            // 找到上一行的长度
+            let preLineLength = this.data[currentCursor[0] - 1].getFullLength();
+            // 获取行内索引
+            let inLineIndex = deCalCursorIndex(this, [currentCursor[1],currentCursor[2]]);
+            if(inLineIndex < preLineLength){
+                let aim = [currentCursor[0] - 1, ...calCursorIndex(this.data[currentCursor[0] - 1], inLineIndex)];
+                return deCalCursorIndex2(this, aim);
+            }else{
+                // 直接到上一行的末尾
+                return deCalCursorIndex2(this, [currentCursor[0] - 1, this.data[currentCursor[0] - 1].length - 1, this.data[currentCursor[0] - 1].get(this.data[currentCursor[0] - 1].length - 1).length - 1]);
+            }
+        }
+
+    }
+
+    insertChar(c, char){
+        let currentCursor = calCursorIndex2(this, c);
+        c++;
+        let inLineIndex = deCalCursorIndex(this.data[currentCursor[0]], [currentCursor[1],currentCursor[2]]);
+        console.log(inLineIndex);
+        this.data[currentCursor[0]].insertChar(inLineIndex, char);
+        return c;
     }
 
     // 静态方法

@@ -68,3 +68,19 @@ canvas:focus {
     outline:none;
 }
 
+/* check box 样式修改 使之更加美观 */
+input[type=checkbox] {
+    width: 20px;
+    height: 20px;
+    -webkit-appearance: none;
+    outline: none;
+    background: #ffffff30;
+    transition: .5s;
+    cursor: pointer;
+    margin: 0 0 0 0;
+    position: relative;
+}
+
+input:checked[type=checkbox] {
+    background: #ffffffbc;
+}

@@ -4,12 +4,12 @@ import {markedHighlight} from './helpers/highlight.js';
 import { metalist } from './blogs/meta.js'; // metalist is a list of blog metadata
 import { createCanvas, animationEngine, eventEngine} from './src/Terminal/view.js';
 
-import { drawLine } from './src/Terminal/renderer.js';
-import { Line } from './src/Terminal/data.js';
+import { drawTData } from './src/Terminal/renderer.js';
+import { TerminalData } from './src/Terminal/data.js';
 
 document.body.onkeydown = function (event) { 
     // 禁止键盘事件 滚动页面
-    var e = window.event || event;
+    var e = event;
     if(e.preventDefault){
         e.preventDefault();
     }else{
@@ -47,74 +47,130 @@ let blockStyle2 = {
     'color': 'white',
     'cursor-color': 'white',
 }; // style for the markdown content
+let blockStyle3 = {
+    'font-family': 'monospace',
+    'font-size': '30px',
+    'background-color': 'purple',
+    'color': 'white',
+    'cursor-color': 'white',
+}; // style for the markdown content
 
-let line = Line.fromString('pzq123456.github.io% yourInput ');
+// let line = Line.fromString('pzq 123456.github.io% yourInput ');
+
+let myHistory = 
+`Hello World
+Hello World
+abc
+Hello World
+Hello World
+Hello World
+Hello World
+Hello World
+Hello World
+Hello World
+You can not see me
+You can not see me
+You can not see me
+You can not see me
+You can not see me`;
+
+
+let Tdata = TerminalData.fromString(myHistory);
+// console.log(Tdata);
+// console.log(calCursorIndex2(Tdata,23));
 
 
 // 以对象列表的形式传递事件
-let eventList = [
-    {
-        eventName: 'keydown',
-        callback: (e) => {
-            if (e.key === 'ArrowRight'){
-                c++;
-                // 若光标超出行的长度 则不移动
-                if (c >= line.getFullLength()){
-                    c = line.getFullLength() - 1;
-                }
-            }
-        }
-    },
-    {
-        eventName: 'keydown',
-        callback: (e) => {
-            if (e.key === 'ArrowLeft'){
-                c--;
-                if (c < 0){
-                    c = 0;
-                }
-            }
-        }
-    },
-    {
-        eventName: 'keydown',
-        callback: (e) => {
-            // 键盘输入
-            if (e.key.length === 1 && e.key !== ' '){
-                line.insertChar(c, e.key);
-                c++;
-            }
-        }
-    },
-    {
-        eventName: 'keydown',
-        callback: (e) => {
-            // 删除字符
-            if (e.key === 'Backspace'){
-                line.deleteCharBefore(c);
-                c--;
-                if (c < 0){
-                    c = 0;
-                }
-            }
-        }
-    },
-    {
-        eventName: 'keydown',
-        callback: (e) => {
-            // 空格键则创建空block
-            if (e.key === ' '){
-                if(line.splitBlock(c)){
-                    c++;
-                }
-            }
-        }
-    }
-]
+// let eventList = [
+//     {
+//         eventName: 'keydown',
+//         callback: (e) => {
+//             if (e.key === 'ArrowRight'){
+//                 c++;
+//                 // 若光标超出行的长度 则不移动
+//                 if (c >= line.getFullLength()){
+//                     c = line.getFullLength() - 1;
+//                 }
+//             }
+//         }
+//     },
+//     {
+//         eventName: 'keydown',
+//         callback: (e) => {
+//             if (e.key === 'ArrowLeft'){
+//                 c--;
+//                 if (c < 0){
+//                     c = 0;
+//                 }
+//             }
+//         }
+//     },
+//     {
+//         eventName: 'keydown',
+//         callback: (e) => {
+//             // 键盘输入
+//             if (e.key.length === 1 && e.key !== ' '){
+//                 line.insertChar(c, e.key);
+//                 c++;
+//             }
+//         }
+//     },
+//     {
+//         eventName: 'keydown',
+//         callback: (e) => {
+//             // 删除字符
+//             if (e.key === 'Backspace'){
+//                 line.deleteCharBefore(c);
+//                 c--;
+//                 if (c < 0){
+//                     c = 0;
+//                 }
+//             }
+//         }
+//     },
+//     {
+//         eventName: 'keydown',
+//         callback: (e) => {
+//             // 空格键则创建空block
+//             if (e.key === ' '){
+//                 if(line.splitBlock(c)){
+//                     c++;
+//                 }
+//             }
+//         }
+//     }
+// ]
 
-let c = 31; // 当前光标位置
+/**
+ * 自定义样式 根据block的内容
+ * @param {Block} block 
+ */
+function getStyle(block){
+    if(block.equals("pzq")){
+        // console.log('pzq');
+        return blockStyle;
+    }else if(block.equals("cd")){
+        return blockStyle3;
+    }
+    else{
+        return blockStyle2;
+    }
+}
+
+let wholeStyle = {
+    'background-color': 'black',
+    // 行间距
+    'line-interval': '10px',
+}
+
+
+drawTData(myCanvas, Tdata, 0, 40, wholeStyle, getStyle,123);
+
+
+
+let c = 4; // 当前光标位置
 let i = 0; // 用于控制光标闪烁
-c = eventEngine(myCanvas, eventList, c);
+// c = eventEngine(myCanvas, eventList, c);
 
 animationEngine(100, () => {
     // clear canvas
@@ -123,9 +179,15 @@ animationEngine(100, () => {
     i++;
     // 若为偶数则绘制光标
     if (i % 2 === 0){
-        drawLine(myCanvas, line, 0, 30, [blockStyle,blockStyle2], c);
+        // drawLine(myCanvas, line, 0, 30, [blockStyle,blockStyle2], c);
+        // drawLine(myCanvas, line, 0, 30, blockStyle, c);
+        // drawLine2(myCanvas, line, 0, 30, getStyle, c);
+        drawTData(myCanvas, Tdata, 0, 40, wholeStyle, getStyle,c);
     } else {
-        drawLine(myCanvas, line, 0, 30, [blockStyle,blockStyle2]);
+        // drawLine(myCanvas, line, 0, 30, [blockStyle,blockStyle2]);
+        // drawLine(myCanvas, line, 0, 30, blockStyle);
+        // drawLine2(myCanvas, line, 0, 30, getStyle);
+        drawTData(myCanvas, Tdata, 0, 40, wholeStyle, getStyle,c,false);
     }
 });
 
@@ -144,39 +206,35 @@ animationEngine(100, () => {
 // let i = 0;
 // let c = 0;
 // let block = Block.fromString('Hello');
-// // 为canvas 添加键盘事件 右方向键
-// myCanvas.addEventListener('keydown', (e) => {
-//     if (e.key === 'ArrowRight'){
-//         c++;
-//     }
-// })
-// myCanvas.addEventListener('keydown', (e) => {
-//     if (e.key === 'ArrowLeft'){
-//         c--;
-//     }
-// })
-// myCanvas.addEventListener('keydown', (e) => {
-//     // 删除字符
-//     if (e.key === 'Backspace'){
-//         block.deleteCharBefore(c);
-//         console.log(block.getChar());
-//         c--;
-//     }
-// })
-// myCanvas.addEventListener('keydown', (e) => {
-//     // 键盘输入
-//     if (e.key.length === 1){
-//         block.insertChar(c, e.key);
-//         c++;
-//     }
-// })
-// setInterval(() => {
-//     // 清除画布
-//     const ctx = myCanvas.getContext('2d');
-//     ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
-//     drawBlock(myCanvas, block, 0, 30,blockStyle,c);
-
-// }, 100);
+// 为canvas 添加键盘事件 右方向键
+myCanvas.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight'){
+        c++;
+    }
+})
+myCanvas.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft'){
+        c--;
+    }
+})
+myCanvas.addEventListener('keydown', (e) => {
+    //向下
+    if (e.key === 'ArrowDown'){
+        c = Tdata.downIndex(c);
+    }
+})
+myCanvas.addEventListener('keydown', (e) => {
+    //向上
+    if (e.key === 'ArrowUp'){
+        c = Tdata.upIndex(c);
+    }
+})
+myCanvas.addEventListener('keydown', (e) => {
+    // 键盘输入
+    if (e.key.length === 1 && e.key !== ' '){
+        c = Tdata.insertChar(c, e.key);
+    }
+});
 
 const mdStyle = {
     'padding': '20px',

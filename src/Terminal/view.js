@@ -101,4 +101,67 @@ export function eventEngine(element, eventCallbackList, c){
 
 
 
+// 以对象列表的形式传递事件 line 操作事件列表
+let lineEventList = [
+    {
+        eventName: 'keydown',
+        callback: (e) => {
+            if (e.key === 'ArrowRight'){
+                c++;
+                // 若光标超出行的长度 则不移动
+                if (c >= line.getFullLength()){
+                    c = line.getFullLength() - 1;
+                }
+            }
+        }
+    },
+    {
+        eventName: 'keydown',
+        callback: (e) => {
+            if (e.key === 'ArrowLeft'){
+                c--;
+                if (c < 0){
+                    c = 0;
+                }
+            }
+        }
+    },
+    {
+        eventName: 'keydown',
+        callback: (e) => {
+            // 键盘输入
+            if (e.key.length === 1 && e.key !== ' '){
+                line.insertChar(c, e.key);
+                c++;
+            }
+        }
+    },
+    {
+        eventName: 'keydown',
+        callback: (e) => {
+            // 删除字符
+            if (e.key === 'Backspace'){
+                line.deleteCharBefore(c);
+                c--;
+                if (c < 0){
+                    c = 0;
+                }
+            }
+        }
+    },
+    {
+        eventName: 'keydown',
+        callback: (e) => {
+            // 空格键则创建空block
+            if (e.key === ' '){
+                if(line.splitBlock(c)){
+                    c++;
+                }
+            }
+        }
+    }
+]
+
+
+
 

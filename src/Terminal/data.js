@@ -218,6 +218,12 @@ export class Line{
         })
         return len;
     }
+    concat(line){
+        // 将另一行的字符块连接到当前行的字符块后面
+        line.data.forEach((block) => {
+            this.addBlock(block);
+        })
+    }
 
     // 清空行
     clear(){

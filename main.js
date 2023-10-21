@@ -39,7 +39,25 @@ const myCommandList = [
             console.log("ls", path);
         },
         manipulate: function(data){
-            // manipulate 用于修改数据以实现交互
+            // get meta.js and render it
+            // 首先打印表头
+            let head = ['date', 'tag', 'title', 'path'];
+            let miusCount = 0;
+            // 首先打印表头
+            let line = Line.fromString(head.join('----| '));
+            data.addLine(line);
+            miusCount += line.getFullLength();
+            metalist.forEach(item => {
+                let temp = [];
+                head.forEach(key => {
+                    temp.push(item[key]);
+                });
+                let tmpdata = Line.fromString(temp.join(' '));
+                data.addLine(tmpdata);
+                miusCount += tmpdata.getFullLength();
+            });
+            data.addLine(Line.fromString('pzq123456.github.io%> '));
+            return data.getFullLength() - miusCount;
         }
     },
     {

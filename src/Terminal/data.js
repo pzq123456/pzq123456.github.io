@@ -149,6 +149,15 @@ export class Line{
         this.data.splice(currentCursor[0], 0, block);
     }
 
+    get blockStrings(){
+        // 首先去除每一个 block 的 ^ 字符
+        let res = [];
+        this.data.forEach((block) => {
+            res.push(block.getChar().slice(0, -1));
+        })
+        return res;
+    }
+
     // 在当前索引处分割 block
     splitBlock(index){
         let currentCursor = calCursorIndex(this, index);
@@ -378,6 +387,31 @@ export class TerminalData{
         let inLineIndex = deCalCursorIndex(this.data[currentCursor[0]], [currentCursor[1],currentCursor[2]]);
         this.data[currentCursor[0]].splitBlock(inLineIndex);
         return c + 1;
+    }
+
+    /**
+     * 与 enter 键配合使用
+     * - 解析行并调用命令会在外部显式调用 所以这里只需要返回当前活跃行即可
+     * @param {Number} c - 当前索引
+     * @returns {Line} - 返回当前行
+     */
+    enter(c){
+        // 返回当前活跃行本身
+        let currentCursor = calCursorIndex2(this, c);
+        return this.data[currentCursor[0]];
+    }
+
+    /**
+     * 将另一个终端数据合并到当前终端数据中
+     * @param {TerminalData} anthorTerminalData 
+     */
+    merge(
+        anthorTerminalData,
+    ){
+        // 将另一个终端数据合并到当前终端数据中
+        anthorTerminalData.data.forEach((line) => {
+            this.addLine(line);
+        })
     }
 
     // 静态方法

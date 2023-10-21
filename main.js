@@ -5,7 +5,9 @@ import { metalist } from './blogs/meta.js'; // metalist is a list of blog metada
 import { createCanvas, animationEngine, eventEngine} from './src/Terminal/view.js';
 
 import { drawTData } from './src/Terminal/renderer.js';
-import { TerminalData } from './src/Terminal/data.js';
+import { Line, TerminalData } from './src/Terminal/data.js';
+
+import {parseLine, run} from './src/Terminal/interpreter.js';
 
 document.body.onkeydown = function (event) { 
     // 禁止键盘事件 滚动页面
@@ -13,6 +15,67 @@ document.body.onkeydown = function (event) {
     e.preventDefault();
 }
 
+const myCommandList = [
+    {
+        name: "cd",
+        description: "change directory",
+        usage: "cd <path>",
+        func: function(path){
+            // console.log("cd", path);
+            // fileToHtml('/blogs/Blog1.md',document.getElementById('content'), mdStyle);
+            fileToHtml(path,document.getElementById('content'), mdStyle);
+        },
+        manipulate: function(data){
+            let line = Line.fromString('pzq123456.github.io%> ');
+            data.addLine(line);
+            return data.getFullLength() - 1;
+        }
+    },
+    {
+        name: "ls",
+        description: "list files",
+        usage: "ls <path>",
+        func: function(path){
+            console.log("ls", path);
+        },
+        manipulate: function(data){
+            // manipulate 用于修改数据以实现交互
+        }
+    },
+    {
+        name: "cat",
+        description: "show file content",
+        usage: "cat <path>",
+        func: function(path){
+            console.log("cat", path);
+        },
+        manipulate: function(data){
+            // manipulate 用于修改数据以实现交互
+        }
+    },
+    {
+        name: "clear",
+        description: "clear the terminal",
+        usage: "clear",
+        func: function(){
+            console.log("clear");
+        },
+        manipulate: function(data){
+            // manipulate 用于修改数据以实现交互
+        }
+    },
+    {
+        name: "help",
+        description: "show help",
+        usage: "help",
+        func: function(){
+            console.log("help");
+        },
+        manipulate: function(data){
+            // manipulate 用于修改数据以实现交互
+        }
+    },
+]
 
 // config code highlight into the marked.js
 marked = new marked.Marked(
@@ -84,10 +147,10 @@ let blockStyle5 = {
 // You can not see me
 // You can not see me`;
 
-let myHistory =
-`PS E:\\pzq123456.github.io> cd .\\blogs`
+// let myHistory =
+// `PS E:\\pzq123456.github.io> cd .\\blogs`
 
-
+let myHistory =`pzq123456.github.io%> cd /blogs/Blog1.md`;
 let Tdata = TerminalData.fromString(myHistory);
 
 /**
@@ -95,13 +158,13 @@ let Tdata = TerminalData.fromString(myHistory);
  * @param {Block} block 
  */
 function getStyle(block){
-    if(block.equals("pzq")){
+    if(block.contains("%")){
         // console.log('pzq');
         return blockStyle;
     }else if(block.equals("cd")){
         return blockStyle3;
     }else if(
-        block.contains('\\') 
+        block.contains('/') 
     ){
         return blockStyle4;
     }else if(block.equals('ls')){
@@ -215,6 +278,15 @@ myCanvas.addEventListener('keydown', (e) => {
         c = Tdata.splitBlock(c);
     }
 });
+myCanvas.addEventListener('keydown', (e) => {
+    // 检测到回车
+    if (e.key === 'Enter'){
+        let actLine = Tdata.enter(c);
+        let res = parseLine(actLine);
+        console.log(res);
+        c = run(res, Tdata, myCommandList);
+    }
+});
 
 
 const mdStyle = {
@@ -270,6 +342,14 @@ fillNavBar(document.getElementById('navBar'),
         "action": function(){
             fileToHtml('/blogs/Blog1.md',document.getElementById('content'), mdStyle);
         }
+    },{
+        "text": "add line",
+        "action": function(){
+            let line = Line.fromString('pzq 123456.github.io% yourInput ');
+            Tdata.addLine(line);
+            c = Tdata.getFullLength() - 1;
+        }
+
     }
 ],
 {

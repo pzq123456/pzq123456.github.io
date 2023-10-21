@@ -279,6 +279,7 @@ export function drawTData(canvas, TData, x, y, style, getLineStyle, i = null, sh
     if(showCursor){
         // 从style中获取 行间距
         let lineInterval = style['line-interval'] ? parseInt(style['line-interval']) : 0;
+
         // 遍历绘制每一行 并更新MBR 直到超过屏幕边界
         for(let i = currentCursor[0]; i < TData.data.length; i++){
             let line = TData.data[i];

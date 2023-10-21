@@ -59,6 +59,17 @@ export class Block{
             return this.getChar().slice(0, -1) === str;
         }
     }
+    /**
+     * 若开头第一个字符与给定的字符相等
+     * @param {*} char
+     */
+    headEquals(char){
+        return this.getChar()[0] === char;
+    }
+
+    contains(char){
+        return this.getChar().includes(char);
+    }
 
     // 获取字符块的长度
     get length(){
@@ -105,7 +116,7 @@ export class Line{
             return false;
         }
         // 若当前字符块仅有一个字符 则删除当前字符块
-        if(currentCursor[1] === 0){
+        if(this.data[currentCursor[0]].length === 1){
             this.data.splice(currentCursor[0], 1);
         }else{
             this.data[currentCursor[0]].deleteCharBefore(currentCursor[1]);
@@ -148,7 +159,7 @@ export class Line{
         }else if(  // 若在行末尾 则创建一个空 block
             currentCursor[1] == block.length - 1 && currentCursor[0] == this.data.length - 1 
         ){     
-            console.log(this.data);
+            // console.log(this.data);
             // 创建空 block 并插入 末尾
             let newBlock = new Block();
             newBlock.addChar('^');
@@ -318,7 +329,7 @@ export class TerminalData{
         let currentCursor = calCursorIndex2(this, c);
         c++;
         let inLineIndex = deCalCursorIndex(this.data[currentCursor[0]], [currentCursor[1],currentCursor[2]]);
-        console.log(inLineIndex);
+        // console.log(inLineIndex);
         this.data[currentCursor[0]].insertChar(inLineIndex, char);
         return c;
     }
@@ -338,10 +349,13 @@ export class TerminalData{
                 return 0;
             }else{
                 // 若不为第一行
-                // 计算上一行长度 若为1 则直接删除
-                if(this.data[currentCursor[0] - 1].getFullLength() === 1){
-                    this.data.splice(currentCursor[0] - 1, 1);
-                    return c - 1;
+                // 计算本行的长度 若为 1 则删除本行
+                if(this.data[currentCursor[0]].getFullLength() === 1){
+                    this.data.splice(currentCursor[0], 1);
+                    // console.log(this.data);
+                    // 获取上一行的末尾索引
+                    let preLineIndex = deCalCursorIndex2(this, [currentCursor[0] - 1, this.data[currentCursor[0] - 1].length - 1, this.data[currentCursor[0] - 1].get(this.data[currentCursor[0] - 1].length - 1).length - 1]);
+                    return preLineIndex;
                 }else{
                     // 获取上一行的末尾索引
                     let preLineIndex = deCalCursorIndex2(this, [currentCursor[0] - 1, this.data[currentCursor[0] - 1].length - 1, this.data[currentCursor[0] - 1].get(this.data[currentCursor[0] - 1].length - 1).length - 1]);

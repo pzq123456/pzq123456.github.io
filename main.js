@@ -50,92 +50,45 @@ let blockStyle3 = {
     'color': 'white',
     'cursor-color': 'white',
 }; // style for the markdown content
+let blockStyle4 = {
+    'font-family': 'monospace',
+    'font-size': '30px',
+    'background-color': 'black',
+    'color': 'orange',
+    'cursor-color': 'white',
+}; // style for the markdown content
+let blockStyle5 = {
+    'font-family': 'monospace',
+    'font-size': '30px',
+    'background-color': 'black',
+    'color': 'blue',
+    'cursor-color': 'purple',
+}; // style for the markdown content
 
 // let line = Line.fromString('pzq 123456.github.io% yourInput ');
 
-let myHistory = 
-`Hello World
-Hello World
-abc
-Hello World
-Hello World
-Hello World
-Hello World
-Hello World
-Hello World
-Hello World
-You can not see me
-You can not see me
-You can not see me
-You can not see me
-You can not see me`;
+// let myHistory = 
+// `Hello World
+// Hello World
+// abc
+// Hello World
+// Hello World
+// Hello World
+// Hello World
+// Hello World
+// Hello World
+// Hello World
+// You can not see me
+// You can not see me
+// You can not see me
+// You can not see me
+// You can not see me`;
+
+let myHistory =
+`PS E:\\pzq123456.github.io> cd .\\blogs`
 
 
 let Tdata = TerminalData.fromString(myHistory);
-// console.log(Tdata);
-// console.log(calCursorIndex2(Tdata,23));
-
-
-// 以对象列表的形式传递事件
-// let eventList = [
-//     {
-//         eventName: 'keydown',
-//         callback: (e) => {
-//             if (e.key === 'ArrowRight'){
-//                 c++;
-//                 // 若光标超出行的长度 则不移动
-//                 if (c >= line.getFullLength()){
-//                     c = line.getFullLength() - 1;
-//                 }
-//             }
-//         }
-//     },
-//     {
-//         eventName: 'keydown',
-//         callback: (e) => {
-//             if (e.key === 'ArrowLeft'){
-//                 c--;
-//                 if (c < 0){
-//                     c = 0;
-//                 }
-//             }
-//         }
-//     },
-//     {
-//         eventName: 'keydown',
-//         callback: (e) => {
-//             // 键盘输入
-//             if (e.key.length === 1 && e.key !== ' '){
-//                 line.insertChar(c, e.key);
-//                 c++;
-//             }
-//         }
-//     },
-//     {
-//         eventName: 'keydown',
-//         callback: (e) => {
-//             // 删除字符
-//             if (e.key === 'Backspace'){
-//                 line.deleteCharBefore(c);
-//                 c--;
-//                 if (c < 0){
-//                     c = 0;
-//                 }
-//             }
-//         }
-//     },
-//     {
-//         eventName: 'keydown',
-//         callback: (e) => {
-//             // 空格键则创建空block
-//             if (e.key === ' '){
-//                 if(line.splitBlock(c)){
-//                     c++;
-//                 }
-//             }
-//         }
-//     }
-// ]
 
 /**
  * 自定义样式 根据block的内容
@@ -147,6 +100,12 @@ function getStyle(block){
         return blockStyle;
     }else if(block.equals("cd")){
         return blockStyle3;
+    }else if(
+        block.contains('\\') 
+    ){
+        return blockStyle4;
+    }else if(block.equals('ls')){
+        return blockStyle5;
     }
     else{
         return blockStyle2;
@@ -164,28 +123,34 @@ drawTData(myCanvas, Tdata, 0, 40, wholeStyle, getStyle,123);
 
 
 
-let c = 4; // 当前光标位置
+let c = 37; // 当前光标位置
 let i = 0; // 用于控制光标闪烁
+let timeInterval = 100; // 动画间隔时间
 // c = eventEngine(myCanvas, eventList, c);
 
-animationEngine(100, () => {
+animationEngine(timeInterval, () => {
     // clear canvas
     const ctx = myCanvas.getContext('2d');
     ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
     i++;
-    drawTData(myCanvas, Tdata, 0, 40, wholeStyle, getStyle,c);
-    // // 若为偶数则绘制光标
-    // if (i % 2 === 0){
-    //     // drawLine(myCanvas, line, 0, 30, [blockStyle,blockStyle2], c);
-    //     // drawLine(myCanvas, line, 0, 30, blockStyle, c);
-    //     // drawLine2(myCanvas, line, 0, 30, getStyle, c);
-    //     drawTData(myCanvas, Tdata, 0, 40, wholeStyle, getStyle,c);
-    // } else {
-    //     // drawLine(myCanvas, line, 0, 30, [blockStyle,blockStyle2]);
-    //     // drawLine(myCanvas, line, 0, 30, blockStyle);
-    //     // drawLine2(myCanvas, line, 0, 30, getStyle);
-    //     drawTData(myCanvas, Tdata, 0, 40, wholeStyle, getStyle,c,false);
-    // }
+
+    // 更具canvas 是否聚焦采用不同的渲染方式
+    if (myCanvas === document.activeElement){
+        // // 若为偶数则绘制光标
+        if (i % 2 === 0){
+            // drawLine(myCanvas, line, 0, 30, [blockStyle,blockStyle2], c);
+            // drawLine(myCanvas, line, 0, 30, blockStyle, c);
+            // drawLine2(myCanvas, line, 0, 30, getStyle, c);
+            drawTData(myCanvas, Tdata, 0, 40, wholeStyle, getStyle,c);
+        } else {
+            // drawLine(myCanvas, line, 0, 30, [blockStyle,blockStyle2]);
+            // drawLine(myCanvas, line, 0, 30, blockStyle);
+            // drawLine2(myCanvas, line, 0, 30, getStyle);
+            drawTData(myCanvas, Tdata, 0, 40, wholeStyle, getStyle,c,false);
+        }
+    }else{
+        drawTData(myCanvas, Tdata, 0, 40, wholeStyle, getStyle,c);
+    }
 });
 
 
@@ -207,11 +172,17 @@ animationEngine(100, () => {
 myCanvas.addEventListener('keydown', (e) => {
     if (e.key === 'ArrowRight'){
         c++;
+        if(c >= Tdata.getFullLength() - 1){
+            c = Tdata.getFullLength() - 1; 
+        }
     }
 })
 myCanvas.addEventListener('keydown', (e) => {
     if (e.key === 'ArrowLeft'){
         c--;
+        if (c < 0){
+            c = 0;
+        }
     }
 })
 myCanvas.addEventListener('keydown', (e) => {
@@ -244,6 +215,8 @@ myCanvas.addEventListener('keydown', (e) => {
         c = Tdata.splitBlock(c);
     }
 });
+
+
 const mdStyle = {
     'padding': '20px',
     'font-family': 'monospace',

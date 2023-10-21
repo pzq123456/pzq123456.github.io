@@ -141,17 +141,7 @@ export class Line{
     // 在当前索引处分割 block
     splitBlock(index){
         let currentCursor = calCursorIndex(this, index);
-        // console.log(currentCursor);
         let block = this.data[currentCursor[0]];
-        // console.log(block.length);
-        // 首先判断是否在 block 的末尾 却不在行末尾
-        // if(currentCursor[1] == block.length - 1 && currentCursor[0] !== this.data.length - 1){
-        //     console.log(this.data);
-        //     console.log(currentCursor);
-        //     // 若在末尾则不分割
-        //     return false;
-        // }else 
-
         // 若是第一个字符块的第一个元素 则不分割
         if(currentCursor[1] === 0 && currentCursor[0] === 0){
             return false;
@@ -274,13 +264,20 @@ export class TerminalData{
         if(currentCursor[0] === this.length - 1){
             return this.getFullLength() - 1;
         }else{
+
             // 找到下一行的长度
             let nextLineLength = this.data[currentCursor[0] + 1].getFullLength();
             // 获取行内索引
-            let inLineIndex = deCalCursorIndex(this, [currentCursor[1],currentCursor[2]]);
+            let inLineIndex = deCalCursorIndex(this.data[currentCursor[0]], [currentCursor[1],currentCursor[2]]);
+
             if(inLineIndex < nextLineLength){
-                let aim = [currentCursor[0] + 1, ...calCursorIndex(this.data[currentCursor[0] + 1], inLineIndex)];
-                return deCalCursorIndex2(this, aim);
+                // 获取当前行的长度
+                let currentLineLength = this.data[currentCursor[0]].getFullLength();
+                // 计算行内剩余长度
+                let remain = currentLineLength - inLineIndex;
+                // 当前总索引 + 行内剩余长度
+                let nextLineIndex = currIndex + remain + inLineIndex;
+                return nextLineIndex;
             }else{
                 // 直接到下一行的末尾
                 return deCalCursorIndex2(this, [currentCursor[0] + 1, this.data[currentCursor[0] + 1].length - 1, this.data[currentCursor[0] + 1].get(this.data[currentCursor[0] + 1].length - 1).length - 1]);
@@ -304,8 +301,11 @@ export class TerminalData{
             // 获取行内索引
             let inLineIndex = deCalCursorIndex(this, [currentCursor[1],currentCursor[2]]);
             if(inLineIndex < preLineLength){
-                let aim = [currentCursor[0] - 1, ...calCursorIndex(this.data[currentCursor[0] - 1], inLineIndex)];
-                return deCalCursorIndex2(this, aim);
+                // 计算行内剩余长度
+                let remain = preLineLength - inLineIndex;
+                // 当前总索引 + 行内剩余长度
+                let preLineIndex = currIndex - remain - inLineIndex;
+                return preLineIndex;
             }else{
                 // 直接到上一行的末尾
                 return deCalCursorIndex2(this, [currentCursor[0] - 1, this.data[currentCursor[0] - 1].length - 1, this.data[currentCursor[0] - 1].get(this.data[currentCursor[0] - 1].length - 1).length - 1]);
@@ -321,6 +321,49 @@ export class TerminalData{
         console.log(inLineIndex);
         this.data[currentCursor[0]].insertChar(inLineIndex, char);
         return c;
+    }
+
+    deleteCharBefore(c){
+        if(c <= 0){
+            return 0;
+        }
+        // 每一行的第一个字符处需要特殊处理
+        // 其他位置可以直接调用 Line 的 deleteCharBefore 方法
+        let currentCursor = calCursorIndex2(this, c);
+
+        // 若为第一个字符
+        if(currentCursor[1] === 0 && currentCursor[2] === 0){
+            // 若为第一行
+            if(currentCursor[0] === 0){
+                return 0;
+            }else{
+                // 若不为第一行
+                // 计算上一行长度 若为1 则直接删除
+                if(this.data[currentCursor[0] - 1].getFullLength() === 1){
+                    this.data.splice(currentCursor[0] - 1, 1);
+                    return c - 1;
+                }else{
+                    // 获取上一行的末尾索引
+                    let preLineIndex = deCalCursorIndex2(this, [currentCursor[0] - 1, this.data[currentCursor[0] - 1].length - 1, this.data[currentCursor[0] - 1].get(this.data[currentCursor[0] - 1].length - 1).length - 1]);
+                    return preLineIndex;
+                }
+
+            }
+        }else{
+            // 若不为第一个字符
+            // 则直接调用 Line 的 deleteCharBefore 方法
+            // 计算行内索引
+            let inLineIndex = deCalCursorIndex(this.data[currentCursor[0]], [currentCursor[1],currentCursor[2]]);
+            this.data[currentCursor[0]].deleteCharBefore(inLineIndex);
+            return c - 1;
+        }
+    }
+    splitBlock(c){
+        // 直接映射到行内操作即可
+        let currentCursor = calCursorIndex2(this, c);
+        let inLineIndex = deCalCursorIndex(this.data[currentCursor[0]], [currentCursor[1],currentCursor[2]]);
+        this.data[currentCursor[0]].splitBlock(inLineIndex);
+        return c + 1;
     }
 
     // 静态方法

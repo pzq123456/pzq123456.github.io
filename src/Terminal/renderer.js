@@ -117,6 +117,9 @@ export function drawLine2(
             ctx.strokeStyle = 'red';
             ctx.lineWidth = 1;
             ctx.strokeRect(...MBR);
+            // 填充透明色
+            ctx.fillStyle = 'rgba(255,255,255,0.3)';
+            ctx.fillRect(...MBR);
         }else{
             MBR = drawBlock(canvas, block, x, y, style);
         }
@@ -235,7 +238,7 @@ export function drawLine(
             MBR = drawBlock(canvas, block, x, y, style, currentCursor[1]);
             // drwa rect
             let ctx = canvas.getContext('2d');
-            ctx.strokeStyle = 'red';
+            ctx.strokeStyle = 'white';
             ctx.lineWidth = 1;
             ctx.strokeRect(...MBR);
         }else{
@@ -399,6 +402,7 @@ export function calCursorIndex(
 
     return [lineIndex, charIndex];
 }
+
 /**
  * 还原行内光标位置的索引 与 calCursorIndex 相反操作
  * @param {Line} line 

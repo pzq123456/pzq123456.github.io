@@ -10,11 +10,7 @@ import { TerminalData } from './src/Terminal/data.js';
 document.body.onkeydown = function (event) { 
     // 禁止键盘事件 滚动页面
     var e = event;
-    if(e.preventDefault){
-        e.preventDefault();
-    }else{
-        window.event.returnValue = false;
-    }
+    e.preventDefault();
 }
 
 
@@ -177,18 +173,19 @@ animationEngine(100, () => {
     const ctx = myCanvas.getContext('2d');
     ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
     i++;
-    // 若为偶数则绘制光标
-    if (i % 2 === 0){
-        // drawLine(myCanvas, line, 0, 30, [blockStyle,blockStyle2], c);
-        // drawLine(myCanvas, line, 0, 30, blockStyle, c);
-        // drawLine2(myCanvas, line, 0, 30, getStyle, c);
-        drawTData(myCanvas, Tdata, 0, 40, wholeStyle, getStyle,c);
-    } else {
-        // drawLine(myCanvas, line, 0, 30, [blockStyle,blockStyle2]);
-        // drawLine(myCanvas, line, 0, 30, blockStyle);
-        // drawLine2(myCanvas, line, 0, 30, getStyle);
-        drawTData(myCanvas, Tdata, 0, 40, wholeStyle, getStyle,c,false);
-    }
+    drawTData(myCanvas, Tdata, 0, 40, wholeStyle, getStyle,c);
+    // // 若为偶数则绘制光标
+    // if (i % 2 === 0){
+    //     // drawLine(myCanvas, line, 0, 30, [blockStyle,blockStyle2], c);
+    //     // drawLine(myCanvas, line, 0, 30, blockStyle, c);
+    //     // drawLine2(myCanvas, line, 0, 30, getStyle, c);
+    //     drawTData(myCanvas, Tdata, 0, 40, wholeStyle, getStyle,c);
+    // } else {
+    //     // drawLine(myCanvas, line, 0, 30, [blockStyle,blockStyle2]);
+    //     // drawLine(myCanvas, line, 0, 30, blockStyle);
+    //     // drawLine2(myCanvas, line, 0, 30, getStyle);
+    //     drawTData(myCanvas, Tdata, 0, 40, wholeStyle, getStyle,c,false);
+    // }
 });
 
 
@@ -235,7 +232,18 @@ myCanvas.addEventListener('keydown', (e) => {
         c = Tdata.insertChar(c, e.key);
     }
 });
-
+myCanvas.addEventListener('keydown', (e) => {
+    // 删除字符
+    if (e.key === 'Backspace'){
+        c = Tdata.deleteCharBefore(c);
+    }
+});
+myCanvas.addEventListener('keydown', (e) => {
+    // 空格键则创建空block
+    if (e.key === ' '){
+        c = Tdata.splitBlock(c);
+    }
+});
 const mdStyle = {
     'padding': '20px',
     'font-family': 'monospace',

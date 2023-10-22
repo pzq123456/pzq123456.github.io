@@ -1,11 +1,13 @@
 # 第一篇正式博客: 从 0 开始的基于 Canvas 标签的（简易）命令行窗口
-> - BT 2023.10.15 21:28 --> ET _ _ _ _ 
+> - BT 2023.10.15 21:28 --> ET 2023.10.22 14:25
+> - ChangeLog
+>  - 2023.10.22 14:25 完成初稿
 
 ## TODO
 使用 HTML 的 Canvas 标签，实现一个简易的命令行窗口。只实现键盘输入，不实现鼠标输入。
 
 - [x] 我将设计一系列用以支持彩色渲染命令行的数据结构
-- [ ] 编写解释器用以确定执行页面代码的规则
+- [x] 编写解释器用以确定执行页面代码的规则
 - [x] 实现一个渲染器，将数据结构渲染到 Canvas 上
 - [x] 实现一个键盘监听器，将键盘输入转化为命令行的输入
   
@@ -189,6 +191,86 @@ export function drawLine(canvas, line, x, y, style, i = null){ //...
     ```
 
 ## 简化 Shell 解释器
+- 用于记录命令的数据结构设计如下：
+    ```js
+    [{
+        name: "cd",
+        description: "change directory",
+        usage: "cd <path>",
+        func: function(path){
+            // 用于修改页面样式以提醒用户该函数执行并对页面产生了作用
+            terminal.style.borderBottom = '1px solid orange';
+            setTimeout(() => {
+                terminal.style.borderBottom = '1px solid white';
+            }, 500);
+            // 用于修改页面内容
+            fileToHtml(path,document.getElementById('content'), mdStyle);
+        },
+        manipulate: function(data){
+            // 用于修改 Terminal 内部数据用以和用户做交互
+            let line = Line.fromString('pzq123456.github.io%> ');
+            data.addLine(line);
+            return data.getFullLength() - 1;
+        }
+    }, //...
+    ]
+    ```
+    - 其中`manipulate`函数用于在执行命令后对数据进行操作，例如添加新的行、修改光标位置等等，主要用来管理 Terminal 内部数据。
+    - 而`func`则用于操纵 HTML 页面，例如渲染新的内容、修改页面的样式等等。这样将操作分开，可以使得代码更加清晰。
+    - 真正命令运行策略是这二者的结合，例如`cd`命令，它需要修改 Terminal 内部数据，同时也需要操纵 HTML 页面。
+- 要执行一条 Terminal 内的命令，我们需要执行哪些步骤呢？
+  - 首先我们需要解析 Terminal 中当前活跃行是否包含命令，如果包含命令，我们需要将命令解析出来。我们使用 ParseLine 函数。
+    ```js
+    /**
+     * 用于解析一行命令 解析成命令和参数
+     * @param {Line} line 
+     * @param {Function} parseFun - 用于解析命令的函数
+     * @returns {Object} - {command, args}
+     */
+    export function parseLine(line, parseFun = defaultParseFun2){
+        let blockStrings = line.blockStrings;
+        let res = {
+            command: null,
+            args: [],
+        };
+        if(blockStrings.length === 0){
+            return res;
+        }else{
+            // parseFun 用于将命令与参数分开 默认是只取第一个为命令 其余为参数
+            let { command, args } = parseFun(line);
+            res.command = command;
+            res.args = args;
+            return res;
+        }
+    }
+    ```
+    - 可以发现，到这里我们还是没有执行命令，我们只是将命令解析出来了。这样做的好处是，我们可以在解析命令的时候，将命令与参数分开，这样可以更加方便地执行命令。
+- 然后根据上一步的结果运行对应命令：
+    ```js
+    /**
+    * 运行命令
+    * @param {Object} comObj - 需要 parseLine 解析后的对象
+    * @param {TerminalData} data - 需要交互的数据
+    * @param {Array} commandList - 命令列表 
+    * @returns {TerminalData} - 运行命令后的数据
+    */
+    export function run(comObj,data, commandList = defaultCommandList){
+        let { command, args } = comObj;
+        if(command === null || command === undefined){
+            throw new Error("command is null or undefined");
+        }
+        let commandObj = commandList.find((item) => {
+            return item.name === command;
+        });
+        console.log(commandObj);
+        commandObj.func(...args);
+        let res = commandObj.manipulate(data);
+        return res;
+    }
+    ```
+    - 由于运行策略都记录在`commandList`中，我们只需要在`commandList`中找到对应的命令，然后传入参数执行即可。
+> 注意： 由于光标的渲染依赖全局变量 c ，所以我们最好在 main.js 中定义操作事件列表。同样的道理，对于键盘事件也需要在 main.js 中定义。因为只有 main.js 内的 c 才是全局可以访问的。
+
 ## Reference
   1. [Bash](https://en.wikipedia.org/wiki/Bash_(Unix_shell)): Bash is a command processor that typically runs in a text window where the user types commands that cause actions. 
   2. [command-line interface](https://en.wikipedia.org/wiki/Command-line_interface#Command-line_interpreter): CLIs are made possible by **command-line interpreters** or command-line processors, which are programs that read command-lines and carry out the commands.

@@ -1,28 +1,37 @@
 import { fileToHtml } from './helpers/markdown.js';
 import { fillNavBar } from './helpers/navBar.js';
-import {markedHighlight} from './helpers/highlight.js';
+
 import { metalist } from './blogs/meta.js'; // metalist is a list of blog metadata
 import { createCanvas, animationEngine, eventEngine} from './src/Terminal/view.js';
-
 import { drawTData } from './src/Terminal/renderer.js';
 import { Line, TerminalData } from './src/Terminal/data.js';
-
 import {parseLine, run} from './src/Terminal/interpreter.js';
+import { blockStyle,blockStyle2,blockStyle3,blockStyle4,blockStyle5 } from './src/Terminal/defaultStyle.js';
+import {initPage} from './helpers/init.js';
+initPage();
 
-document.body.onkeydown = function (event) { 
-    // 禁止键盘事件 滚动页面
-    var e = event;
-    e.preventDefault();
-}
+// Terminal === 部分
+let myCanvas = createCanvas(document.getElementById('terminal'), 1655, 300);
 
+// ==== 数据部分
+let myHistory =`pzq123456.github.io%> cd /blogs/Blog1.md`;
+let Tdata = TerminalData.fromString(myHistory);
+const helpInfo = 
+`help
+--Type help to show this help.
+--Type clear to clear the screen.
+--Type ls to list all the files.
+--Type cd <directory> to change the current directory.`;
 const myCommandList = [
     {
         name: "cd",
         description: "change directory",
         usage: "cd <path>",
         func: function(path){
-            // console.log("cd", path);
-            // fileToHtml('/blogs/Blog1.md',document.getElementById('content'), mdStyle);
+            terminal.style.borderBottom = '1px solid orange';
+            setTimeout(() => {
+                terminal.style.borderBottom = '1px solid white';
+            }, 500);
             fileToHtml(path,document.getElementById('content'), mdStyle);
         },
         manipulate: function(data){
@@ -36,7 +45,10 @@ const myCommandList = [
         description: "list files",
         usage: "ls <path>",
         func: function(path){
-            console.log("ls", path);
+            terminal.style.borderBottom = '1px solid purple';
+            setTimeout(() => {
+                terminal.style.borderBottom = '1px solid white';
+            }, 500);
         },
         manipulate: function(data){
             // get meta.js and render it
@@ -61,25 +73,22 @@ const myCommandList = [
         }
     },
     {
-        name: "cat",
-        description: "show file content",
-        usage: "cat <path>",
-        func: function(path){
-            console.log("cat", path);
-        },
-        manipulate: function(data){
-            // manipulate 用于修改数据以实现交互
-        }
-    },
-    {
         name: "clear",
         description: "clear the terminal",
         usage: "clear",
         func: function(){
-            console.log("clear");
+            const terminal = document.getElementById('terminal');
+            // 获取terminal元素 改变边框颜色
+            // 一秒后恢复
+            terminal.style.borderBottom = '1px solid blue';
+            setTimeout(() => {
+                terminal.style.borderBottom = '1px solid white';
+            }, 500);
         },
         manipulate: function(data){
-            // manipulate 用于修改数据以实现交互
+            data.clear();
+            data.addLine(Line.fromString('pzq123456.github.io%> '));
+            return data.getFullLength() - 1;
         }
     },
     {
@@ -87,89 +96,19 @@ const myCommandList = [
         description: "show help",
         usage: "help",
         func: function(){
-            console.log("help");
+            terminal.style.borderBottom = '1px solid pink';
+            setTimeout(() => {
+                terminal.style.borderBottom = '1px solid white';
+            }, 500);
         },
         manipulate: function(data){
-            // manipulate 用于修改数据以实现交互
+            let helpTdata = TerminalData.fromString(helpInfo);
+            data.merge(helpTdata);
+            data.addLine(Line.fromString('pzq123456.github.io%> '));
+            return data.getFullLength() - helpTdata.getFullLength() - 1;
         }
     },
 ]
-
-// config code highlight into the marked.js
-marked = new marked.Marked(
-    markedHighlight({
-      langPrefix: 'hljs language-',
-      highlight(code, lang) {
-        const language = hljs.getLanguage(lang) ? lang : 'plaintext';
-        // console.log(language);
-        return hljs.highlight(code, { language }).value;
-      }
-    })
-);
-
-// Terminal
-let myCanvas = createCanvas(document.getElementById('terminal'), 1655, 300);
-// HelloWorld(myCanvas);
-let blockStyle = {
-    'font-family': 'monospace',
-    'font-size': '30px',
-    'background-color': 'black',
-    'color': 'green',
-    'cursor-color': 'green',
-}; // style for the markdown content
-let blockStyle2 = {
-    'font-family': 'monospace',
-    'font-size': '30px',
-    'background-color': 'black',
-    'color': 'white',
-    'cursor-color': 'white',
-}; // style for the markdown content
-let blockStyle3 = {
-    'font-family': 'monospace',
-    'font-size': '30px',
-    'background-color': 'purple',
-    'color': 'white',
-    'cursor-color': 'white',
-}; // style for the markdown content
-let blockStyle4 = {
-    'font-family': 'monospace',
-    'font-size': '30px',
-    'background-color': 'black',
-    'color': 'orange',
-    'cursor-color': 'white',
-}; // style for the markdown content
-let blockStyle5 = {
-    'font-family': 'monospace',
-    'font-size': '30px',
-    'background-color': 'black',
-    'color': 'blue',
-    'cursor-color': 'purple',
-}; // style for the markdown content
-
-// let line = Line.fromString('pzq 123456.github.io% yourInput ');
-
-// let myHistory = 
-// `Hello World
-// Hello World
-// abc
-// Hello World
-// Hello World
-// Hello World
-// Hello World
-// Hello World
-// Hello World
-// Hello World
-// You can not see me
-// You can not see me
-// You can not see me
-// You can not see me
-// You can not see me`;
-
-// let myHistory =
-// `PS E:\\pzq123456.github.io> cd .\\blogs`
-
-let myHistory =`pzq123456.github.io%> cd /blogs/Blog1.md`;
-let Tdata = TerminalData.fromString(myHistory);
 
 /**
  * 自定义样式 根据block的内容
@@ -179,14 +118,12 @@ function getStyle(block){
     if(block.contains("%")){
         // console.log('pzq');
         return blockStyle;
-    }else if(block.equals("cd")){
+    }else if(block.equals("cd") || block.equals('ls') || block.equals('cat') || block.equals('clear') || block.equals('help')){
         return blockStyle3;
     }else if(
         block.contains('/') 
     ){
         return blockStyle4;
-    }else if(block.equals('ls')){
-        return blockStyle5;
     }
     else{
         return blockStyle2;
@@ -199,112 +136,107 @@ let wholeStyle = {
     'line-interval': '10px',
 }
 
-
-drawTData(myCanvas, Tdata, 0, 40, wholeStyle, getStyle,123);
-
-
-
-let c = 37; // 当前光标位置
+// === 必要的全局变量 ===
+let c = 40; // 当前光标位置
 let i = 0; // 用于控制光标闪烁
 let timeInterval = 100; // 动画间隔时间
-// c = eventEngine(myCanvas, eventList, c);
 
-animationEngine(timeInterval, () => {
+// 用户自定义的绘制函数
+function draw(){
     // clear canvas
     const ctx = myCanvas.getContext('2d');
     ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
     i++;
-
     // 更具canvas 是否聚焦采用不同的渲染方式
     if (myCanvas === document.activeElement){
         // // 若为偶数则绘制光标
         if (i % 2 === 0){
-            // drawLine(myCanvas, line, 0, 30, [blockStyle,blockStyle2], c);
-            // drawLine(myCanvas, line, 0, 30, blockStyle, c);
-            // drawLine2(myCanvas, line, 0, 30, getStyle, c);
             drawTData(myCanvas, Tdata, 0, 40, wholeStyle, getStyle,c);
         } else {
-            // drawLine(myCanvas, line, 0, 30, [blockStyle,blockStyle2]);
-            // drawLine(myCanvas, line, 0, 30, blockStyle);
-            // drawLine2(myCanvas, line, 0, 30, getStyle);
             drawTData(myCanvas, Tdata, 0, 40, wholeStyle, getStyle,c,false);
         }
     }else{
         drawTData(myCanvas, Tdata, 0, 40, wholeStyle, getStyle,c);
     }
-});
-
-
-
-
-
-
-
-
-// 动画窗口绘制光标闪烁
-// 光标暗状态
-// drawBlock(myCanvas, Block.fromString('Hello World Hello World Hello World Hello World! 123123'), 0, 20,blockStyle);
-// 光标亮状态
-//drawBlock(myCanvas, Block.fromString('Hello World Hello World Hello World Hello World! 123123'), 0, 20,blockStyle,i);
-// let i = 0;
-// let c = 0;
-// let block = Block.fromString('Hello');
-// 为canvas 添加键盘事件 右方向键
-myCanvas.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowRight'){
-        c++;
-        if(c >= Tdata.getFullLength() - 1){
-            c = Tdata.getFullLength() - 1; 
+}
+let myEventList = [
+    { eventName: 'keydown',
+        callback: (e) => {
+        if (e.key === 'ArrowRight'){
+            c++;
+            if(c >= Tdata.getFullLength() - 1){
+                c = Tdata.getFullLength() - 1; 
+            }
         }
-    }
-})
-myCanvas.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowLeft'){
-        c--;
-        if (c < 0){
-            c = 0;
         }
-    }
-})
-myCanvas.addEventListener('keydown', (e) => {
-    //向下
-    if (e.key === 'ArrowDown'){
-        c = Tdata.downIndex(c);
-    }
-})
-myCanvas.addEventListener('keydown', (e) => {
-    //向上
-    if (e.key === 'ArrowUp'){
-        c = Tdata.upIndex(c);
-    }
-})
-myCanvas.addEventListener('keydown', (e) => {
-    // 键盘输入
-    if (e.key.length === 1 && e.key !== ' '){
-        c = Tdata.insertChar(c, e.key);
-    }
-});
-myCanvas.addEventListener('keydown', (e) => {
-    // 删除字符
-    if (e.key === 'Backspace'){
-        c = Tdata.deleteCharBefore(c);
-    }
-});
-myCanvas.addEventListener('keydown', (e) => {
-    // 空格键则创建空block
-    if (e.key === ' '){
-        c = Tdata.splitBlock(c);
-    }
-});
-myCanvas.addEventListener('keydown', (e) => {
-    // 检测到回车
-    if (e.key === 'Enter'){
-        let actLine = Tdata.enter(c);
-        let res = parseLine(actLine);
-        console.log(res);
-        c = run(res, Tdata, myCommandList);
-    }
-});
+    },
+    { eventName: 'keydown',
+        callback: (e) => {
+        if (e.key === 'ArrowLeft'){
+            c--;
+            if (c < 0){
+                c = 0;
+            }
+        }
+        }
+    },
+    { eventName: 'keydown',
+        callback: (e) => {
+        //向下
+        if (e.key === 'ArrowDown'){
+            c = Tdata.downIndex(c);
+        }
+        }
+    },
+    { eventName: 'keydown',
+        callback: (e) => {
+        //向上
+        if (e.key === 'ArrowUp'){
+            c = Tdata.upIndex(c);
+        }
+        }
+    },
+    { eventName: 'keydown',
+        callback: (e) => {
+        // 键盘输入
+        if (e.key.length === 1 && e.key !== ' '){
+            c = Tdata.insertChar(c, e.key);
+        }
+        }
+    },
+    { eventName: 'keydown',
+        callback: (e) => {
+        // 删除字符
+        if (e.key === 'Backspace'){
+            c = Tdata.deleteCharBefore(c);
+        }
+        }
+    },
+    { eventName: 'keydown',
+        callback: (e) => {
+        // 空格键则创建空block
+        if (e.key === ' '){
+            c = Tdata.splitBlock(c);
+        }
+        }
+    },
+    { eventName: 'keydown',
+        callback: (e) => {
+        // 检测到回车
+        if (e.key === 'Enter'){
+            let actLine = Tdata.enter(c);
+            let res = parseLine(actLine);
+            console.log(res);
+            c = run(res, Tdata, myCommandList);
+        }
+        }
+    }]
+
+animationEngine(timeInterval, draw); // 启动动画引擎
+eventEngine(myCanvas, myEventList); // 启动事件引擎
+
+
+// ==== 博客部分
 
 
 const mdStyle = {
@@ -320,7 +252,6 @@ const mdStyle = {
 }; // style for the markdown content
 
 fileToHtml('/README.md',document.getElementById('content'), mdStyle);
-
 
 fillNavBar(document.getElementById('navBar'),
 [
@@ -360,15 +291,7 @@ fillNavBar(document.getElementById('navBar'),
         "action": function(){
             fileToHtml('/blogs/Blog1.md',document.getElementById('content'), mdStyle);
         }
-    },{
-        "text": "add line",
-        "action": function(){
-            let line = Line.fromString('pzq 123456.github.io% yourInput ');
-            Tdata.addLine(line);
-            c = Tdata.getFullLength() - 1;
-        }
-
-    }
+    },
 ],
 {
     'width': '100%',

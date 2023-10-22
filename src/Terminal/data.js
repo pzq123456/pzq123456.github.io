@@ -254,6 +254,9 @@ export class TerminalData{
         this.data = [];
     }
 
+    clear(){
+        this.data = [];
+    }
     /**
      * 添加行
      * @param {Line} line 

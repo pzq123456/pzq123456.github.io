@@ -89,14 +89,12 @@ function addEventFor(element, eventName, callback){
  * 事件引擎 用于向元素添加事件
  * @param {HTMLElement} element - 元素
  * @param {any[]} eventCallbackList - 事件回调列表
- * @param {Number} c - 光标位置
  * @returns {Number} - 操作后的推荐光标位置
  */
-export function eventEngine(element, eventCallbackList, c){
+export function eventEngine(element, eventCallbackList){
     eventCallbackList.forEach((eventCallback) => {
         addEventFor(element, eventCallback.eventName, eventCallback.callback);
     });
-    return c;
 }
 
 

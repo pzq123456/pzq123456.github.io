@@ -114,11 +114,11 @@ export function drawLine2(
             MBR = drawBlock(canvas, block, x, y, style, currentCursor[1]);
             // drwa rect
             let ctx = canvas.getContext('2d');
-            ctx.strokeStyle = 'red';
+            ctx.strokeStyle = 'green';
             ctx.lineWidth = 1;
             ctx.strokeRect(...MBR);
             // 填充透明色
-            ctx.fillStyle = 'rgba(255,255,255,0.3)';
+            ctx.fillStyle = 'rgba(155,255,255,0.3)';
             ctx.fillRect(...MBR);
         }else{
             MBR = drawBlock(canvas, block, x, y, style);

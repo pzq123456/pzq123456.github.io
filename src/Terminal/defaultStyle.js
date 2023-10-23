@@ -30,8 +30,8 @@ export let blockStyle4 = {
 export let blockStyle5 = {
     'font-family': 'monospace',
     'font-size': '30px',
-    'background-color': 'black',
-    'color': 'pink',
+    'background-color': 'white',
+    'color': 'blue',
     'cursor-color': 'white',
 }; // style for the markdown content
 

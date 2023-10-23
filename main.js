@@ -121,9 +121,11 @@ function getStyle(block){
     }else if(block.equals("cd") || block.equals('ls') || block.equals('cat') || block.equals('clear') || block.equals('help')){
         return blockStyle3;
     }else if(
-        block.contains('/') 
+        block.contains('/') ||  block.contains(`path`)
     ){
         return blockStyle4;
+    }else if(block.contains('202') || block.contains(`date`)){
+        return blockStyle5;
     }
     else{
         return blockStyle2;

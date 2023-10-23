@@ -1,7 +1,7 @@
 # Zhiqing Pan's website (using vanilla JS from scratch)
 
 <div class="colorbox" style="
-    width: 1625px;
+    width: 100%;
     height: 1px;
     background-color: red;
 ">
@@ -25,7 +25,7 @@
 - Email: 1812673119@qq.com
 
 <div class="colorbox" style="
-    width: 1625px;
+    width: 100%;
     height: 1px;
     background-color: green;
 ">

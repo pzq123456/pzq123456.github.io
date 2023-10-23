@@ -11,7 +11,7 @@ import {initPage} from './helpers/init.js';
 initPage();
 
 // Terminal === 部分
-let myCanvas = createCanvas(document.getElementById('terminal'), 1655, 300);
+let myCanvas = createCanvas(document.getElementById('terminal'), window.innerWidth * 0.81, 300);
 
 // ==== 数据部分
 let myHistory =`pzq123456.github.io%> cd /blogs/Blog1.md`;

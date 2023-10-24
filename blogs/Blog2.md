@@ -12,7 +12,7 @@
 info
 </div>
 
-> - BT 2023.10.23 19:37 --> ET _ _ _ _ _ _
+> - BT `UTC+8` 2023.10.23 19:37 --> ET _ _ _ _ _ _
 
 ## coding for economists/[The Command Line](https://aeturrell.github.io/coding-for-economists/wrkflow-command-line.html)
 This chapter talks about the basic usage of command line. It is a very good tutorial for beginners. I have learned a lot from it.

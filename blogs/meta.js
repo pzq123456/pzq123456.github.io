@@ -16,6 +16,18 @@ export const metalist = [
         "path" : "blogs/Blog2.md",
         "date" : "2023-10-23",
         "tag" : "info"
+    },
+    {
+        "title" : "Blog3",
+        "path" : "blogs/Blog3.md",
+        "date" : "2023-10-23",
+        "tag" : "front-end"
+    },
+    {
+        "title" : "Blog4",
+        "path" : "blogs/Blog4.md",
+        "date" : "2023-10-24",
+        "tag" : "3d"
     }
 ]
 
@@ -27,5 +39,6 @@ const tag = [
     "data-structure",
     "machine-learning",
     "math",
+    "3d",
     "*toy",
 ]

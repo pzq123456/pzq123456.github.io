@@ -1,4 +1,6 @@
 # Zhiqing Pan's website (using vanilla JS from scratch)
+> 新功能：
+> - 输入 ls 命令后，直接将光标移动到想要访问的博客行，敲击回车即可访问该博客。
 
 <div class="colorbox" style="
     width: 100%;

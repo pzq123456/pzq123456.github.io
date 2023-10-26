@@ -3,31 +3,36 @@ export const metalist = [
         "title" : "Blog0",
         "path" : "blogs/Blog0.md",
         "date" : "2023-10-14",
-        "tag" : "info"
+        "tag" : "info",
+        "command": "cd"
     },
     {
         "title" : "Blog1",
         "path" : "blogs/Blog1.md",
         "date" : "2023-10-15",
-        "tag" : "front-end"
+        "tag" : "front-end",
+        "command": "cd"
     },
     {
         "title" : "Blog2",
         "path" : "blogs/Blog2.md",
         "date" : "2023-10-23",
-        "tag" : "info"
+        "tag" : "info",
+        "command": "cd"
     },
     {
         "title" : "Blog3",
         "path" : "blogs/Blog3.md",
         "date" : "2023-10-23",
-        "tag" : "front-end"
+        "tag" : "front-end",
+        "command": "cd"
     },
     {
         "title" : "Blog4",
         "path" : "blogs/Blog4.md",
         "date" : "2023-10-24",
-        "tag" : "3d"
+        "tag" : "3d",
+        "command": "cd"
     }
 ]
 

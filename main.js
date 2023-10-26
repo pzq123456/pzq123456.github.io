@@ -53,10 +53,10 @@ const myCommandList = [
         manipulate: function(data){
             // get meta.js and render it
             // 首先打印表头
-            let head = ['date', 'tag', 'title', 'path'];
+            let head = ['date','command','path', 'tag', 'title'];
             let miusCount = 0;
             // 首先打印表头
-            let line = Line.fromString(head.join('----| '));
+            let line = Line.fromString(head.join('--| '));
             data.addLine(line);
             miusCount += line.getFullLength();
             metalist.forEach(item => {

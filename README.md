@@ -16,10 +16,13 @@
 I am an undergraduate student in [Shan Dong University of Science and Technology](https://en.sdust.edu.cn) at the [College of Geodesy and Geomatics](https://gc.sdust.edu.cn/). I am currently working on the topic of **Geographic Information Systems (GIS)** and **Medical Image Auto Analysis Systems**. High-performance 3D terrain rendering is my next topic to dive into.
 
 ## Gallery
-* `JavaScript`: [RVGeo](https://github.com/pzq123456/RVGeo) --- A JavaScript library for spacial information analysis and visualization. 
-  
+* `JavaScript/TypeScript`: [RVGeo](https://github.com/pzq123456/RVGeo) --- A TypeScript library for spacial information analysis and visualization. 
+
 - ![](imgs/logo.svg)
 
+> a simple web demo application using RVGeo V2.0.0's apis : [IAP](https://pzq123456.github.io/IAP/)
+> - In this demo application you could find a series of optimalised Voronoi reagion constricting steps. 
+> - Just click the 2ed button (called "餐饮查询") and then click the buttons on the right tab one by one and you will see how a regular Voronoi reagion can be built.
 ## Papers
 - coming soon :-)
 

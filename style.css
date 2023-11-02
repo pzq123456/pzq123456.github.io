@@ -1,16 +1,4 @@
-table{
-    width: 100%;
-    margin-bottom: 1rem;
-    color: #212529;
-    border-collapse: collapse;
-    border-spacing: 0;
-}
-table th,
-table td{
-    padding: 0.75rem;
-    vertical-align: top;
-    border-top: 1px solid #dee2e6;
-}
+
 body{
     font-family: 'Nunito', sans-serif;
     font-size: 1rem;
@@ -85,4 +73,35 @@ input[type=checkbox] {
 
 input:checked[type=checkbox] {
     background: #ffffffbc;
+}
+
+
+table{
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+    margin: 0 0 1rem 0;
+    color: #ffffff;
+    border: 1px solid #ffffff3a;
+    background-color: #ffffff0d;
+    border-radius: 0.25rem;
+}
+table th{
+    padding: 0.5rem 0.75rem;
+    vertical-align: top;
+    border-top: 1px solid #ffffff;
+    border-bottom: 1px solid #ffffffd4;
+    text-align: left;
+}
+table td{
+    padding: 0.5rem 0.75rem;
+    vertical-align: top;
+    border-top: 1px solid #ffffff3a;
+    border-bottom: 1px solid #ffffff3a;
+}
+table tr:nth-child(even){
+    background-color: #ffffff1f;
+}
+table tr:hover{
+    background-color: #ffffff3a;
 }

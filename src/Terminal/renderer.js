@@ -482,3 +482,13 @@ export function deCalCursorIndex2(
     i += currentCursor[2];
     return i;
 }
+
+
+export function drawMouse(canvas, x, y){
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = 'rgba(255,255,255,0.3)'
+    // 以 xy 为中心 绘制圆形
+    ctx.beginPath();
+    ctx.arc(x, y, 20, 0, 2 * Math.PI);
+    ctx.fill();
+}

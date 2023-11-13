@@ -31,7 +31,7 @@ export const metalist = [
         "title" : "Blog4",
         "path" : "blogs/Blog4.md",
         "date" : "2023-10-24",
-        "tag" : "3d",
+        "tag" : "front-end",
         "command": "cd"
     },
     {

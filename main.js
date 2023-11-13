@@ -3,13 +3,12 @@ import { fillNavBar } from './helpers/navBar.js';
 
 import { metalist } from './blogs/meta.js'; // metalist is a list of blog metadata
 import { createCanvas, animationEngine, eventEngine} from './src/Terminal/view.js';
-import { drawTData } from './src/Terminal/renderer.js';
+import { drawTData,drawMouse } from './src/Terminal/renderer.js';
 import { Line, TerminalData } from './src/Terminal/data.js';
 import {parseLine, run} from './src/Terminal/interpreter.js';
 import { blockStyle,blockStyle2,blockStyle3,blockStyle4,blockStyle5 } from './src/Terminal/defaultStyle.js';
 import {initPage} from './helpers/init.js';
 initPage();
-
 // Terminal === 部分
 let myCanvas = createCanvas(document.getElementById('terminal'), window.innerWidth * 0.81, 300);
 
@@ -141,6 +140,8 @@ let wholeStyle = {
 // === 必要的全局变量 ===
 let c = 40; // 当前光标位置
 let i = 0; // 用于控制光标闪烁
+let x = 0; // 用于控制鼠标
+let y = 0; // 用于控制鼠标
 let timeInterval = 100; // 动画间隔时间
 
 // 用户自定义的绘制函数
@@ -159,6 +160,7 @@ function draw(){
         }
     }else{
         drawTData(myCanvas, Tdata, 0, 40, wholeStyle, getStyle,c);
+        drawMouse(myCanvas, x, y);
     }
 }
 let myEventList = [
@@ -232,7 +234,15 @@ let myEventList = [
             c = run(res, Tdata, myCommandList);
         }
         }
-    }]
+    },
+    {
+        eventName: 'mousemove',
+        callback: (e) => {
+            x = e.offsetX;
+            y = e.offsetY;
+        }
+    },
+    ]
 
 animationEngine(timeInterval, draw); // 启动动画引擎
 eventEngine(myCanvas, myEventList); // 启动事件引擎
@@ -327,4 +337,5 @@ fillNavBar(document.getElementById("blogsColumn"),
         'padding': '10px',
     }
 );
+
 

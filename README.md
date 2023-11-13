@@ -17,7 +17,8 @@ I am an undergraduate student in [Shan Dong University of Science and Technology
 
 ## Gallery
 * `JavaScript/TypeScript`: [RVGeo](https://github.com/pzq123456/RVGeo) --- A TypeScript library for spacial information analysis and visualization. 
-
+  * You could find a demo application [here](https://pzq123456.github.io/RVGeo/dist/index.html) and the document [here](https://pzq123456.github.io/RVGeo/). 
+  * Besides, you could find tutorials [here](https://pzq123456.github.io/RVGeo/tutorials/) which will give you some ideas about how to use this library and some implimentation details.
 - ![](imgs/logo.svg)
 
 > a simple web demo application using RVGeo V2.0.0's apis : [IAP](https://pzq123456.github.io/IAP/)

@@ -3,7 +3,7 @@ import { fillNavBar } from './helpers/navBar.js';
 
 import { metalist } from './blogs/meta.js'; // metalist is a list of blog metadata
 import { createCanvas, animationEngine, eventEngine} from './src/Terminal/view.js';
-import { drawTData,drawMouse } from './src/Terminal/renderer.js';
+import { drawTData,drawMouse,smartDrawMouse } from './src/Terminal/renderer.js';
 import { Line, TerminalData } from './src/Terminal/data.js';
 import {parseLine, run} from './src/Terminal/interpreter.js';
 import { blockStyle,blockStyle2,blockStyle3,blockStyle4,blockStyle5 } from './src/Terminal/defaultStyle.js';
@@ -140,8 +140,8 @@ let wholeStyle = {
 // === 必要的全局变量 ===
 let c = 40; // 当前光标位置
 let i = 0; // 用于控制光标闪烁
-let x = 0; // 用于控制鼠标
-let y = 0; // 用于控制鼠标
+let current3Mouse = [[0,0],[0,0],[0,0]]; // 临近三次采样的鼠标位置
+let time3Mouse = [0,0,0]; // 临近三次采样的时间
 let timeInterval = 100; // 动画间隔时间
 
 // 用户自定义的绘制函数
@@ -160,7 +160,7 @@ function draw(){
         }
     }else{
         drawTData(myCanvas, Tdata, 0, 40, wholeStyle, getStyle,c);
-        drawMouse(myCanvas, x, y);
+        smartDrawMouse(myCanvas, current3Mouse, time3Mouse);
     }
 }
 let myEventList = [
@@ -238,8 +238,11 @@ let myEventList = [
     {
         eventName: 'mousemove',
         callback: (e) => {
-            x = e.offsetX;
-            y = e.offsetY;
+            // 以队列的方式维护鼠标位置 以及时间
+            current3Mouse.shift();
+            current3Mouse.push([e.offsetX, e.offsetY]);
+            time3Mouse.shift();
+            time3Mouse.push(Date.now());
         }
     },
     ]

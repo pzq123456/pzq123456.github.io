@@ -10,7 +10,7 @@ import { blockStyle,blockStyle2,blockStyle3,blockStyle4,blockStyle5 } from './sr
 import {initPage} from './helpers/init.js';
 initPage();
 // Terminal === 部分
-let myCanvas = createCanvas(document.getElementById('terminal'), window.innerWidth * 0.81, 300);
+let myCanvas = createCanvas(document.getElementById('terminal'), window.innerWidth * 0.81, 600);
 
 // ==== 数据部分
 let myHistory =`pzq123456.github.io%> cd /blogs/Blog1.md`;
@@ -153,10 +153,12 @@ function draw(){
     // 更具canvas 是否聚焦采用不同的渲染方式
     if (myCanvas === document.activeElement){
         // // 若为偶数则绘制光标
-        if (i % 2 === 0){
-            drawTData(myCanvas, Tdata, 0, 40, wholeStyle, getStyle,c);
-        } else {
+        if (i % 3 === 0){
             drawTData(myCanvas, Tdata, 0, 40, wholeStyle, getStyle,c,false);
+            smartDrawMouse(myCanvas, current3Mouse, time3Mouse,{color:'rgba(255,255,255,0.5)',strokeStyle:'white'});
+        } else {
+            drawTData(myCanvas, Tdata, 0, 40, wholeStyle, getStyle,c);
+            smartDrawMouse(myCanvas, current3Mouse, time3Mouse,{color:'rgba(255,255,255,0.5)',strokeStyle:'white'});
         }
     }else{
         drawTData(myCanvas, Tdata, 0, 40, wholeStyle, getStyle,c);

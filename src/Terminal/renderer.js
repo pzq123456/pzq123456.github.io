@@ -484,28 +484,28 @@ export function deCalCursorIndex2(
 }
 
 
-export function drawMouse(canvas, x, y){
+export function drawMouse(canvas, x, y,style={color:'rgba(255,255,255,0.3)',strokeStyle:'white'}){
     const ctx = canvas.getContext('2d');
-    ctx.fillStyle = 'rgba(255,255,255,0.3)'
+    ctx.fillStyle = style.color;
     // 以 xy 为中心 绘制圆形
     ctx.beginPath();
     ctx.arc(x, y, 20, 0, 2 * Math.PI);
     ctx.fill();
     // 绘制圆形边框
-    ctx.strokeStyle = 'white';
+    ctx.strokeStyle = style.strokeStyle;
     ctx.lineWidth = 1;
     ctx.stroke();
     
 }
 
 /**
- * 
+ * 智能绘制鼠标
  * @param {*} canvas 
  * @param {[number,number][]} mouse3Location 
  * @param {[number,number][]} time3 
  */
 export function smartDrawMouse(
-    canvas, mouse3Location, time3
+    canvas, mouse3Location,time3,style={color:'rgba(255,255,255,0.3)',strokeStyle:'white'}
 ){
 
     let x1 = mouse3Location[0][0];
@@ -518,22 +518,9 @@ export function smartDrawMouse(
     let y3 = mouse3Location[2][1];
     let t3 = time3[2];
 
-    // 根据时间戳计算速度及加速度 以及加速度方向
-    // 用以插值
-    let v1 = Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2) / (t2 - t1);
-    let v2 = Math.sqrt((x3 - x2) ** 2 + (y3 - y2) ** 2) / (t3 - t2);
-    let a = (v2 - v1) / (t3 - t1);
-    let direction = [x3 - x2, y3 - y2];
-    // 归一化
-    let len = Math.sqrt(direction[0] ** 2 + direction[1] ** 2);
-    direction[0] /= len;
-    direction[1] /= len;
-
-    // 根据加速度及方向预测下一个点的位置
-    let x4 = x3 + direction[0] * 25 * a;
-    let y4 = y3 + direction[1] * 25 * a;
-
+    let x4 = x3 + (x3 - x2) * (t3 - t2) / (t2 - t1);
+    let y4 = y3 + (y3 - y2) * (t3 - t2) / (t2 - t1);
     // 绘制
-    drawMouse(canvas, x4, y4);
+    drawMouse(canvas, x4, y4,style);
 }
 

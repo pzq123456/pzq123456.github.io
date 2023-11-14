@@ -491,6 +491,11 @@ export function drawMouse(canvas, x, y){
     ctx.beginPath();
     ctx.arc(x, y, 20, 0, 2 * Math.PI);
     ctx.fill();
+    // 绘制圆形边框
+    ctx.strokeStyle = 'white';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+    
 }
 
 /**
@@ -525,11 +530,10 @@ export function smartDrawMouse(
     direction[1] /= len;
 
     // 根据加速度及方向预测下一个点的位置
-    let x4 = x3 + direction[0] * 20 * a;
-    let y4 = y3 + direction[1] * 20 * a;
+    let x4 = x3 + direction[0] * 25 * a;
+    let y4 = y3 + direction[1] * 25 * a;
 
     // 绘制
     drawMouse(canvas, x4, y4);
-
 }
 

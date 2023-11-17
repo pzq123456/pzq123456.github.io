@@ -10,11 +10,12 @@ import { blockStyle,blockStyle2,blockStyle3,blockStyle4,blockStyle5 } from './sr
 import {initPage} from './helpers/init.js';
 initPage();
 // Terminal === 部分
-let myCanvas = createCanvas(document.getElementById('terminal'), window.innerWidth * 0.81, 600);
+let myCanvas = createCanvas(document.getElementById('terminal'), window.innerWidth * 0.81, 300);
 
 // ==== 数据部分
 let myHistory =`pzq123456.github.io%> cd /blogs/Blog1.md`;
 let Tdata = TerminalData.fromString(myHistory);
+
 const helpInfo = 
 `help
 --Type help to show this help.

@@ -1,74 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-        #instruct {
-            position: absolute;
-            top: 2em;
-        }
-        div {
-            position: absolute;
-            left: 0;
-            width: 20px;
-            height: 20px;
-            background: #FF6600;
-        }
-    </style>
+  <meta charset="utf-8"/>
+  <title>Dev Page</title>
 </head>
 <body>
-    <p id="instruct"><button>click to start the animation</button></p>
-    <script>
-    function animLoop( render, element ) {
-        var running, lastFrame = +new Date,
-            raf = 
-                window.mozRequestAnimationFrame      ||
-                window.webkitRequestAnimationFrame   ||
-                window.msRequestAnimationFrame       ||
-                window.oRequestAnimationFrame;
+    <div id="terminal">
 
-        function loop( now ) {
-                // stop the loop if render returned false
-                if ( running !== false ) {
-                    raf( loop, element );
-                    var deltaT = now - lastFrame;
-                    if ( deltaT < 160 ) {
-                        running = render( deltaT );
-                    }
-                    lastFrame = now;
-                }
-        }
+    </div>
+    <div class="wrapper">
+      <div id="content">
+      </div>
+      <div id="blogsColumn"></div>
+    </div>
 
-        loop( lastFrame );  
-    }
-
-    var elems = [],
-    instruct = document.getElementById( "instruct" );
-    instruct.onclick = function() {
-        if ( !elems.length ) {
-            instruct.innerHTML = "Switching between tabs won't create any wormhole.";
-            animLoop(
-            function( deltaT ) {
-                var i,
-                    elem;
-            
-                elem = document.createElement( "div" );
-                document.body.appendChild( elem );
-                elems.push( [ elem, 0 ] );
-            
-                i = elems.length;
-                while ( i-- ) {
-                    elems[i][0].style.left = ( elems[i][1] += 10 * deltaT / 50 ) + "px";
-                    if ( elems[i][1] > 400 ) {
-                        document.body.removeChild( elems[i][0] );
-                        elems.splice( i, 1 );
-                    }
-                }
-            });
-        }
-    };
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlightjs-themes@1.0.0/tomorrow-night-blue.min.css">
+    <link rel="stylesheet" href="/style.css">
+    <script type="module" src="/main2.js"></script>
+    <footer>
+      <center>
+        <p>
+          Pzq123456 © 2023
+        </p>
+      </center>
+    </footer>
 </body>
 </html>

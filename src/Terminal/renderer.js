@@ -491,7 +491,6 @@ export function drawMouse(canvas, x, y,style={color:'rgba(255,255,255,0.3)',stro
     ctx.strokeStyle = style.strokeStyle;
     ctx.lineWidth = 1;
     ctx.stroke();
-    
 }
 
 /**
@@ -537,35 +536,27 @@ export function drawText(
 
     // 绘制背景
     const ctx = canvas.getContext('2d');
-    ctx.font = style['font-size'] + ' ' + style['font-family'];
-    // 控制文本基线
-    ctx.textBaseline = 'bottom';
-
-    let metrics = ctx.measureText(text);
-    let width = metrics.width;
-    console.log(width);
-    console.log(metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent)
-
+    let width = parseInt(style['font-size']) / 2;
     let height = parseInt(style['font-size']);
     ctx.fillStyle = style['background-color'];
     ctx.fillRect(x, y, width, height);
 
+    if(style['border-width']){
+        ctx.strokeStyle = style['border-color'];
+        ctx.lineWidth = style['border-width'];
+        let lineWidth = parseInt(style['border-width']);
+        ctx.strokeRect(x + lineWidth/2, y 
+            + lineWidth/2, width, height);
+    }
+
+    ctx.font = style['font-size'] + ' ' + style['font-family'];
+    ctx.textBaseline = 'bottom';
     // 绘制文字
     ctx.fillStyle = style['color'];
     ctx.fillText(text, x, y + height);
 }
 
-/**
- * style{
- * font-family: string,
- * font-size: string,
- * background-color: string,
- * color: string,
- * cursor-color: string,
- * border-color: string,
- * border-width: number,
- * border-radius: number,
- * border-style: string, // solid dashed dotted
- * }
- */
+export function drawBlock2(){
+    
+}
 

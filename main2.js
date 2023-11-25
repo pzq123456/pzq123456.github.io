@@ -134,14 +134,14 @@ let Tdata = TerminalData.fromString(myHistory);
 
 const testStyle = {
     'font-family': 'monospace',
-    'font-size': '30px',
+    'font-size': '300px',
     'background-color': 'white',
     'color': 'green',
+    'border-width': '5',
+    'border-color': 'green',
 }; // style for the markdown content
 
-
-
-drawText(myCanvas, "TSjfklsdfj123123", 0,0, testStyle);
+drawText(myCanvas, "Q", 0,0, testStyle);
 
 const mdStyle = {
     'padding': '20px',

@@ -11,10 +11,6 @@ const DefaultStyle = {
     'color': 'green',
     'cursor-color': 'green',
 };
-
-
-
-
 /**
  * 绘制字符块
  * @param {HTMLCanvasElement} canvas - 画布
@@ -526,70 +522,50 @@ export function smartDrawMouse(
 
 
 // V2 版本 重写数据渲染函数以实现更灵活的渲染
-/**
- * 
- * @param {HTMElement} canvas 
- * @param {TerminalData} TData
- * @param {Number} x 
- * @param {Number} y 
- * @param {Object} style - 仅设置背景色
- * @param {Function} getLineStyle - 获取行样式的函数 若为空则使用默认 style
- * @param {Number} i 
- */
-export function drawTData2(canvas, TData, x, y, style, getLineStyle, i = null, showCursor = true){
-    // 首先绘制背景色
-    const ctx = canvas.getContext('2d');
-    if(style['background-color']){
-        ctx.fillStyle = style['background-color'];
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-    }
-    // 获取行高
-    let height = parseInt(getLineStyle(TData.get(0).get(0))['font-size']);
 
-    // 计算当前光标位置
-    let currentCursor = calCursorIndex2(TData, i); // [lineindex, blockindex, charindex]
-    let offsetY = 0; // 垂直偏移量
-    let MBR = [x, y - height, 0, 0]; // MBR
-    // 从光标所在行开始渲染
-    // 行可以没有光标 但是TDdata必须有光标 所以光标位置不可以为空 手动控制是否显示光标
-    if(showCursor){
-        // 从style中获取 行间距
-        let lineInterval = style['line-interval'] ? parseInt(style['line-interval']) : 0;
+// 定义 单个文字的外包矩形
+// [x,y,w,h] // MBR xy 为左上角
 
-        // 遍历绘制每一行 并更新MBR 直到超过屏幕边界
-        for(let i = currentCursor[0]; i < TData.data.length; i++){
-            let line = TData.data[i];
-            let currentIndex = i == currentCursor[0] ? deCalCursorIndex(line, [currentCursor[1],currentCursor[2]]) : null;
-            let myMBR = drawLine2(canvas, line, x, y + offsetY, getLineStyle,currentIndex);
-            // 判断是否超过屏幕边界
-            if(isOverScreen2(canvas, y, myMBR, offsetY)){
-                // 超过屏幕边界 则停止绘制
-                break;
-            }else{
-                offsetY += (myMBR[3] + lineInterval);
-                MBR[3] += (myMBR[3] + lineInterval);
-                // 取较大的宽度
-                MBR[2] = MBR[2] > myMBR[2] ? MBR[2] : myMBR[2];
-            }
-        }
-    }else{
-        // 从style中获取 行间距
-        let lineInterval = style['line-interval'] ? parseInt(style['line-interval']) : 0;
-        // 遍历绘制每一行 并更新MBR 直到超过屏幕边界
-        for(let i = currentCursor[0]; i < TData.data.length; i++){
-            let line = TData.data[i];
-            let myMBR = drawLine2(canvas, line, x, y + offsetY, getLineStyle);
-            // 判断是否超过屏幕边界
-            if(isOverScreen2(canvas, y, myMBR, offsetY)){
-                // 超过屏幕边界 则停止绘制
-                break;
-            }else{
-                offsetY += (myMBR[3] + lineInterval);
-                MBR[3] += (myMBR[3] + lineInterval);
-                // 取较大的宽度
-                MBR[2] = MBR[2] > myMBR[2] ? MBR[2] : myMBR[2];
-            }
-        }
-    }
-    return MBR;
+
+export function drawTData2(canvas, TData, style,i = null, showCursor = true){
 }
+
+
+export function drawText(
+    canvas, text, x, y, style
+){
+
+    // 绘制背景
+    const ctx = canvas.getContext('2d');
+    ctx.font = style['font-size'] + ' ' + style['font-family'];
+    // 控制文本基线
+    ctx.textBaseline = 'bottom';
+
+    let metrics = ctx.measureText(text);
+    let width = metrics.width;
+    console.log(width);
+    console.log(metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent)
+
+    let height = parseInt(style['font-size']);
+    ctx.fillStyle = style['background-color'];
+    ctx.fillRect(x, y, width, height);
+
+    // 绘制文字
+    ctx.fillStyle = style['color'];
+    ctx.fillText(text, x, y + height);
+}
+
+/**
+ * style{
+ * font-family: string,
+ * font-size: string,
+ * background-color: string,
+ * color: string,
+ * cursor-color: string,
+ * border-color: string,
+ * border-width: number,
+ * border-radius: number,
+ * border-style: string, // solid dashed dotted
+ * }
+ */
+

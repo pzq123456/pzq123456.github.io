@@ -526,7 +526,68 @@ export function smartDrawMouse(
 // [x,y,w,h] // MBR xy 为左上角
 
 
-export function drawTData2(canvas, TData, style,i = null, showCursor = true){
+export function drawTData2(canvas, TData, x, y, style, getLineStyle, i = null, showCursor = true){
+        // 首先绘制背景色
+        const ctx = canvas.getContext('2d');
+        if(style['background-color']){
+            ctx.fillStyle = style['background-color'];
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
+        // 获取行高
+        let height = parseInt(getLineStyle(TData.get(0).get(0))['font-size']);
+        // 计算当前光标位置
+        let currentCursor = calCursorIndex2(TData, i); // [lineindex, blockindex, charindex]
+        let offsetY = 0; // 垂直偏移量
+        let MBR = [x, y - height, 0, 0]; // MBR
+        // 从style中获取 行间距
+        let lineInterval = style['line-interval'] ? parseInt(style['line-interval']) : 0;
+        for(let i = 0; i < TData.data.length; i++){
+            let line = TData.data[i];
+            let currentIndex = i == currentCursor[0] ? deCalCursorIndex(line, [currentCursor[1],currentCursor[2]]) : null;
+            let myMBR;
+            if(showCursor){
+                myMBR = drawLine2(canvas, line, x, y + offsetY, getLineStyle,currentIndex);
+            }else{
+                myMBR = drawLine2(canvas, line, x, y + offsetY, getLineStyle);
+            }
+            offsetY += (myMBR[3] + lineInterval);
+            MBR[3] += (myMBR[3] + lineInterval);
+            // 取较大的宽度
+            MBR[2] = MBR[2] > myMBR[2] ? MBR[2] : myMBR[2];
+        }
+        return MBR;
+}
+
+export function drawTData3(canvas, TData, x, y, style, getLineStyle, i = null, showCursor = true){
+    // 首先绘制背景色
+    const ctx = canvas.getContext('2d');
+    if(style['background-color']){
+        ctx.fillStyle = style['background-color'];
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }
+    // 获取行高
+    let height = parseInt(getLineStyle(TData.get(0).get(0))['font-size']);
+    // 计算当前光标位置
+    let currentCursor = calCursorIndex2(TData, i); // [lineindex, blockindex, charindex]
+    let offsetY = 0; // 垂直偏移量
+    let MBR = [x, y - height, 0, 0]; // MBR
+    // 从style中获取 行间距
+    let lineInterval = style['line-interval'] ? parseInt(style['line-interval']) : 0;
+    for(let i = 0; i <= currentCursor[0]; i++){
+        let line = TData.data[i];
+        let currentIndex = i == currentCursor[0] ? deCalCursorIndex(line, [currentCursor[1],currentCursor[2]]) : null;
+        let myMBR;
+        if(showCursor){
+            myMBR = drawLine2(canvas, line, x, y + offsetY, getLineStyle,currentIndex);
+        }else{
+            myMBR = drawLine2(canvas, line, x, y + offsetY, getLineStyle);
+        }
+        offsetY += (myMBR[3] + lineInterval);
+        MBR[3] += (myMBR[3] + lineInterval);
+        // 取较大的宽度
+        MBR[2] = MBR[2] > myMBR[2] ? MBR[2] : myMBR[2];
+    }
+    return MBR;
 }
 
 
@@ -548,7 +609,6 @@ export function drawText(
         ctx.strokeRect(x + lineWidth/2, y 
             + lineWidth/2, width, height);
     }
-
     ctx.font = style['font-size'] + ' ' + style['font-family'];
     ctx.textBaseline = 'bottom';
     // 绘制文字

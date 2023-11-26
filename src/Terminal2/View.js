@@ -8,21 +8,26 @@ export class View{
     computeLayout(){
         let layout = [];
         let lineNum = this.data.data.length;
+        let x = 0;
+        let y = 0;
         for(let i=0;i<lineNum;i++){
             let line = [];
             let charNum = this.data.data[i].length;
             for(let j=0;j<charNum;j++){
-                let word = this.data.data[i][j];
-                let [width, height] = this.measureText(word);
-                let charNum = word.length;
-                let word2 = [];
-                for(let k=0;k<charNum;k++){
-                    let [crwidth, crheight] = this.measureText(word[k]);
-                    word2.push({word: word[k], width: crwidth, height: height});
-                }
-                line.push(word2);
+                let char = this.data.data[i][j];
+                let charSize = this.measureText(char);
+                line.push({
+                    'char': char,
+                    'x': x,
+                    'y': y,
+                    'w': charSize[0],
+                    'h': charSize[1],
+                });
+                x += charSize[0];
             }
             layout.push(line);
+            x = 0;
+            y += line[0].h;
         }
         return layout;
     }
@@ -31,27 +36,16 @@ export class View{
         let ctx = this.canvas.getContext('2d');
         ctx.font = this.style['font-size'] + ' ' + this.style['font-family'];
         ctx.fillStyle = this.style['color'];
-        // ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
         let layout = this.computeLayout();
-        let lineNum = layout.length;
-
-        for(let i=0;i<lineNum;i++){
-            let line = layout[i];
-            let charNum = line.length;
-            let x = 0;
-            let y = 0;
-            for(let j=0;j<charNum;j++){
-                let word = line[j];
-                let charNum = word.length;
-                for(let k=0;k<charNum;k++){
-                    let char = word[k];
-                    ctx.fillText(char.word, x, y + char.height);
-                    x += char.width;
-                }
-                x += this.measureText(' ')[0];
+        for(let line of layout){
+            for(let char of line){
+                ctx.fillText(char.char, char.x, char.y);
             }
         }
+        
     }
+
+
 
     /**
      * 量测单个字符的宽度和高度

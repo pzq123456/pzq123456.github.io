@@ -3,35 +3,14 @@ import { fillNavBar } from './helpers/navBar.js';
 
 import { metalist } from './blogs/meta.js'; // metalist is a list of blog metadata
 import { createCanvas, animationEngine, eventEngine} from './src/Terminal/view.js';
-import { drawTData2, drawTData3, drawText } from './src/Terminal/renderer.js';
-import { Line, TerminalData } from './src/Terminal/data.js';
+import { drawBlock2 } from './src/Terminal/renderer.js';
+import { Block, Line, TerminalData } from './src/Terminal/data.js';
 import {parseLine, run} from './src/Terminal/interpreter.js';
 import { blockStyle,blockStyle2,blockStyle3,blockStyle4,blockStyle5 } from './src/Terminal/defaultStyle.js';
 import {initPage2} from './helpers/init.js';
 import * as RVGeo from 'https://cdn.jsdelivr.net/npm/rvgeo@2.0.7/+esm'
 
-let myCanvas = createCanvas(document.getElementById('terminal'), 2048, 300);
-/**
- * 自定义样式 根据block的内容
- * @param {Block} block 
- */
-function getStyle(block){
-  if(block.contains("%")){
-      // console.log('pzq');
-      return blockStyle;
-  }else if(block.equals("cd") || block.equals('ls') || block.equals('cat') || block.equals('clear') || block.equals('help')){
-      return blockStyle3;
-  }else if(
-      block.contains('/') ||  block.contains(`path`)
-  ){
-      return blockStyle4;
-  }else if(block.contains('202') || block.contains(`date`)){
-      return blockStyle5;
-  }
-  else{
-      return blockStyle2;
-  }
-}
+let myCanvas = createCanvas(document.getElementById('terminal'), 2048, 310);
 
 fillNavBar(document.getElementById('navBar'),
 [
@@ -146,12 +125,6 @@ fillNavBar(document.getElementById('navBar'),
 }
 );
 
-let wholeStyle = {
-  'background-color': 'black',
-  // 行间距
-  'line-interval': '10px',
-}
-// initPage2();
 
 // Terminal === 部分
 let myHistory =`1 pzq123456.github.io%> cd /blogs/Blog1.md
@@ -166,13 +139,18 @@ pzq123456.github.io%> cd /blogs/Blog1.md
 pzq123456.github.io%> cd /blogs/Blog1.md
 pzq123456.github.io%> cd /blogs/Blog1.md`;
 let Tdata = TerminalData.fromString(myHistory);
-let MBR = drawTData3(myCanvas, Tdata, 0, 30, wholeStyle, getStyle,Tdata.getFullLength() - 1);
-console.log(MBR);
-// let overlap = MBR[3]-300;
-// if( overlap > 0){
-//   let MBRR = drawTData3(myCanvas, Tdata, 0, -overlap + 30, wholeStyle, getStyle,Tdata.getFullLength() - 1)
-//   console.log(MBRR);
-// }
+let testStyle = {
+  'font-family': 'monospace',
+  'font-size': '300px',
+  'background-color': 'purple',
+  'color': 'white',
+  'cursor-color': 'white',
+  'border-width': '10',
+  'border-color': 'white',
+}; // style for the markdown content
+let testBlock = Block.fromString("testtest")
+drawBlock2(myCanvas,testBlock,0,0,testStyle,2);
+
 
 const mdStyle = {
     'padding': '20px',

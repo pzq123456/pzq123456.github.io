@@ -5,6 +5,8 @@ export let blockStyle = {
     'background-color': 'black',
     'color': 'green',
     'cursor-color': 'green',
+    'border-width': '1px',
+    'border-color': 'white',
 }; // style for the markdown content
 export let blockStyle2 = {
     'font-family': 'monospace',
@@ -12,6 +14,8 @@ export let blockStyle2 = {
     'background-color': 'black',
     'color': 'white',
     'cursor-color': 'white',
+    'border-width': '1px',
+    'border-color': 'white',
 }; // style for the markdown content
 export let blockStyle3 = {
     'font-family': 'monospace',
@@ -19,6 +23,8 @@ export let blockStyle3 = {
     'background-color': 'purple',
     'color': 'white',
     'cursor-color': 'white',
+    'border-width': '1px',
+    'border-color': 'white',
 }; // style for the markdown content
 export let blockStyle4 = {
     'font-family': 'monospace',
@@ -26,6 +32,8 @@ export let blockStyle4 = {
     'background-color': 'black',
     'color': 'orange',
     'cursor-color': 'white',
+    'border-width': '1px',
+    'border-color': 'white',
 }; // style for the markdown content
 export let blockStyle5 = {
     'font-family': 'monospace',
@@ -33,5 +41,7 @@ export let blockStyle5 = {
     'background-color': 'white',
     'color': 'blue',
     'cursor-color': 'white',
+    'border-width': '1px',
+    'border-color': 'white',
 }; // style for the markdown content
 

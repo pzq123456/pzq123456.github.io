@@ -1,14 +1,9 @@
 import { fileToHtml } from './helpers/markdown.js';
 import { fillNavBar } from './helpers/navBar.js';
-
-import { metalist } from './blogs/meta.js'; // metalist is a list of blog metadata
-import { createCanvas, animationEngine, eventEngine} from './src/Terminal/view.js';
-import { drawBlock2 } from './src/Terminal/renderer.js';
-import { Block, Line, TerminalData } from './src/Terminal/data.js';
-import {parseLine, run} from './src/Terminal/interpreter.js';
-import { blockStyle,blockStyle2,blockStyle3,blockStyle4,blockStyle5 } from './src/Terminal/defaultStyle.js';
-import {initPage2} from './helpers/init.js';
-import * as RVGeo from 'https://cdn.jsdelivr.net/npm/rvgeo@2.0.7/+esm'
+import { createCanvas} from './src/Terminal/view.js';
+import { Data } from './src/Terminal2/Data.js';
+import { View } from './src/Terminal2/View.js';
+// import * as RVGeo from 'https://cdn.jsdelivr.net/npm/rvgeo@2.0.7/+esm'
 
 let myCanvas = createCanvas(document.getElementById('terminal'), 2048, 310);
 
@@ -124,34 +119,6 @@ fillNavBar(document.getElementById('navBar'),
     'border-bottom':'1px solid white',
 }
 );
-
-
-// Terminal === 部分
-let myHistory =`1 pzq123456.github.io%> cd /blogs/Blog1.md
-pzq123456.github.io%> cd /blogs/Blog1.md
-pzq123456.github.io%> cd /blogs/Blog1.md
-pzq123456.github.io%> cd /blogs/Blog1.md
-pzq123456.github.io%> cd /blogs/Blog1.md
-pzq123456.github.io%> cd /blogs/Blog1.md
-pzq123456.github.io%> cd /blogs/Blog1.md
-pzq123456.github.io%> cd /blogs/Blog1.md
-pzq123456.github.io%> cd /blogs/Blog1.md
-pzq123456.github.io%> cd /blogs/Blog1.md
-pzq123456.github.io%> cd /blogs/Blog1.md`;
-let Tdata = TerminalData.fromString(myHistory);
-let testStyle = {
-  'font-family': 'monospace',
-  'font-size': '300px',
-  'background-color': 'purple',
-  'color': 'white',
-  'cursor-color': 'white',
-  'border-width': '10',
-  'border-color': 'white',
-}; // style for the markdown content
-let testBlock = Block.fromString("testtest")
-drawBlock2(myCanvas,testBlock,0,0,testStyle,2);
-
-
 const mdStyle = {
     'padding': '20px',
     'font-family': 'monospace',
@@ -163,3 +130,21 @@ const mdStyle = {
     'width': '80%',
     'color': 'white',
 }; // style for the markdown content
+
+let testStyle = {
+    'font-family': 'monospace',
+    'font-size': '30px',
+    'color': 'white',
+    'background-color': 'black',
+};
+
+
+
+let data = Data.fromString(`test
+test test
+dhjksahd jdsklajdl djsaldj 
+djskaldj jdksaldj jdksaldjidw jsdkal`);
+let view = new View(data, myCanvas, testStyle);
+view.render();
+let layout = view.computeLayout();
+console.log(layout);

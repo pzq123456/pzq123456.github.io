@@ -7,24 +7,25 @@ export class Data{
         this.data = [];
     }
 
-    fromString(str){
-        let lines = str.split('\n');
-        for(let line of lines){
-            let lineArray = [];
-            for(let char of line){
-                lineArray.push(char);
-            }
-            this.data.push(lineArray);
-        }
-    }
-
     toString(){
         let str = '';
         for(let line of this.data){
-            str += line.join('');
-            str += '\n';
+            str += line.join(' ') + '\n';
         }
         return str;
+    }
+
+    /**
+     * 从字符串中读取数据
+     * @param {string} str 
+     */
+    static fromString(str){
+        let data = new Data();
+        let lines = str.split('\n');
+        for(let line of lines){
+            data.data.push(line.split(' '));
+        }
+        return data;
     }
 }
 

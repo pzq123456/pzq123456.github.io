@@ -1,4 +1,4 @@
-# 第一篇正式博客: 从 0 开始的基于 Canvas 标签的（简易）命令行窗口
+# 从 0 开始的基于 Canvas 标签的（简易）命令行窗口（Part 1）
 
 <div class="colorbox" style="
     width: 20%;

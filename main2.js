@@ -142,9 +142,6 @@ let testStyle = {
 
 let data = Data.fromString(`test
 test test
-dhjksahd jdsklajdl djsaldj 
+dhjksahd jdsklajdl djsaldj
 djskaldj jdksaldj jdksaldjidw jsdkal`);
-let view = new View(data, myCanvas, testStyle);
-view.render();
-let layout = view.computeLayout();
-console.log(layout);
+

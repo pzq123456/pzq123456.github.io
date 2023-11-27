@@ -10,7 +10,10 @@ export class Data{
     toString(){
         let str = '';
         for(let line of this.data){
-            str += line.join(' ') + '\n';
+            for(let word of line){
+                str += word;
+            }
+            str += '\n';
         }
         return str;
     }
@@ -23,7 +26,12 @@ export class Data{
         let data = new Data();
         let lines = str.split('\n');
         for(let line of lines){
-            data.data.push(line.split(' '));
+            let words = line.split(' ');
+            let lineData = [];
+            for(let word of words){
+                lineData.push(word+" ");
+            }
+            data.data.push(lineData);
         }
         return data;
     }
@@ -37,3 +45,4 @@ export class Data{
  * ]
  * 
  */
+

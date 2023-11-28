@@ -1,42 +1,94 @@
-class Parser{
-    /**
-     * parsing a string to a AST(Abstract Syntax Tree)
-     */
-    parse(string){
-        this._string = string; // the string to parse
+// 类别包括：命令、参数、地址
+// 命令包括：cd、ls、echo、clear、help
+const commands = ['cd', 'ls', 'echo', 'clear', 'help'];
+// 用正则表达式表示规则
+const tokenClass = ['command', 'option', 'path', 'argument'];
 
-        // parse recursively starting from the main entry point
-        return this.program();
+export function tokenization(line){
+    // tokenization
+    let tokens = line.split(' ');
+    // 为每一个 token 添加类型
+    tokens = tokens.map(token => {
+        if (commands.includes(token)){
+            return {
+                type: 'command',
+                value: token
+            }
+        }else if(token.includes('.') || token.includes('/')){
+            return {
+                type: 'path',
+                value: token
+            }
+        }
+        else if (token.startsWith('-')){
+            return {
+                type: 'option',
+                value: token
+            }
+        }else{
+            return {
+                type: 'argument',
+                value: token
+            }
+        }
     }
+    );
+    return tokens;
+}
 
-    /**
-     * main entry point
-     * 
-     * program -> statement*
-     * 
-     */
-    program(){
-
+// 根据 token 的类型返回对应的样式
+export function tokenStyle(token){
+    if (token.type === 'command'){
+        return {
+            'color': '#ff6a00',
+            'font-weight': 'bold'
+        }
+    } else if (token.type === 'option'){
+        return {
+            'color': '#ff6a00',
+        }
+    } else if (token.type === 'path'){
+        return {
+            'color': '#00ff00',
+        }
+    } else if (token.type === 'argument'){
+        return {
+            'color': '#ffffff',
+        }
     }
-
-    /**
-     * statement -> expression | declaration
-     */
-    statement(){
-
-    }
-    
 }
 
 /**
- * Tokenizer
+ * 解析 token 用于后续执行命令
+ * @param {string[]} tokens 
+ * @returns {object}
  */
-class Tokenizer{
-    /**
-     * 
-     * @param {string} string 
-     */
-    constructor(string){
-        this._string = string;
+export function Parser(tokens){
+    // 从左到右依次解析 token
+    // 返回一个对象
+    // {
+    //     command: 'cd',
+    //     options: ['-l','-a','-h'],
+    //     path: '/home/',
+    //     arguments: []
+    // }
+    let result = {
+        command: '',
+        options: [],
+        path: '',
+        arguments: []
+    };
+    for (let i = 0; i < tokens.length; i++){
+        let token = tokens[i];
+        if (token.type === 'command'){
+            result.command = token.value;
+        }else if (token.type === 'option'){
+            result.options.push(token.value);
+        }else if (token.type === 'path'){
+            result.path = token.value;
+        }else if (token.type === 'argument'){
+            result.arguments.push(token.value);
+        }
     }
+    return result;
 }

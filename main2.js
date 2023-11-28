@@ -2,10 +2,10 @@ import { fileToHtml } from './helpers/markdown.js';
 import { fillNavBar } from './helpers/navBar.js';
 import { createCanvas} from './src/Terminal/view.js';
 import { Data } from './src/Terminal2/Data.js';
-import { View } from './src/Terminal2/View.js';
+import { View,animationEngine } from './src/Terminal2/View.js';
 // import * as RVGeo from 'https://cdn.jsdelivr.net/npm/rvgeo@2.0.7/+esm'
 
-let myCanvas = createCanvas(document.getElementById('terminal'), 2048, 310);
+let myCanvas = createCanvas(document.getElementById('terminal'), 1024, 310);
 
 fillNavBar(document.getElementById('navBar'),
 [
@@ -145,3 +145,35 @@ test test
 dhjksahd jdsklajdl djsaldj
 djskaldj jdksaldj jdksaldjidw jsdkal`);
 
+let testLine = "cd pzq /home/ -l -a -h cd pzq /home/ -l -a -h cd pzq /home/ -l -a -h cd pzq /home/ -l -a -h cd pzq /home/ -l -a -h cd pzq /home/ -l -a -h cd pzq /home/ -l -a -h";
+// console.log(Parser(tokenization(testLine)));
+animationEngine(1000/60, () => {
+    let view = new View(data,myCanvas,testStyle);
+    let y = view.drawLine(testLine,0,0);
+    // console.log(y);
+});
+// console.log(data);
+let c = 0;
+// 监听键盘事件输入字母
+document.addEventListener('keydown',function(e){
+    if (e.key.length === 1){
+        // 输入字母
+        c = data.insert(c,e.key);
+    }
+    if (e.key === 'Backspace'){
+        // 删除字母
+        c = data.delete(c);
+    }
+    if (e.key === 'Enter'){
+        // 换行
+        c = data.enter();
+        console.log(data);
+    }
+    // 按下左右键
+    if (e.key === 'ArrowLeft'){
+        c--;
+    }
+    if (e.key === 'ArrowRight'){
+        c++;
+    }
+});

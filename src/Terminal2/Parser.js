@@ -40,12 +40,12 @@ export function tokenization(line){
 export function tokenStyle(token){
     if (token.type === 'command'){
         return {
-            'color': '#ff6a00',
+            'color': 'orange',
             'font-weight': 'bold'
         }
     } else if (token.type === 'option'){
         return {
-            'color': '#ff6a00',
+            'color': 'blue',
         }
     } else if (token.type === 'path'){
         return {
@@ -53,7 +53,7 @@ export function tokenStyle(token){
         }
     } else if (token.type === 'argument'){
         return {
-            'color': '#ffffff',
+            'color': 'gray',
         }
     }
 }

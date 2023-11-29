@@ -5,7 +5,7 @@ import { Data } from './src/Terminal2/Data.js';
 import { View,animationEngine } from './src/Terminal2/View.js';
 // import * as RVGeo from 'https://cdn.jsdelivr.net/npm/rvgeo@2.0.7/+esm'
 
-let myCanvas = createCanvas(document.getElementById('terminal'), 1024, 310);
+let myCanvas = createCanvas(document.getElementById('terminal'), 1424, 310);
 
 fillNavBar(document.getElementById('navBar'),
 [
@@ -140,20 +140,26 @@ let testStyle = {
 
 
 
-let data = Data.fromString(`test
-test test
-dhjksahd jdsklajdl djsaldj
-djskaldj jdksaldj jdksaldjidw jsdkal`);
+let data = Data.fromString(`cd test
+cd /test/ test -h
+help dhjksahd jdsklajdl djsaldj
+ls djskaldj jdksaldj jdksaldjidw jsdkal`);
 
 let testLine = "cd pzq /home/ -l -a -h cd pzq /home/ -l -a -h cd pzq /home/ -l -a -h cd pzq /home/ -l -a -h cd pzq /home/ -l -a -h cd pzq /home/ -l -a -h cd pzq /home/ -l -a -h";
-// console.log(Parser(tokenization(testLine)));
-animationEngine(1000/60, () => {
-    let view = new View(data,myCanvas,testStyle);
-    let y = view.drawLine(testLine,0,0);
-    // console.log(y);
-});
+
+
+
 // console.log(data);
 let c = 0;
+let hc = 0; // history cursor
+animationEngine(1000/60, () => {
+    // clear canvas
+    myCanvas.getContext('2d').clearRect(0,0,myCanvas.width,myCanvas.height);
+    let view = new View(data,myCanvas,testStyle);
+    let y = view.drawHiostry(hc);
+    y = view.drawCurrent(y,c);
+    // console.log(hc);
+});
 // 监听键盘事件输入字母
 document.addEventListener('keydown',function(e){
     if (e.key.length === 1){
@@ -175,5 +181,13 @@ document.addEventListener('keydown',function(e){
     }
     if (e.key === 'ArrowRight'){
         c++;
+    }
+
+    // 按下上下键
+    if (e.key === 'ArrowUp'){
+        hc--;
+    }
+    if (e.key === 'ArrowDown'){
+        hc++;
     }
 });

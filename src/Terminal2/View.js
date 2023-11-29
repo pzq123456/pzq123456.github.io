@@ -28,11 +28,36 @@ export class View{
             // 若 x 超过 canvas 的宽度则换行
             let [width, _height] = this.measureText(token.value+" ");
             if (x + width > this.canvas.width){
-                x = 0;
-                y += height;
+                // 将 token.value 从超过处截断 循环绘制直到
+                // let i = 0;
+                // let tmp = '';
+                // while(x + this.measureText(tmp+token.value[i])[0] < this.canvas.width){
+                //     tmp += token.value[i];
+                //     i++;
+                // }
+                // ctx.fillText(tmp,x,y);
+                // x = 0;
+                // y += height;
+
+                while(x + width > this.canvas.width){
+                    let i = 0;
+                    let tmp = '';
+                    while(x + this.measureText(tmp+token.value[i])[0] < this.canvas.width){
+                        tmp += token.value[i];
+                        i++;
+                    }
+                    ctx.fillText(tmp,x,y);
+                    x = 0;
+                    y += height;
+                    token.value = token.value.slice(i);
+                    [width, _height] = this.measureText(token.value+" ");
+                }
+                ctx.fillText(token.value,x,y);
+                x += width;
+            }else{
+                ctx.fillText(token.value,x,y);
+                x += width;
             }
-            ctx.fillText(token.value,x,y);
-            x += width;
         }
         // 返回高度
         return y;
@@ -47,14 +72,16 @@ export class View{
         ctx.font = this.style['font-size'] + ' ' + this.style['font-family'];
         ctx.textBaseline = 'bottom';
         ctx.fontWeight = 'normal';
-        // 若 x 超过 canvas 的宽度则换行
-        let [width, _height] = this.measureText(line+" ");
-        if (x + width > this.canvas.width){
-            x = 0;
-            y += height;
+        // 逐字母绘制 若 x 超过 canvas 的宽度则换行
+        for(let i = 0; i < line.length; i++){
+            let [width, _height] = this.measureText(line[i]);
+            if (x + width > this.canvas.width){
+                x = 0;
+                y += height;
+            }
+            ctx.fillText(line[i],x,y);
+            x += width;
         }
-        ctx.fillText(line,x,y);
-        x += width;
         // 返回高度
         return y;
     }
@@ -67,22 +94,34 @@ export class View{
     drawCurrent(y,i,showCursor = true){
         let ctx = this.canvas.getContext('2d');
         let height = parseInt(this.style['font-size']);
-        let x = 0;
+
         // 绘制当前行
         y = this.drawLine(this.data._current,0,y);
-        // 计算光标位置
-        let [width, _height] = this.measureText(this.data._current.slice(0,i));
-        x = width; // 看是否需要拐弯
+        // 绘制光标
+        // 按照 drawLine 的布局逻辑绘制光标
+        // 从左到右绘制 若 x 超过 canvas 的宽度则换行
+        let cursorX = 0;
         let cursorY = y - height;
+        let cursorWidth = 2;
+        let cursorHeight = height;
+        let cursorColor = 'white';
 
-        while(x  > this.canvas.width){
-            x -= this.canvas.width;
-            cursorY += height;
+        for(let j = 0; j <= i; j++){
+            let width = this.measureText(this.data._current[j])[0];
+            if(this.data._current[j] == undefined){
+                break;
+            }
+            console.log(this.data._current[j]);
+            if (cursorX + width> this.canvas.width){
+                cursorX = 0;
+                cursorY += height;
+            }
+            cursorX += width;
         }
         // 绘制光标
         if (showCursor){
-            ctx.fillStyle = this.style['color'];
-            ctx.fillRect(x,cursorY,2,height);
+            ctx.fillStyle = cursorColor;
+            ctx.fillRect(cursorX,cursorY,cursorWidth,cursorHeight);
         }
         // 返回高度
         return y;
@@ -101,9 +140,13 @@ export class View{
         for(let j = 0; j < this.data._history.length; j++){
             let line = this.data._history[j];
             if (j == i){
+                // ctx.fillRect(0,y,this.canvas.width,height);
+                // y = this.drawLine(line,0,y);
+                // 两次的高度差作为底色的高度
+                let height2 = this.drawLine(line,0,y);
                 ctx.fillStyle = 'rgba(255,255,255,0.1)';
-                ctx.fillRect(0,y,this.canvas.width,height);
-                y = this.drawLine(line,0,y);
+                ctx.fillRect(0,y,this.canvas.width,height2-y);
+                y = height2;
             }else{
                 y = this.drawLine2(line,0,y);
             }

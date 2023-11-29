@@ -5,7 +5,7 @@ import { Data } from './src/Terminal2/Data.js';
 import { View,animationEngine } from './src/Terminal2/View.js';
 // import * as RVGeo from 'https://cdn.jsdelivr.net/npm/rvgeo@2.0.7/+esm'
 
-let myCanvas = createCanvas(document.getElementById('terminal'), 1424, 310);
+let myCanvas = createCanvas(document.getElementById('terminal'), 500, 310);
 
 fillNavBar(document.getElementById('navBar'),
 [

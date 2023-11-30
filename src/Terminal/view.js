@@ -1,6 +1,196 @@
+import { tokenization, tokenStyle } from './Parser.js';
+
+export class View{
+    constructor(data,canvas,style){
+        this.data = data; // 数据 class
+        this.canvas = canvas; // canvas 元素
+        this.style = style; // canvas 全局样式
+        this.y = 0; // canvas 的 y 偏移量 用以支持滚动
+    }
+
+    drawLine(line,x,y){
+        // 解析 获得 tokens 获得 token 的样式 然后绘制
+        let tokens = tokenization(line);
+        let ctx = this.canvas.getContext('2d');
+        let height = parseInt(this.style['font-size']);
+        y += height;
+        for(let token of tokens){
+            let style = tokenStyle(token);
+            ctx.fillStyle = style['color'];
+            ctx.font = this.style['font-size'] + ' ' + this.style['font-family'];
+            // 绘制基准
+            ctx.textBaseline = 'bottom';
+            // 若 style 有 font-weight 则设置
+            if (style['font-weight']){
+                ctx.fontWeight = style['font-weight'];
+                // 设置为粗体
+            }
+            // 若 x 超过 canvas 的宽度则换行
+            let [width, _height] = this.measureText(token.value+" ");
+            if (x + width > this.canvas.width){
+                // 将 token.value 从超过处截断 循环绘制直到
+                // let i = 0;
+                // let tmp = '';
+                // while(x + this.measureText(tmp+token.value[i])[0] < this.canvas.width){
+                //     tmp += token.value[i];
+                //     i++;
+                // }
+                // ctx.fillText(tmp,x,y);
+                // x = 0;
+                // y += height;
+
+                while(x + width > this.canvas.width){
+                    let i = 0;
+                    let tmp = '';
+                    while(x + this.measureText(tmp+token.value[i])[0] < this.canvas.width){
+                        tmp += token.value[i];
+                        i++;
+                    }
+                    ctx.fillText(tmp,x,y);
+                    x = 0;
+                    y += height;
+                    token.value = token.value.slice(i);
+                    [width, _height] = this.measureText(token.value+" ");
+                }
+                ctx.fillText(token.value,x,y);
+                x += width;
+            }else{
+                ctx.fillText(token.value,x,y);
+                x += width;
+            }
+        }
+        // 返回高度
+        return y;
+    }
+
+    drawLine2(line,x,y){
+        // 默认样式绘制 不高亮
+        let ctx = this.canvas.getContext('2d');
+        let height = parseInt(this.style['font-size']);
+        y += height + this.y;
+        ctx.fillStyle = this.style['color'];
+        ctx.font = this.style['font-size'] + ' ' + this.style['font-family'];
+        ctx.textBaseline = 'bottom';
+        ctx.fontWeight = 'normal';
+        // 逐字母绘制 若 x 超过 canvas 的宽度则换行
+        for(let i = 0; i < line.length; i++){
+            let [width, _height] = this.measureText(line[i]);
+            if (x + width > this.canvas.width){
+                x = 0;
+                y += height;
+            }
+            ctx.fillText(line[i],x,y);
+            x += width;
+        }
+        // 返回高度
+        return y;
+    }
+    /**
+     * 绘制当前行
+     * @param {number} i - 行内光标位置
+     * @param {boolean} showCursor - 是否显示光标
+     * @returns
+     */
+    drawCurrent(y,i,showCursor = true){
+        let ctx = this.canvas.getContext('2d');
+        let height = parseInt(this.style['font-size']);
+
+        // 绘制当前行
+        let y2 = this.drawLine(this.data._current,0,y);
+
+
+        // 绘制光标
+        // 按照 drawLine 的布局逻辑绘制光标
+        // 从左到右绘制 若 x 超过 canvas 的宽度则换行
+        let cursorX = 0;
+        let cursorY = y;
+        let cursorWidth = 3;
+        let cursorHeight = height;
+        let cursorColor = 'white';
+
+        for(let j = 0; j < i; j++){
+            let width = this.measureText(this.data._current[j])[0];
+            if (cursorX + width > this.canvas.width){
+                cursorX = 0;
+                cursorY += height;
+            }
+            cursorX += width;
+        }
+        // 绘制光标
+        if (showCursor){
+            ctx.fillStyle = cursorColor;
+            ctx.fillRect(cursorX,cursorY,cursorWidth,cursorHeight);
+            // 高亮当前行
+        }
+        ctx.strokeStyle = 'white';
+        ctx.strokeRect(0,y,this.canvas.width,y2-y);
+        return y2;
+    }
+
+
+    /**
+     * 绘制历史记录
+     * @param {number} i - 高亮索引
+     * @returns 
+     */
+    drawHiostry(y,i){
+        let ctx = this.canvas.getContext('2d');
+        let height = parseInt(this.style['font-size']);
+        // let y = 0;
+        // i 为高亮索引 高亮并绘制底色
+        for(let j = 0; j < this.data._history.length; j++){
+            let line = this.data._history[j];
+            if (j == i){
+                // 两次的高度差作为底色的高度
+                let height2 = this.drawLine2(line,0,y);
+                ctx.fillStyle = 'rgba(255,255,255,0.1)';
+                ctx.fillRect(0,y,this.canvas.width,height2-y);
+                // // 绘制边框
+                // ctx.strokeStyle = 'white';
+                // ctx.strokeRect(0,y,this.canvas.width,height2-y);
+                y = height2;
+            }else{
+                y = this.drawLine(line,0,y);
+            }
+        }
+        return y;
+    };
+
+    render(c,hc,canvasy,showCursor = true){
+        let y = this.drawHiostry(canvasy,hc);
+        y = this.drawCurrent(y,c,showCursor);
+        return y;
+    }
+
+    /**
+     * 量测单个字符的宽度和高度
+     * @param {*} text 
+     * @returns [width, height]
+     */
+    measureText(text){
+        let ctx = this.canvas.getContext('2d');
+        ctx.font = this.style['font-size'] + ' ' + this.style['font-family'];
+        let metrics = ctx.measureText(text);
+        return [metrics.width, metrics.actualBoundingBoxAscent+metrics.actualBoundingBoxDescent];
+    }
+}
+
 /**
- * 用于支持终端 Canvas 渲染的视图
+ * 动画引擎 用于向浏览器请求动画帧并绘制
+ * @param {Number} timeInterval - 间隔时间例如 100 表示每 100ms 请求一次动画帧
+ * @param {Function} callback - 回调函数用于绘制动画
  */
+export function animationEngine(timeInterval, callback){
+    let lastTime = 0;
+    function animate(time){
+        if (time - lastTime > timeInterval){
+            lastTime = time;
+            callback();
+        }
+        requestAnimationFrame(animate);
+    }
+    requestAnimationFrame(animate);
+}
 
 /**
  * 创建 Canvas 并添加到容器中
@@ -31,135 +221,3 @@ export function createCanvas(
     container.appendChild(canvas);
     return canvas;
 }
-
-
-export function HelloWorld(
-    canvas,
-){
-    // 向 canvas 中绘制文字 Hello World
-    const ctx = canvas.getContext('2d');
-    ctx.fillStyle = 'white';
-    ctx.font = '30px monospace';
-    // 打印字体的宽度和高度
-    // 遍历计算每一个字符的宽度
-    console.log(measure('B'));
-    console.log(measure('H'));
-    console.log(measure('D'));
-    console.log(measure('L'));
-    console.log(measure('W'));
-    console.log(measure(' '));
-    // 绘制光标
-    ctx.fillStyle = 'white';
-    ctx.fillRect(0, 0, 18, 20);
-    // 绘制文字
-    ctx.fillText('Hello World', 0, 20);
-
-    function measure(text){
-        let metrics = ctx.measureText(text);
-        let actualHeight = metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent;
-        return {
-            width: metrics.width,
-            height: actualHeight,
-        };
-    }
-}
-
-/**
- * 动画引擎 用于向浏览器请求动画帧并绘制
- * @param {Number} timeInterval - 间隔时间例如 100 表示每 100ms 请求一次动画帧
- * @param {Function} callback - 回调函数用于绘制动画
- */
-export function animationEngine(timeInterval, callback){
-    let lastTime = 0;
-    function animate(time){
-        if (time - lastTime > timeInterval){
-            lastTime = time;
-            callback();
-        }
-        requestAnimationFrame(animate);
-    }
-    requestAnimationFrame(animate);
-}
-
-function addEventFor(element, eventName, callback){
-    element.addEventListener(eventName, callback);
-}
-
-/**
- * 事件引擎 用于向元素添加事件
- * @param {HTMLElement} element - 元素
- * @param {any[]} eventCallbackList - 事件回调列表
- * @returns {Number} - 操作后的推荐光标位置
- */
-export function eventEngine(element, eventCallbackList){
-    eventCallbackList.forEach((eventCallback) => {
-        addEventFor(element, eventCallback.eventName, eventCallback.callback);
-    });
-}
-
-
-
-// 以对象列表的形式传递事件 line 操作事件列表
-let lineEventList = [
-    {
-        eventName: 'keydown',
-        callback: (e) => {
-            if (e.key === 'ArrowRight'){
-                c++;
-                // 若光标超出行的长度 则不移动
-                if (c >= line.getFullLength()){
-                    c = line.getFullLength() - 1;
-                }
-            }
-        }
-    },
-    {
-        eventName: 'keydown',
-        callback: (e) => {
-            if (e.key === 'ArrowLeft'){
-                c--;
-                if (c < 0){
-                    c = 0;
-                }
-            }
-        }
-    },
-    {
-        eventName: 'keydown',
-        callback: (e) => {
-            // 键盘输入
-            if (e.key.length === 1 && e.key !== ' '){
-                line.insertChar(c, e.key);
-                c++;
-            }
-        }
-    },
-    {
-        eventName: 'keydown',
-        callback: (e) => {
-            // 删除字符
-            if (e.key === 'Backspace'){
-                line.deleteCharBefore(c);
-                c--;
-                if (c < 0){
-                    c = 0;
-                }
-            }
-        }
-    },
-    {
-        eventName: 'keydown',
-        callback: (e) => {
-            // 空格键则创建空block
-            if (e.key === ' '){
-                if(line.splitBlock(c)){
-                    c++;
-                }
-            }
-        }
-    }
-]
-
-
-
-

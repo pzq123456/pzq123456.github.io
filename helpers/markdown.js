@@ -47,6 +47,5 @@ export function fileToHtml(filePath, element, style) {
         // handle error
         console.log(error);
     });
-
 }
 

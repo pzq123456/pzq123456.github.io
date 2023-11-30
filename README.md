@@ -1,5 +1,10 @@
 # Zhiqing Pan's website (using vanilla JS from scratch)
 > - Attention: You need to click the Terminal first to focus it before you can input commands.
+
+## Update
+- 切换到了新的 Terminal 渲染器，基本操作不变。
+- 原来的可以在 [Terminal0 Demo](https://pzq123456.github.io/pages/p1.html) 中体验到。
+
 ## About me 
 <img src="https://avatars.githubusercontent.com/u/82391775?v=4" width="100" height="100" alt="avatar" style="margin-right: 10px; border-radius: 50%;">
 
@@ -28,8 +33,4 @@ I am an undergraduate student in [Shan Dong University of Science and Technology
 > - Input `cd` to open a blog. The blog will be rendered in the current page.
 
 ### TODO
-任务：详见 Terminal2 文件夹
-- 重写渲染器实现鼠标交互与部分渲染
-- 实现 Shell 的抽象语法树及语法分析器
-- 创新： 使用拓展的 Shell 命令让用户自定义布局博客页面
-- 后端计划： 编写 Node 端脚本自动化打包部署（依旧是静态页面，使用 Node 自动处理博客内容，主要是自动抽取标题）
+- 将 ChatGPT 接口整合到 Terminal 中，实现聊天机器人。

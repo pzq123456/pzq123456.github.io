@@ -1,11 +1,275 @@
 import { fileToHtml } from './helpers/markdown.js';
 import { fillNavBar } from './helpers/navBar.js';
-import { createCanvas} from './src/Terminal/view.js';
-import { Data } from './src/Terminal2/Data.js';
-import { View,animationEngine } from './src/Terminal2/View.js';
-// import * as RVGeo from 'https://cdn.jsdelivr.net/npm/rvgeo@2.0.7/+esm'
 
-let myCanvas = createCanvas(document.getElementById('terminal'), 500, 310);
+import { metalist } from './blogs/meta.js'; // metalist is a list of blog metadata
+import { createCanvas, animationEngine, eventEngine} from './src/Terminal0/view.js';
+import { drawTData,drawMouse,smartDrawMouse } from './src/Terminal0/renderer.js';
+import { Line, TerminalData } from './src/Terminal0/data.js';
+import {parseLine, run} from './src/Terminal0/interpreter.js';
+import { blockStyle,blockStyle2,blockStyle3,blockStyle4,blockStyle5 } from './src/Terminal0/defaultStyle.js';
+import {initPage} from './helpers/init.js';
+initPage();
+// Terminal === 部分
+let myCanvas = createCanvas(document.getElementById('terminal'), window.innerWidth * 0.81, 300);
+
+// ==== 数据部分
+let myHistory =`pzq123456.github.io%> cd /blogs/Blog1.md`;
+let Tdata = TerminalData.fromString(myHistory);
+
+const helpInfo = 
+`help
+--Type help to show this help.
+--Type clear to clear the screen.
+--Type ls to list all the files.
+--Type cd <directory> to change the current directory.`;
+const myCommandList = [
+    {
+        name: "cd",
+        description: "change directory",
+        usage: "cd <path>",
+        func: function(path){
+            terminal.style.borderBottom = '1px solid orange';
+            setTimeout(() => {
+                terminal.style.borderBottom = '1px solid white';
+            }, 500);
+            fileToHtml(path,document.getElementById('content'), mdStyle);
+        },
+        manipulate: function(data){
+            let line = Line.fromString('pzq123456.github.io%> ');
+            data.addLine(line);
+            return data.getFullLength() - 1;
+        }
+    },
+    {
+        name: "ls",
+        description: "list files",
+        usage: "ls <path>",
+        func: function(path){
+            terminal.style.borderBottom = '1px solid purple';
+            setTimeout(() => {
+                terminal.style.borderBottom = '1px solid white';
+            }, 500);
+        },
+        manipulate: function(data){
+            // get meta.js and render it
+            // 首先打印表头
+            let head = ['date','command','path', 'tag', 'title'];
+            let miusCount = 0;
+            // 首先打印表头
+            let line = Line.fromString(head.join('--| '));
+            data.addLine(line);
+            miusCount += line.getFullLength();
+            metalist.forEach(item => {
+                let temp = [];
+                head.forEach(key => {
+                    temp.push(item[key]);
+                });
+                let tmpdata = Line.fromString(temp.join(' '));
+                data.addLine(tmpdata);
+                miusCount += tmpdata.getFullLength();
+            });
+            data.addLine(Line.fromString('pzq123456.github.io%> '));
+            return data.getFullLength() - miusCount;
+        }
+    },
+    {
+        name: "clear",
+        description: "clear the terminal",
+        usage: "clear",
+        func: function(){
+            const terminal = document.getElementById('terminal');
+            // 获取terminal元素 改变边框颜色
+            // 一秒后恢复
+            terminal.style.borderBottom = '1px solid blue';
+            setTimeout(() => {
+                terminal.style.borderBottom = '1px solid white';
+            }, 500);
+        },
+        manipulate: function(data){
+            data.clear();
+            data.addLine(Line.fromString('pzq123456.github.io%> '));
+            return data.getFullLength() - 1;
+        }
+    },
+    {
+        name: "help",
+        description: "show help",
+        usage: "help",
+        func: function(){
+            terminal.style.borderBottom = '1px solid pink';
+            setTimeout(() => {
+                terminal.style.borderBottom = '1px solid white';
+            }, 500);
+        },
+        manipulate: function(data){
+            let helpTdata = TerminalData.fromString(helpInfo);
+            data.merge(helpTdata);
+            data.addLine(Line.fromString('pzq123456.github.io%> '));
+            return data.getFullLength() - helpTdata.getFullLength() - 1;
+        }
+    },
+]
+
+/**
+ * 自定义样式 根据block的内容
+ * @param {Block} block 
+ */
+function getStyle(block){
+    if(block.contains("%")){
+        // console.log('pzq');
+        return blockStyle;
+    }else if(block.equals("cd") || block.equals('ls') || block.equals('cat') || block.equals('clear') || block.equals('help')){
+        return blockStyle3;
+    }else if(
+        block.contains('/') ||  block.contains(`path`)
+    ){
+        return blockStyle4;
+    }else if(block.contains('202') || block.contains(`date`)){
+        return blockStyle5;
+    }
+    else{
+        return blockStyle2;
+    }
+}
+
+let wholeStyle = {
+    'background-color': 'black',
+    // 行间距
+    'line-interval': '10px',
+}
+
+// === 必要的全局变量 ===
+let c = 40; // 当前光标位置
+let i = 0; // 用于控制光标闪烁
+let current3Mouse = [[0,0],[0,0],[0,0]]; // 临近三次采样的鼠标位置
+let time3Mouse = [0,0,0]; // 临近三次采样的时间
+let timeInterval = 100; // 动画间隔时间
+
+// 用户自定义的绘制函数
+function draw(){
+    // clear canvas
+    const ctx = myCanvas.getContext('2d');
+    ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
+    i++;
+    // 更具canvas 是否聚焦采用不同的渲染方式
+    if (myCanvas === document.activeElement){
+        // // 若为偶数则绘制光标
+        if (i % 3 === 0){
+            drawTData(myCanvas, Tdata, 0, 40, wholeStyle, getStyle,c,false);
+            smartDrawMouse(myCanvas, current3Mouse, time3Mouse,{color:'rgba(255,255,255,0.5)',strokeStyle:'white'});
+        } else {
+            drawTData(myCanvas, Tdata, 0, 40, wholeStyle, getStyle,c);
+            smartDrawMouse(myCanvas, current3Mouse, time3Mouse,{color:'rgba(255,255,255,0.5)',strokeStyle:'white'});
+        }
+    }else{
+        drawTData(myCanvas, Tdata, 0, 40, wholeStyle, getStyle,c);
+        smartDrawMouse(myCanvas, current3Mouse, time3Mouse);
+    }
+}
+let myEventList = [
+    { eventName: 'keydown',
+        callback: (e) => {
+        if (e.key === 'ArrowRight'){
+            c++;
+            if(c >= Tdata.getFullLength() - 1){
+                c = Tdata.getFullLength() - 1; 
+            }
+        }
+        }
+    },
+    { eventName: 'keydown',
+        callback: (e) => {
+        if (e.key === 'ArrowLeft'){
+            c--;
+            if (c < 0){
+                c = 0;
+            }
+        }
+        }
+    },
+    { eventName: 'keydown',
+        callback: (e) => {
+        //向下
+        if (e.key === 'ArrowDown'){
+            c = Tdata.downIndex(c);
+        }
+        }
+    },
+    { eventName: 'keydown',
+        callback: (e) => {
+        //向上
+        if (e.key === 'ArrowUp'){
+            c = Tdata.upIndex(c);
+        }
+        }
+    },
+    { eventName: 'keydown',
+        callback: (e) => {
+        // 键盘输入
+        if (e.key.length === 1 && e.key !== ' '){
+            c = Tdata.insertChar(c, e.key);
+        }
+        }
+    },
+    { eventName: 'keydown',
+        callback: (e) => {
+        // 删除字符
+        if (e.key === 'Backspace'){
+            c = Tdata.deleteCharBefore(c);
+        }
+        }
+    },
+    { eventName: 'keydown',
+        callback: (e) => {
+        // 空格键则创建空block
+        if (e.key === ' '){
+            c = Tdata.splitBlock(c);
+        }
+        }
+    },
+    { eventName: 'keydown',
+        callback: (e) => {
+        // 检测到回车
+        if (e.key === 'Enter'){
+            let actLine = Tdata.enter(c);
+            let res = parseLine(actLine);
+            console.log(res);
+            c = run(res, Tdata, myCommandList);
+        }
+        }
+    },
+    {
+        eventName: 'mousemove',
+        callback: (e) => {
+            // 以队列的方式维护鼠标位置 以及时间
+            current3Mouse.shift();
+            current3Mouse.push([e.offsetX, e.offsetY]);
+            time3Mouse.shift();
+            time3Mouse.push(Date.now());
+        }
+    },
+    ]
+
+animationEngine(timeInterval, draw); // 启动动画引擎
+eventEngine(myCanvas, myEventList); // 启动事件引擎
+
+
+// ==== 博客部分
+
+
+const mdStyle = {
+    'padding': '20px',
+    'font-family': 'monospace',
+    'font-size': '30px',
+    'overflow': 'auto',
+    'border-bottom': '1px solid white',
+    'border-radius': '5px',
+    'background-color': '#161b22',
+    'width': '80%',
+    'color': 'white',
+}; // style for the markdown content
+
+fileToHtml('/README.md',document.getElementById('content'), mdStyle);
 
 fillNavBar(document.getElementById('navBar'),
 [
@@ -43,69 +307,7 @@ fillNavBar(document.getElementById('navBar'),
     {
         "text": "Blog1",
         "action": function(){
-            const myMBR1 = [
-                -109.04885344551185,
-                36.988099165319085,
-                -102.05550147177286,
-                41.01069002801907
-              ]
-            const canvas = myCanvas;
-            const fastFFT2 = RVGeo.Fourier.fastFFT2; // 2D快速傅里叶变换
-            const drawGrid2d = RVGeo.Renderer.drawGrid2d; // 2D网格绘制
-            const Grid = RVGeo.Coverage.Grid; // 网格类
-            const Sin3D = RVGeo.Noise.Sin3D; // 3D正弦波噪声生成器
-            const Perlin = RVGeo.Noise.Perlin; // Perlin 噪声生成器
-            const dampedSin3D = RVGeo.Noise.dampedSin3D; // 3D阻尼正弦波噪声生成器
-          
-            let data = []; // 二维噪声数据
-            data.push(sample(128,0.05,0.05,Perlin));
-            data.push(sample(128,0.05,0.5,Perlin));
-            data.push(sample(128,0.01,0.01,Perlin));
-            data.push(sample(128,0.1,0.1,Sin3D));
-            data.push(sample(128,1,1,Sin3D));
-            data.push(sample(128,0.05,0.01,Sin3D));
-            data.push(sample(128,0.5,0.1,Perlin));
-            data.push(sample(128,1,1,dampedSin3D));
-          
-            let fft = []; // 二维傅里叶变换结果
-            data.forEach((d) => {
-              let tmp = fastFFT2(d);
-              fft.push(tmp.map((row) => row.map((c) => Math.sqrt(c.real*c.real + c.imag*c.imag)))); // 模值
-            });
-          
-            let grid = []; // 二维网格
-            data.forEach((d) => {
-              grid.push(new Grid(myMBR1, [d]));
-            });
-          
-            let fftGrid = []; // 二维傅里叶变换网格
-            fft.forEach((d) => {
-              fftGrid.push(new Grid(myMBR1, [d]));
-            });
-          
-            // 1024 * 1024
-            for(let i = 0; i < 4; i++){
-              drawGrid2d(canvas, data[i], {x: 0, y: i*256, w: 256, h: 256}, grid[i].getBandStatistics(0), RVGeo.Colors.simpleColorBandFactory(RVGeo.Colors.stretchType.linear));
-              drawGrid2d(canvas, fft[i], {x: 256, y: i*256, w: 256, h: 256}, fftGrid[i].getBandStatistics(0), RVGeo.Colors.simpleColorBandFactory(RVGeo.Colors.stretchType.linear));
-            }
-          
-            for(let i = 4; i < 8; i++){
-              drawGrid2d(canvas, data[i], {x: 512, y:(i - 4)*256, w: 256, h: 256}, grid[i].getBandStatistics(0), RVGeo.Colors.simpleColorBandFactory(RVGeo.Colors.stretchType.linear));
-              drawGrid2d(canvas, fft[i], {x: 768, y:(i - 4)*256, w: 256, h: 256}, fftGrid[i].getBandStatistics(0), RVGeo.Colors.simpleColorBandFactory(RVGeo.Colors.stretchType.linear));
-            }
-          
-            function sample(size,x,y, sampleFunc){
-              let data = [];
-              for(let i = 0; i < size; i++){
-                let tmp = [];
-                for(let j = 0; j < size; j++){
-                  let noise = sampleFunc(i*x - size/2, j*y - size/2); // 生成噪声0-1
-                  tmp.push(noise);
-                }
-                data.push(tmp);
-              }
-              return data;
-            }
+            fileToHtml('/blogs/Blog1.md',document.getElementById('content'), mdStyle);
         }
     },
 ],
@@ -119,86 +321,27 @@ fillNavBar(document.getElementById('navBar'),
     'border-bottom':'1px solid white',
 }
 );
-const mdStyle = {
-    'padding': '20px',
-    'font-family': 'monospace',
-    'font-size': '30px',
-    'overflow': 'auto',
-    'border-bottom': '1px solid white',
-    'border-radius': '5px',
-    'background-color': '#161b22',
-    'width': '80%',
-    'color': 'white',
-}; // style for the markdown content
 
-let testStyle = {
-    'font-family': 'monospace',
-    'font-size': '30px',
-    'color': 'white',
-    'background-color': 'black',
-};
-
-
-
-let data = Data.fromString(`cd test
-cd /test/ test -h
-help dhjksahd jdsklajdl djsaldj
-ls djskaldj jdksaldj jdksaldjidw jsdkal`);
-
-let testLine = "cd pzq /home/ -l -a -h cd pzq /home/ -l -a -h cd pzq /home/ -l -a -h cd pzq /home/ -l -a -h cd pzq /home/ -l -a -h cd pzq /home/ -l -a -h cd pzq /home/ -l -a -h";
-
-
-
-// console.log(data);
-let c = 0;
-let hc = 0; // history cursor
-let canvasy = 0;
-animationEngine(100/60, () => {
-    // clear canvas
-    myCanvas.getContext('2d').clearRect(0,0,myCanvas.width,myCanvas.height);
-    let view = new View(data,myCanvas,testStyle);
-
-    let y = view.drawHiostry(canvasy,hc);
-    y = view.drawCurrent(y,c);
-
-    // 若 y 超过 canvas 的高度则滚动
-    if (y > myCanvas.height){
-        canvasy -= y - myCanvas.height;
+fillNavBar(document.getElementById("blogsColumn"), 
+    metalist.map(item => {
+        return {
+            "text": item.title,
+            "action": function(){
+                fileToHtml(item.path, document.getElementById('content'), mdStyle);
+            },
+            "info": item.date + " " + item.tag + " " + item.title,
+        };
+    }),
+    {
+        'width': '100%',
+        'background-color': '#0d1117',
+        'height': 'auto',
+        'display': 'flex',
+        'flex-direction': 'column',
+        'align-items': 'center',
+        'border-bottom':'1px solid #8b949e',
+        'padding': '10px',
     }
-});
-// 监听键盘事件输入字母
-document.addEventListener('keydown',function(e){
-    if (e.key.length === 1){
-        // 输入字母
-        c = data.insert(c,e.key);
-    }
-    if (e.key === 'Backspace'){
-        // 删除字母
-        c = data.delete(c);
-    }
-    if (e.key === 'Enter'){
-        // 换行
-        c = data.enter();
-        console.log(data);
-    }
-    // 按下左右键
-    if (e.key === 'ArrowLeft'){
-        c--;
-    }
-    if (e.key === 'ArrowRight'){
-        c++;
-    }
+);
 
-    // 按下上下键
-    if (e.key === 'ArrowUp'){
-        hc--;
-    }
-    if (e.key === 'ArrowDown'){
-        hc++;
-    }
-});
 
-// 监听鼠标滚动事件
-document.addEventListener('wheel',function(e){
-    canvasy += e.deltaY;
-});

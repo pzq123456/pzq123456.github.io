@@ -25,7 +25,14 @@ export function tokenization(line){
                 type: 'option',
                 value: token
             }
-        }else{
+            // 含有 ! 或 no 说明为警告
+        }else if(token.startsWith('!') || token.startsWith('no')){
+            return {
+                type: 'warning',
+                value: token
+            }
+        }
+        else{
             return {
                 type: 'argument',
                 value: token
@@ -54,6 +61,10 @@ export function tokenStyle(token){
     } else if (token.type === 'argument'){
         return {
             'color': 'gray',
+        }
+    }else if (token.type === 'warning'){
+        return {
+            'color': 'red',
         }
     }
 }

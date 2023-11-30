@@ -1,6 +1,6 @@
-import * as Data from './Data.js';
+import * as Data from './TData.js';
 import * as Parser from './Parser.js';
-import * as View from './View.js';
+import * as View from './TView.js';
 import * as Strategy from './Strategy.js';
 
 export {

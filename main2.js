@@ -152,13 +152,19 @@ let testLine = "cd pzq /home/ -l -a -h cd pzq /home/ -l -a -h cd pzq /home/ -l -
 // console.log(data);
 let c = 0;
 let hc = 0; // history cursor
-animationEngine(1000/60, () => {
+let canvasy = 0;
+animationEngine(100/60, () => {
     // clear canvas
     myCanvas.getContext('2d').clearRect(0,0,myCanvas.width,myCanvas.height);
     let view = new View(data,myCanvas,testStyle);
-    let y = view.drawHiostry(hc);
+
+    let y = view.drawHiostry(canvasy,hc);
     y = view.drawCurrent(y,c);
-    // console.log(hc);
+
+    // 若 y 超过 canvas 的高度则滚动
+    if (y > myCanvas.height){
+        canvasy -= y - myCanvas.height;
+    }
 });
 // 监听键盘事件输入字母
 document.addEventListener('keydown',function(e){
@@ -190,4 +196,9 @@ document.addEventListener('keydown',function(e){
     if (e.key === 'ArrowDown'){
         hc++;
     }
+});
+
+// 监听鼠标滚动事件
+document.addEventListener('wheel',function(e){
+    canvasy += e.deltaY;
 });

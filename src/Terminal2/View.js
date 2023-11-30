@@ -13,7 +13,7 @@ export class View{
         let tokens = tokenization(line);
         let ctx = this.canvas.getContext('2d');
         let height = parseInt(this.style['font-size']);
-        y += height + this.y;
+        y += height;
         for(let token of tokens){
             let style = tokenStyle(token);
             ctx.fillStyle = style['color'];
@@ -130,16 +130,14 @@ export class View{
      * @param {number} i - 高亮索引
      * @returns 
      */
-    drawHiostry(i){
+    drawHiostry(y,i){
         let ctx = this.canvas.getContext('2d');
         let height = parseInt(this.style['font-size']);
-        let y = 0;
+        // let y = 0;
         // i 为高亮索引 高亮并绘制底色
         for(let j = 0; j < this.data._history.length; j++){
             let line = this.data._history[j];
             if (j == i){
-                // ctx.fillRect(0,y,this.canvas.width,height);
-                // y = this.drawLine(line,0,y);
                 // 两次的高度差作为底色的高度
                 let height2 = this.drawLine(line,0,y);
                 ctx.fillStyle = 'rgba(255,255,255,0.1)';

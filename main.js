@@ -4,7 +4,7 @@ import { metalist } from './blogs/meta.js'; // metalist is a list of blog metada
 import {initPage} from './helpers/init.js';
 initPage();
 
-import * as Terminal from './src/Terminal/index.js';
+import * as Terminal from '/src/Terminal/index.js';
 
 const Data = Terminal.Data.Data;
 const Parser = Terminal.Parser.Parser;

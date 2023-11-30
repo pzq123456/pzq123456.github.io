@@ -96,23 +96,21 @@ export class View{
         let height = parseInt(this.style['font-size']);
 
         // 绘制当前行
-        y = this.drawLine(this.data._current,0,y);
+        let y2 = this.drawLine(this.data._current,0,y);
+
+
         // 绘制光标
         // 按照 drawLine 的布局逻辑绘制光标
         // 从左到右绘制 若 x 超过 canvas 的宽度则换行
         let cursorX = 0;
-        let cursorY = y - height;
-        let cursorWidth = 2;
+        let cursorY = y;
+        let cursorWidth = 1;
         let cursorHeight = height;
         let cursorColor = 'white';
 
-        for(let j = 0; j <= i; j++){
+        for(let j = 0; j < i; j++){
             let width = this.measureText(this.data._current[j])[0];
-            if(this.data._current[j] == undefined){
-                break;
-            }
-            console.log(this.data._current[j]);
-            if (cursorX + width> this.canvas.width){
+            if (cursorX + width > this.canvas.width){
                 cursorX = 0;
                 cursorY += height;
             }
@@ -124,7 +122,7 @@ export class View{
             ctx.fillRect(cursorX,cursorY,cursorWidth,cursorHeight);
         }
         // 返回高度
-        return y;
+        return y2;
     }
 
     /**

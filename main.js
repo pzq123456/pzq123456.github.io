@@ -12,6 +12,7 @@ const tokenization = Terminal.Parser.tokenization;
 const View = Terminal.View.View;
 const animationEngine = Terminal.View.animationEngine;
 const run = Terminal.Strategy.run;
+const chat = Terminal.Strategy.chat;
 const createCanvas = Terminal.View.createCanvas;
 
 
@@ -21,6 +22,9 @@ const createCanvas = Terminal.View.createCanvas;
 
 
 // ==== 终端部分 ====
+let isChatMode = false; // 是否处于聊天模式
+
+
 let myCanvas = createCanvas(document.getElementById('terminal'), window.innerWidth * 0.81, 300);
 let testStyle = {
     'font-family': 'monospace',
@@ -74,9 +78,23 @@ myCanvas.addEventListener('keydown',function(e){
         c = data.delete(c);
     }
     if (e.key === 'Enter'){
-        let obj = Parser(tokenization(data._current));
-        c = data.enter();
-        run(obj,data,callBackList);
+        if(!isChatMode){
+            let obj = Parser(tokenization(data._current));
+            c = data.enter();
+            run(obj,data,callBackList);
+        }else{
+            let obj = Parser(tokenization(data._current));
+            // only run exit command
+            if (obj.command === 'exit'){
+                c = data.enter();
+                run(obj,data,callBackList);
+            }else{
+                //
+                chat(data,data._current);
+                c = data.enter();
+            }
+
+        }
     }
     // 按下左右键
     if (e.key === 'ArrowLeft'){
@@ -142,7 +160,6 @@ const callBackList =
                 }else{
                     terminal.writeHistory("no such path " + comObj.path);
                 }
-                // fileToHtml(comObj.path,document.getElementById('content'), mdStyle);
             }else{
                 terminal.writeHistory("no path");
             }
@@ -184,6 +201,24 @@ const callBackList =
             canvasy = 0;
         }
     },
+    "chat":{
+        "callBack": function chat(comObj,terminal){
+            isChatMode = true;
+            terminal.writeHistory("=== chat mode ===");
+            view.cursorColor = "green";
+            view.currentRectColor = "green";
+            view.currentRectBackgroundColor = "rgba(0,255,0,0.1)";
+        }
+    },
+    "exit":{
+        "callBack": function exit(comObj,terminal){
+            isChatMode = false;
+            terminal.writeHistory("=== exit chat mode ===");
+            view.cursorColor = "white";
+            view.currentRectColor = "white";
+            view.currentRectBackgroundColor = "rgba(255,255,255,0.1)";
+        }
+    }
 }
 
 // ==== 页面部分 ====

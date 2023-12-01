@@ -6,6 +6,9 @@ export class View{
         this.canvas = canvas; // canvas 元素
         this.style = style; // canvas 全局样式
         this.y = 0; // canvas 的 y 偏移量 用以支持滚动
+        this.cursorColor = 'white'; // 光标颜色
+        this.currentRectColor = 'white'; // 当前行的边框颜色
+        this.currentRectBackgroundColor; // 当前行的底色
     }
 
     drawLine(line,x,y){
@@ -28,17 +31,6 @@ export class View{
             // 若 x 超过 canvas 的宽度则换行
             let [width, _height] = this.measureText(token.value+" ");
             if (x + width > this.canvas.width){
-                // 将 token.value 从超过处截断 循环绘制直到
-                // let i = 0;
-                // let tmp = '';
-                // while(x + this.measureText(tmp+token.value[i])[0] < this.canvas.width){
-                //     tmp += token.value[i];
-                //     i++;
-                // }
-                // ctx.fillText(tmp,x,y);
-                // x = 0;
-                // y += height;
-
                 while(x + width > this.canvas.width){
                     let i = 0;
                     let tmp = '';
@@ -106,7 +98,7 @@ export class View{
         let cursorY = y;
         let cursorWidth = 3;
         let cursorHeight = height;
-        let cursorColor = 'white';
+        let cursorColor = this.cursorColor;
 
         for(let j = 0; j < i; j++){
             let width = this.measureText(this.data._current[j])[0];
@@ -116,14 +108,21 @@ export class View{
             }
             cursorX += width;
         }
+
         // 绘制光标
         if (showCursor){
             ctx.fillStyle = cursorColor;
             ctx.fillRect(cursorX,cursorY,cursorWidth,cursorHeight);
             // 高亮当前行
         }
-        ctx.strokeStyle = 'white';
+        ctx.strokeStyle = this.currentRectColor;
         ctx.strokeRect(0,y,this.canvas.width,y2-y);
+
+        // 绘制底色
+        if(this.currentRectBackgroundColor){
+            ctx.fillStyle = this.currentRectBackgroundColor;
+            ctx.fillRect(0,y,this.canvas.width,y2-y);
+        }
         return y2;
     }
 
@@ -213,7 +212,7 @@ export function createCanvas(
         // 禁用滚动
         disableScroll();
         // infoBobble
-        let info = new infoBobble('disable scroll click outside Terminal to enable scroll','error',1000);
+        let info = new infoBobble('disable scroll click outside Terminal to enable scroll','error',3000);
         info.render();
     });
 

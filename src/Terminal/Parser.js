@@ -1,6 +1,6 @@
 // 类别包括：命令、参数、地址
 // 命令包括：cd、ls、echo、clear、help
-const commands = ['cd', 'ls', 'echo', 'clear', 'help'];
+const commands = ['cd', 'ls', 'echo', 'clear', 'help', 'chat', 'exit'];
 // 用正则表达式表示规则
 const tokenClass = ['command', 'option', 'path', 'argument'];
 

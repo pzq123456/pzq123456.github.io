@@ -105,3 +105,9 @@ table tr:nth-child(even){
 table tr:hover{
     background-color: #ffffff3a;
 }
+
+
+/* 隐藏滚动条 */
+::-webkit-scrollbar {
+    display: none;
+}

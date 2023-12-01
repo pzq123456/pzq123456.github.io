@@ -210,14 +210,85 @@ export function createCanvas(
     canvas.addEventListener('focus', () => {
         // 父节点高亮边框
         container.style.borderBottom = '1px solid white';
+        // 禁用滚动
+        disableScroll();
+        // infoBobble
+        let info = new infoBobble('disable scroll click outside Terminal to enable scroll','error',1000);
+        info.render();
     });
 
     // 当canvas 失去焦点时
     canvas.addEventListener('blur', () => {
         // 父节点取消高亮边框
         container.style.borderBottom = '1px solid gray';
+        // 启用滚动
+        enableScroll();
+        // infoBobble
+        let info = new infoBobble('enable scroll','success',1000);
+        info.render();
     });
 
     container.appendChild(canvas);
     return canvas;
+}
+
+
+function disableScroll() {
+    document.body.style.overflow = 'hidden';
+}
+
+function enableScroll() {
+    document.body.style.overflow = 'auto';
+}
+
+/**
+ * 向页面中添加一个 infoBobble
+ */
+class infoBobble{
+    constructor(info,type,time){
+        this.info = info;
+        this.type = type;
+        this.time = time;
+    }
+
+    getStyle(){
+        let style = {
+            'position': 'fixed',
+            'bottom': '0',
+            'left': '0',
+            'width': '100%',
+            'height': 'auto',
+            'background-color': 'rgba(0,0,0,0.5)',
+            'color': 'white',
+            'font-size': '30px',
+            'font-family': 'monospace',
+            'padding': '10px',
+            'z-index': '100',
+            'text-align': 'center',
+        };
+        if (this.type === 'error'){
+            style['background-color'] = 'rgba(255,0,0,0.5)';
+        }else if (this.type === 'warning'){
+            style['background-color'] = 'rgba(255,255,0,0.5)';
+        } else if (this.type === 'success'){
+            style['background-color'] = 'rgba(0,255,0,0.5)';
+        }else if (this.type === 'info'){
+            style['background-color'] = 'rgba(0,0,255,0.5)';
+        }
+        return style;
+    }
+
+    render(){
+        let div = document.createElement('div');
+        div.textContent = this.info;
+        let style = this.getStyle();
+        for(let key in style){
+            div.style[key] = style[key];
+        }
+        document.body.appendChild(div);
+        setTimeout(()=>{
+            document.body.removeChild(div);
+        },this.time);
+    }
+
 }

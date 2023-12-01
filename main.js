@@ -14,7 +14,13 @@ const animationEngine = Terminal.View.animationEngine;
 const run = Terminal.Strategy.run;
 const createCanvas = Terminal.View.createCanvas;
 
-// Terminal === 部分
+
+
+
+// 
+
+
+// ==== 终端部分 ====
 let myCanvas = createCanvas(document.getElementById('terminal'), window.innerWidth * 0.81, 300);
 let testStyle = {
     'font-family': 'monospace',

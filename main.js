@@ -18,6 +18,11 @@ const createCanvas = Terminal.View.createCanvas;
 
 
 
+// let encode = Base64Encoder('AIzaSyASzYssRSF-wMWJDVvLnOiOKfkLeXAAYdo'); 
+// console.log(encode);
+// console.log(Base64Decoder(encode));
+
+
 // 
 
 

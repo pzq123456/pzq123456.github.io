@@ -30,10 +30,10 @@ const createCanvas = Terminal.View.createCanvas;
 let isChatMode = false; // 是否处于聊天模式
 
 
-let myCanvas = createCanvas(document.getElementById('terminal'), window.innerWidth * 0.81, 300);
+let myCanvas = createCanvas(document.getElementById('terminal'), window.innerWidth * 0.81, 600);
 let testStyle = {
     'font-family': 'monospace',
-    'font-size': '30px',
+    'font-size': '50px',
     'color': 'white',
     'background-color': 'black',
 };
@@ -189,11 +189,12 @@ const callBackList =
     "help": {
         "callBack": function help(comObj,terminal){
             let helpInfo = [
-                "cd : change directory",
-                "ls : list files",
-                "help : get help",
-                "clear : clear terminal",
-                "toggleTerminal : toggle terminal",
+                "-cd : change directory",
+                "-ls : list files",
+                "-help : get help",
+                "-clear : clear terminal",
+                "-toggleTerminal : toggle terminal",
+                "-chat : enter chat mode",
             ];
             helpInfo.forEach(item => {
                 terminal.writeHistory(item);

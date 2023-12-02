@@ -1,5 +1,6 @@
 # Zhiqing Pan's website (using vanilla JS from scratch)
 > - Attention: You need to click the Terminal first to focus it before you can input commands.
+> - Site Version 2.0.0 (Stable)
 
 ## Update
 - 切换到了新的 Terminal 渲染器，基本操作不变。

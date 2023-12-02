@@ -69,6 +69,102 @@ export function tokenStyle(token){
     }
 }
 
+
+// MarkDown tokenization
+export function mdTokenization(line){
+    // tokenization
+    let tokens = line.split(' ');
+    // 为每一个 token 添加类型
+    tokens = tokens.map(token => {
+        // 使用正则表达式判断
+        if (token.includes('#')){
+            return {
+                type: 'title',
+                value: token
+            }
+        }else if (token.includes('[') || token.includes(']') || token.includes('(') || token.includes(')')){
+            return {
+                type: 'link',
+                value: token
+            }
+        }else if (token.startsWith('---')){
+            return {
+                type: 'hr',
+                value: token
+            }
+        }else if (token.startsWith('>')){
+            return {
+                type: 'quote',
+                value: token
+            }
+        }else if (token.startsWith("```")){
+            return {
+                type: 'code',
+                value: token
+            }
+        }else if (token.includes('*') || token.startsWith('-') || token.includes('+')){
+            return {
+                type: 'list',
+                value: token
+            }
+        }
+        else if (token.startsWith('//') || token.startsWith('/*') || token.startsWith('*/') || token.includes('/')){
+            return {
+                type: 'escape',
+                value: token
+            }
+        }else{
+            return {
+                type: 'text',
+                value: token
+            }
+        }
+    }
+    );
+    return tokens;
+}
+
+export function mdTokenStyle(token){
+    if (token.type === 'title'){
+        return {
+            'color': 'orange',
+            'font-weight': 'bold'
+        }
+    } else if (token.type === 'link'){
+        return {
+            'color': 'rgb(100, 25, 255)',
+        }
+    } else if (token.type === 'list'){
+        return {
+            'color': '#00ff00',
+        }
+    } else if (token.type === 'quote'){
+        return {
+            'color': 'gray',
+        }
+    }else if (token.type === 'code'){
+        return {
+            'color': 'aqua',
+        }
+    }else if (token.type === 'hr'){
+        return {
+            'color': 'red',
+        }
+    }else if (token.type === 'text'){
+        return {
+            'color': 'rgba(255,255,255,0.8)'
+        }
+    }else if (token.type === 'escape'){
+        return {
+            'color': 'aqua',
+        }
+    }
+}
+
+
+
+
+
 /**
  * 解析 token 用于后续执行命令
  * @param {string[]} tokens 

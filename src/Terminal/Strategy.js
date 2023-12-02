@@ -41,16 +41,4 @@ export function chat(terminal,input){
     .catch(err => {
         console.log(err);
     })
-
-
-    /**
-    !curl https://generativelanguage.googleapis.com/v1beta2/models/text-bison-001:generateText?key=$PALM_API_KEY \
-    -H 'Content-Type: application/json' \
-    -X POST \
-    -d '{ \
-        "prompt": { \
-              "text": "Write a story about a magic backpack." \
-              } \
-          }'
-     */
 }

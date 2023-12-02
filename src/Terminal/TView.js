@@ -1,4 +1,4 @@
-import { tokenization, tokenStyle } from './Parser.js';
+import { tokenization, tokenStyle, mdTokenization, mdTokenStyle } from './Parser.js';
 
 export class View{
     constructor(data,canvas,style){
@@ -11,14 +11,14 @@ export class View{
         this.currentRectBackgroundColor; // 当前行的底色
     }
 
-    drawLine(line,x,y){
+    drawLine(line,x,y,mytokenization = tokenization,mytokenStyle = tokenStyle){
         // 解析 获得 tokens 获得 token 的样式 然后绘制
-        let tokens = tokenization(line);
+        let tokens = mytokenization(line);
         let ctx = this.canvas.getContext('2d');
         let height = parseInt(this.style['font-size']);
         y += height;
         for(let token of tokens){
-            let style = tokenStyle(token);
+            let style = mytokenStyle(token);
             ctx.fillStyle = style['color'];
             ctx.font = this.style['font-size'] + ' ' + this.style['font-family'];
             // 绘制基准
@@ -55,28 +55,30 @@ export class View{
         return y;
     }
 
-    drawLine2(line,x,y){
-        // 默认样式绘制 不高亮
-        let ctx = this.canvas.getContext('2d');
-        let height = parseInt(this.style['font-size']);
-        y += height + this.y;
-        ctx.fillStyle = this.style['color'];
-        ctx.font = this.style['font-size'] + ' ' + this.style['font-family'];
-        ctx.textBaseline = 'bottom';
-        ctx.fontWeight = 'normal';
-        // 逐字母绘制 若 x 超过 canvas 的宽度则换行
-        for(let i = 0; i < line.length; i++){
-            let [width, _height] = this.measureText(line[i]);
-            if (x + width > this.canvas.width){
-                x = 0;
-                y += height;
-            }
-            ctx.fillText(line[i],x,y);
-            x += width;
-        }
-        // 返回高度
-        return y;
-    }
+    // drawLine2(line,x,y){
+    //     // 默认样式绘制 不高亮
+    //     let ctx = this.canvas.getContext('2d');
+    //     let height = parseInt(this.style['font-size']);
+    //     y += height + this.y;
+    //     ctx.fillStyle = this.style['color'];
+    //     ctx.font = this.style['font-size'] + ' ' + this.style['font-family'];
+    //     ctx.textBaseline = 'bottom';
+    //     ctx.fontWeight = 'normal';
+    //     // 逐字母绘制 若 x 超过 canvas 的宽度则换行
+    //     for(let i = 0; i < line.length; i++){
+    //         let [width, _height] = this.measureText(line[i]);
+    //         if (x + width > this.canvas.width){
+    //             x = 0;
+    //             y += height;
+    //         }
+    //         ctx.fillText(line[i],x,y);
+    //         x += width;
+    //     }
+    //     // 返回高度
+    //     return y;
+    // }
+
+
     /**
      * 绘制当前行
      * @param {number} i - 行内光标位置
@@ -89,7 +91,6 @@ export class View{
 
         // 绘制当前行
         let y2 = this.drawLine(this.data._current,0,y);
-
 
         // 绘制光标
         // 按照 drawLine 的布局逻辑绘制光标
@@ -134,22 +135,17 @@ export class View{
      */
     drawHiostry(y,i){
         let ctx = this.canvas.getContext('2d');
-        let height = parseInt(this.style['font-size']);
-        // let y = 0;
         // i 为高亮索引 高亮并绘制底色
         for(let j = 0; j < this.data._history.length; j++){
             let line = this.data._history[j];
             if (j == i){
                 // 两次的高度差作为底色的高度
-                let height2 = this.drawLine2(line,0,y);
+                let height2 = this.drawLine(line,0,y);
                 ctx.fillStyle = 'rgba(255,255,255,0.1)';
                 ctx.fillRect(0,y,this.canvas.width,height2-y);
-                // // 绘制边框
-                // ctx.strokeStyle = 'white';
-                // ctx.strokeRect(0,y,this.canvas.width,height2-y);
                 y = height2;
             }else{
-                y = this.drawLine(line,0,y);
+                y = this.drawLine(line,0,y,mdTokenization,mdTokenStyle);
             }
         }
         return y;

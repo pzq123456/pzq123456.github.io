@@ -33,7 +33,7 @@ let isChatMode = false; // 是否处于聊天模式
 let myCanvas = createCanvas(document.getElementById('terminal'), window.innerWidth * 0.81, 600);
 let testStyle = {
     'font-family': 'monospace',
-    'font-size': '50px',
+    'font-size': '36px',
     'color': 'white',
     'background-color': 'black',
 };

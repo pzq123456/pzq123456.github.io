@@ -16,15 +16,19 @@ const chat = Terminal.Strategy.chat;
 const createCanvas = Terminal.View.createCanvas;
 const infoBobble = Terminal.View.infoBobble;
 
-
-
-
-// let encode = Base64Encoder('AIzaSyASzYssRSF-wMWJDVvLnOiOKfkLeXAAYdo'); 
-// console.log(encode);
-// console.log(Base64Decoder(encode));
-
-
-// 
+// ==== 页面部分 ====
+let darkBG =  "#0d1117";
+let lightBG = "white";
+let mode = 'dark'; // dark or light
+// 获取系统是否处于 dark mode
+const darkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+if (darkMode){
+    document.body.style.backgroundColor = darkBG;
+    mode = 'dark';
+}else{
+    document.body.style.backgroundColor = lightBG;
+    mode = 'light';
+}
 
 
 // ==== 终端部分 ====
@@ -70,11 +74,6 @@ animationEngine(100/60, () => {
     }
     i++;
 });
-
-
-
-
-
 
 // 监听键盘事件输入字母
 myCanvas.addEventListener('keydown',function(e){
@@ -274,7 +273,7 @@ const callBackList =
     }
 }
 
-// ==== 页面部分 ====
+
 const mdStyle = {
     'padding': '20px',
     'font-family': 'monospace',
@@ -287,14 +286,41 @@ const mdStyle = {
     'color': 'white',
 }; // style for the markdown content
 
-fileToHtml('/README.md',document.getElementById('content'), mdStyle);
+const mdStyle2 = { // 浅色主体
+    'padding': '20px',
+    'font-family': 'monospace',
+    'font-size': '30px',
+    'overflow': 'auto',
+    'border-bottom': '1px solid white',
+    'border-radius': '5px',
+    'background-color': 'white',
+    'width': '80%',
+    'color': 'black',
+}; // style for the markdown content
+function getMDStyle(mode){
+    if (mode === 'dark'){
+        return mdStyle;
+    }else{
+        return mdStyle2;
+    }
+}
+function getBG(mode){
+    if (mode === 'dark'){
+        return darkBG;
+    }else{
+        return lightBG;
+    }
+}
+
+
+fileToHtml('/README.md',document.getElementById('content'), getMDStyle(mode));
 
 fillNavBar(document.getElementById('navBar'),
 [
     {
         "text": "Home",
         "action": function(){
-            fileToHtml('/README.md',document.getElementById('content'), mdStyle);
+            fileToHtml('/README.md',document.getElementById('content'), getMDStyle(mode));
         }
     },{
         'text':'toggleTerminal',
@@ -322,16 +348,10 @@ fillNavBar(document.getElementById('navBar'),
 
 
         },
-    {
-        "text": "Blog1",
-        "action": function(){
-            fileToHtml('/blogs/Blog1.md',document.getElementById('content'), mdStyle);
-        }
-    },
 ],
 {
     'width': '100%',
-    'background-color': '#0d1117',
+    // 'background-color': '#0d1117',
     'height': 'auto',
     'display': 'flex',
     'flex-direction': 'row',
@@ -345,14 +365,14 @@ fillNavBar(document.getElementById("blogsColumn"),
         return {
             "text": item.title,
             "action": function(){
-                fileToHtml(item.path, document.getElementById('content'), mdStyle);
+                fileToHtml(item.path, document.getElementById('content'), getMDStyle(mode));
             },
             "info": item.date + " " + item.tag + " " + item.title,
         };
     }),
     {
         'width': '100%',
-        'background-color': '#0d1117',
+        // 'background-color': '#0d1117',
         'height': 'auto',
         'display': 'flex',
         'flex-direction': 'column',

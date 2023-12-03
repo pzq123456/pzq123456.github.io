@@ -9,6 +9,7 @@ export class View{
         this.cursorColor = 'white'; // 光标颜色
         this.currentRectColor = 'white'; // 当前行的边框颜色
         this.currentRectBackgroundColor; // 当前行的底色
+        this.backgroundColor = "rgba(50,120,50,0.6)"; // canvas 的底色
     }
 
     drawLine(line,x,y,mytokenization = tokenization,mytokenStyle = tokenStyle){
@@ -152,6 +153,11 @@ export class View{
     };
 
     render(c,hc,canvasy,showCursor = true){
+        // draw background
+        let ctx = this.canvas.getContext('2d');
+        ctx.fillStyle = this.backgroundColor;
+        ctx.fillRect(0,0,this.canvas.width,this.canvas.height);
+        // draw history
         let y = this.drawHiostry(canvasy,hc);
         y = this.drawCurrent(y,c,showCursor);
         return y;

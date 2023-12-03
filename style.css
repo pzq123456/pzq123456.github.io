@@ -1,6 +1,6 @@
 
 body{
-    font-family: 'Nunito', sans-serif;
+    font-family: monospace;
     font-size: 1rem;
     font-weight: 400;
     line-height: 1.5;
@@ -30,7 +30,7 @@ blockquote{
 /* 定义 链接样式 使得其在深色背景下更加利于阅读 */
 a{
     border: 1px solid #ffffff3a;
-    color: #ffffff;
+    color: violet;
     text-decoration: none;
     background-color: #ffffff24;
     border-radius: 0.25rem;
@@ -49,6 +49,7 @@ code{
     background-color: #54ec7734;
     border-radius: 0.25rem;
 }
+
 #terminal{
     margin: 0 0 0 132px;
     width: 88%;

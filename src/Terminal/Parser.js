@@ -60,7 +60,7 @@ export function tokenStyle(token){
         }
     } else if (token.type === 'argument'){
         return {
-            'color': 'gray',
+            'color': 'rgba(255,255,255,0.8)'
         }
     }else if (token.type === 'warning'){
         return {

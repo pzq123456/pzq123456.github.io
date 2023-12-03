@@ -30,7 +30,7 @@ blockquote{
 /* 定义 链接样式 使得其在深色背景下更加利于阅读 */
 a{
     border: 1px solid #ffffff3a;
-    color: violet;
+    color: rgb(21, 125, 199);
     text-decoration: none;
     background-color: #ffffff24;
     border-radius: 0.25rem;
@@ -51,9 +51,9 @@ code{
 }
 
 #terminal{
-    margin: 0 0 0 132px;
-    width: 88%;
-    border-bottom: 1px solid #ffffff73;
+    /* 居中 */
+    margin: 0 auto;
+    width: 88.5%;
 }
 canvas:focus {
     outline:none;

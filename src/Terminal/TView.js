@@ -9,7 +9,7 @@ export class View{
         this.cursorColor = 'white'; // 光标颜色
         this.currentRectColor = 'white'; // 当前行的边框颜色
         this.currentRectBackgroundColor; // 当前行的底色
-        this.backgroundColor = "rgba(50,120,50,0.6)"; // canvas 的底色
+        this.backgroundColor = "rgba(20,0,20,0.5)"; // canvas 的底色
     }
 
     drawLine(line,x,y,mytokenization = tokenization,mytokenStyle = tokenStyle){
@@ -55,30 +55,6 @@ export class View{
         // 返回高度
         return y;
     }
-
-    // drawLine2(line,x,y){
-    //     // 默认样式绘制 不高亮
-    //     let ctx = this.canvas.getContext('2d');
-    //     let height = parseInt(this.style['font-size']);
-    //     y += height + this.y;
-    //     ctx.fillStyle = this.style['color'];
-    //     ctx.font = this.style['font-size'] + ' ' + this.style['font-family'];
-    //     ctx.textBaseline = 'bottom';
-    //     ctx.fontWeight = 'normal';
-    //     // 逐字母绘制 若 x 超过 canvas 的宽度则换行
-    //     for(let i = 0; i < line.length; i++){
-    //         let [width, _height] = this.measureText(line[i]);
-    //         if (x + width > this.canvas.width){
-    //             x = 0;
-    //             y += height;
-    //         }
-    //         ctx.fillText(line[i],x,y);
-    //         x += width;
-    //     }
-    //     // 返回高度
-    //     return y;
-    // }
-
 
     /**
      * 绘制当前行
@@ -209,8 +185,6 @@ export function createCanvas(
     // 聚焦 focus
     canvas.tabIndex = 1;
     canvas.addEventListener('focus', () => {
-        // 父节点高亮边框
-        container.style.borderBottom = '1px solid white';
         // 禁用滚动
         disableScroll();
         // infoBobble
@@ -220,8 +194,6 @@ export function createCanvas(
 
     // 当canvas 失去焦点时
     canvas.addEventListener('blur', () => {
-        // 父节点取消高亮边框
-        container.style.borderBottom = '1px solid gray';
         // 启用滚动
         enableScroll();
         // infoBobble
@@ -293,3 +265,4 @@ export class infoBobble{
     }
 
 }
+

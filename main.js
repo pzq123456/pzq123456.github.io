@@ -1,7 +1,7 @@
 import { fileToHtml, manipulateFile } from './helpers/markdown.js';
 import { fillNavBar } from './helpers/navBar.js';
 import { metalist } from './blogs/meta.js'; // metalist is a list of blog metadata
-import {initPage} from './helpers/init.js';
+import { initPage } from './helpers/init.js';
 initPage();
 
 import * as Terminal from '/src/Terminal/index.js';
@@ -199,8 +199,8 @@ const callBackList =
                 });
                 if (flag){
 
-                    fileToHtml(comObj.path,document.getElementById('content'), mdStyle);
-                    terminal.writeHistory("cd success " + comObj.path + " preview: ");
+                    fileToHtml(comObj.path,document.getElementById('content'), getMDStyle(mode));
+                    terminal.writeHistory("cd success " + comObj.path + " original file content: ");
                     manipulateFile(comObj.path,function(data){
                         terminal.writeHistory(data);
                     });
@@ -257,7 +257,7 @@ const callBackList =
         "callBack": function chat(comObj,terminal){
             isChatMode = true;
             terminal.writeHistory("=== chat mode ===");
-            view.cursorColor = "green";
+            view.cursorColor = "orange";
             view.currentRectColor = "green";
             view.currentRectBackgroundColor = "rgba(0,255,0,0.1)";
         }
@@ -291,7 +291,7 @@ const mdStyle2 = { // 浅色主体
     'font-family': 'monospace',
     'font-size': '30px',
     'overflow': 'auto',
-    'border-bottom': '1px solid white',
+    'border-bottom': '1px solid black',
     'border-radius': '5px',
     'background-color': 'white',
     'width': '80%',
@@ -351,12 +351,11 @@ fillNavBar(document.getElementById('navBar'),
 ],
 {
     'width': '100%',
-    // 'background-color': '#0d1117',
     'height': 'auto',
     'display': 'flex',
     'flex-direction': 'row',
     'align-items': 'center',
-    'border-bottom':'1px solid white',
+    'border-bottom':'1px solid gray',
 }
 );
 
@@ -372,12 +371,11 @@ fillNavBar(document.getElementById("blogsColumn"),
     }),
     {
         'width': '100%',
-        // 'background-color': '#0d1117',
         'height': 'auto',
         'display': 'flex',
         'flex-direction': 'column',
         'align-items': 'center',
-        'border-bottom':'1px solid #8b949e',
+        'border-bottom':'1px solid gray',
         'padding': '10px',
     }
 );

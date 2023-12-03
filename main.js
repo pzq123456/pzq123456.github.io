@@ -1,4 +1,4 @@
-import { fileToHtml } from './helpers/markdown.js';
+import { fileToHtml, manipulateFile } from './helpers/markdown.js';
 import { fillNavBar } from './helpers/navBar.js';
 import { metalist } from './blogs/meta.js'; // metalist is a list of blog metadata
 import {initPage} from './helpers/init.js';
@@ -14,6 +14,7 @@ const animationEngine = Terminal.View.animationEngine;
 const run = Terminal.Strategy.run;
 const chat = Terminal.Strategy.chat;
 const createCanvas = Terminal.View.createCanvas;
+const infoBobble = Terminal.View.infoBobble;
 
 
 
@@ -71,10 +72,48 @@ animationEngine(100/60, () => {
 });
 
 
+
+
+
+
 // 监听键盘事件输入字母
 myCanvas.addEventListener('keydown',function(e){
     scrollMode = false;
-    if (e.key.length === 1){
+    if (e.key === 'c' && e.metaKey){
+        // copy cmd + c
+        let text = data._history[hc];
+        if(text){
+            navigator.clipboard.writeText(text).then(function() {
+                let info = new infoBobble('copy success','success',1000);
+                info.render();
+            }, function(err) {
+                console.error('Async: Could not copy text: ', err);
+                let info = new infoBobble('copy failed','error',1000);
+                info.render();
+            });
+        }else{
+            let info = new infoBobble('can not copy undefined','error',1000);
+            info.render();
+        }
+
+    }else if (e.key === 'v' && e.metaKey){
+        // paste cmd + v
+        navigator.clipboard.readText().then(function(text) {
+            if(text === ''){
+                let info = new infoBobble('paste failed: no text in clipboard','error',1000);
+                info.render();
+            }else{
+                let info = new infoBobble('paste success','success',1000);
+                info.render();
+                c = data.paste(c,text);
+            }
+
+        }, function(err) {
+            let info = new infoBobble('paste failed: other error','error',1000);
+            info.render();
+        });
+
+    } else if (e.key.length === 1){
         // 输入字母
         c = data.insert(c,e.key);
     }
@@ -160,8 +199,12 @@ const callBackList =
                     }
                 });
                 if (flag){
-                    terminal.writeHistory("cd success");
+
                     fileToHtml(comObj.path,document.getElementById('content'), mdStyle);
+                    terminal.writeHistory("cd success " + comObj.path + " preview: ");
+                    manipulateFile(comObj.path,function(data){
+                        terminal.writeHistory(data);
+                    });
                 }else{
                     terminal.writeHistory("no such path " + comObj.path);
                 }
@@ -205,6 +248,10 @@ const callBackList =
         "callBack": function clear(comObj,terminal){
             terminal.clear();
             canvasy = 0;
+            hc = 0;
+            c = 0;
+            // 清除剪贴板
+            navigator.clipboard.writeText("");
         }
     },
     "chat":{

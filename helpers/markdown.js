@@ -49,3 +49,20 @@ export function fileToHtml(filePath, element, style) {
     });
 }
 
+/**
+ * 获取文件内容
+ * @param {*} filepath 
+ * @param {*} callBack 
+ */
+export function manipulateFile(filepath,callBack){
+    axios.get(filepath)
+    .then(function (response) {
+        // handle success
+        callBack(response.data);
+    })
+    .catch(function (error) {
+        // handle error
+        console.log(error);
+    });
+}
+

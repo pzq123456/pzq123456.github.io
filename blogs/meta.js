@@ -1,5 +1,12 @@
 export const metalist = [
     {
+        "title" : "README",
+        "path" : "/README.md",
+        "date" : "2023-10-6",
+        "tag" : "info",
+        "command": "cd"
+    },
+    {
         "title" : "Blog0",
         "path" : "blogs/Blog0.md",
         "date" : "2023-10-14",

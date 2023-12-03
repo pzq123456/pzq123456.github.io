@@ -239,7 +239,7 @@ function enableScroll() {
 /**
  * 向页面中添加一个 infoBobble
  */
-class infoBobble{
+export class infoBobble{
     constructor(info,type,time){
         this.info = info;
         this.type = type;

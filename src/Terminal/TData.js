@@ -13,6 +13,13 @@ export class Data{
         this._inputHistory = []; // 输入历史
     }
 
+    paste(i,text){
+        // 在当前行的第 i 个字符前粘贴 text
+        this._current = this._current.slice(0,i) + text + this._current.slice(i);
+        // 返回 i + text.length 作为光标位置
+        return i + text.length;
+    }
+
     insert(i,char){
         // 在当前行的第 i 个字符前插入 char
         this._current = this._current.slice(0,i) + char + this._current.slice(i);

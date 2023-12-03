@@ -78,7 +78,8 @@ animationEngine(100/60, () => {
 // 监听键盘事件输入字母
 myCanvas.addEventListener('keydown',function(e){
     scrollMode = false;
-    if (e.key === 'c' && e.metaKey){
+    // com + c or ctrl + c
+    if (e.key === 'c' && e.metaKey || e.key === 'c' && e.ctrlKey){
         // copy cmd + c
         let text = data._history[hc];
         if(text){
@@ -95,7 +96,7 @@ myCanvas.addEventListener('keydown',function(e){
             info.render();
         }
 
-    }else if (e.key === 'v' && e.metaKey){
+    }else if (e.key === 'v' && e.metaKey || e.key === 'v' && e.ctrlKey){
         // paste cmd + v
         navigator.clipboard.readText().then(function(text) {
             if(text === ''){
@@ -237,6 +238,9 @@ const callBackList =
                 "-clear : clear terminal",
                 "-toggleTerminal : toggle terminal",
                 "-chat : enter chat mode",
+                "-exit : exit chat mode",
+                "-style : change style between dark and light Ex: style -dark or style -light",
+                "-about : about me",
             ];
             helpInfo.forEach(item => {
                 terminal.writeHistory(item);
@@ -270,6 +274,29 @@ const callBackList =
             view.currentRectColor = "white";
             view.currentRectBackgroundColor = "rgba(255,255,255,0.1)";
         }
+    },
+    "style":{
+        "callBack": function style(comObj,terminal){
+            if (comObj.options == '-dark'){
+                document.body.style.backgroundColor = darkBG;
+                mode = 'dark';
+                terminal.writeHistory("change to dark mode 🌙 ");
+            }else if (comObj.options == '-light'){
+                document.body.style.backgroundColor = lightBG;
+                mode = 'light';
+                terminal.writeHistory("change to light mode 🔆 ");
+            }else{
+                terminal.writeHistory("no such style: " + comObj.options);
+            }
+        }
+    },
+    "about":{
+        "callBack": function about(comObj,terminal){
+            terminal.writeHistory("=== about ===");
+            terminal.writeHistory("-Poweredn by JavaScript & PzqCanvasTerminal V2.0.0");
+            terminal.writeHistory("-春江潮水连海平，海上明月共潮生。");
+            terminal.writeHistory("=== end ===");
+        },
     }
 }
 

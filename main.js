@@ -184,6 +184,21 @@ myCanvas.addEventListener('wheel',function(e){
     }
 });
 
+// 若为移动设备则监听触摸事件
+if (window.innerWidth < 800){
+    myCanvas.addEventListener('touchstart',function(e){
+        scrollMode = true;
+        canvasy = e.touches[0].clientY;
+    });
+    myCanvas.addEventListener('touchmove',function(e){
+        scrollMode = true;
+        canvasy -= e.touches[0].clientY;
+        if(canvasy > 0){
+            canvasy = 0;
+        }
+    });
+}
+
 
 const callBackList = 
 {
@@ -236,10 +251,9 @@ const callBackList =
                 "-ls : list files",
                 "-help : get help",
                 "-clear : clear terminal",
-                "-toggleTerminal : toggle terminal",
                 "-chat : enter chat mode",
                 "-exit : exit chat mode",
-                "-style : change style between dark and light Ex: style -dark or style -light",
+                "-style : change style: style -dark or style -light",
                 "-about : about me",
             ];
             helpInfo.forEach(item => {
@@ -268,11 +282,15 @@ const callBackList =
     },
     "exit":{
         "callBack": function exit(comObj,terminal){
-            isChatMode = false;
-            terminal.writeHistory("=== exit chat mode ===");
-            view.cursorColor = "white";
-            view.currentRectColor = "white";
-            view.currentRectBackgroundColor = "rgba(255,255,255,0.1)";
+            if(isChatMode){
+                isChatMode = false;
+                terminal.writeHistory("=== exit chat mode ===");
+                view.cursorColor = "white";
+                view.currentRectColor = "white";
+                view.currentRectBackgroundColor = "rgba(255,255,255,0.1)";
+            }else{
+                terminal.writeHistory("not in chat mode");
+            }
         }
     },
     "style":{
@@ -293,7 +311,7 @@ const callBackList =
     "about":{
         "callBack": function about(comObj,terminal){
             terminal.writeHistory("=== about ===");
-            terminal.writeHistory("-Poweredn by JavaScript & PzqCanvasTerminal V2.0.0");
+            terminal.writeHistory("-Site Version 2.0.0 (Stable) Powered by PzqCanvasTerminal V2.0.0 (Created by Pzq123456 using vanilla JS from scratch)");
             terminal.writeHistory("-春江潮水连海平，海上明月共潮生。");
             terminal.writeHistory("=== end ===");
         },

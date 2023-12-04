@@ -213,13 +213,28 @@ export function createCanvas(
     return canvas;
 }
 
+function isMobile(){
+    return /Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent);
+}
 
 function disableScroll() {
     document.body.style.overflow = 'hidden';
+    // 若为移动设备则禁用 touchmove 事件
+    if (isMobile()){
+        document.body.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+        }, { passive: false });
+    }
 }
 
 function enableScroll() {
     document.body.style.overflow = 'auto';
+    // 若为移动设备则启用 touchmove 事件
+    if (isMobile()){
+        document.body.removeEventListener('touchmove', (e) => {
+            e.preventDefault();
+        }, { passive: false });
+    }
 }
 
 /**

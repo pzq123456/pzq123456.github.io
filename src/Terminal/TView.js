@@ -17,7 +17,7 @@ export class View{
         let tokens = mytokenization(line);
         let ctx = this.canvas.getContext('2d');
         let height = parseInt(this.style['font-size']);
-        y += height;
+        y += height ;
         for(let token of tokens){
             let style = mytokenStyle(token);
             ctx.fillStyle = style['color'];
@@ -31,6 +31,7 @@ export class View{
             }
             // 若 x 超过 canvas 的宽度则换行
             let [width, _height] = this.measureText(token.value+" ");
+
             if (x + width > this.canvas.width){
                 while(x + width > this.canvas.width){
                     let i = 0;
@@ -39,18 +40,25 @@ export class View{
                         tmp += token.value[i];
                         i++;
                     }
-                    ctx.fillText(tmp,x,y);
+                    if(y>0){
+                        ctx.fillText(tmp,x,y);
+                    }
                     x = 0;
                     y += height;
                     token.value = token.value.slice(i);
                     [width, _height] = this.measureText(token.value+" ");
                 }
-                ctx.fillText(token.value,x,y);
+                if(y>0){
+                    ctx.fillText(token.value,x,y);
+                }
                 x += width;
             }else{
-                ctx.fillText(token.value,x,y);
+                if(y>0){
+                    ctx.fillText(token.value,x,y);
+                }
                 x += width;
             }
+            
         }
         // 返回高度
         return y;

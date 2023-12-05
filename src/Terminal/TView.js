@@ -213,14 +213,14 @@ export function createCanvas(
     return canvas;
 }
 
-function isMobile(){
+export function isMobile(){
     return /Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent);
 }
 
 function disableScroll() {
     document.body.style.overflow = 'hidden';
-    // 若为移动设备则禁用 touchmove 事件
     if (isMobile()){
+        // 禁用移动端的滚动
         document.body.addEventListener('touchmove', (e) => {
             e.preventDefault();
         }, { passive: false });
@@ -229,8 +229,8 @@ function disableScroll() {
 
 function enableScroll() {
     document.body.style.overflow = 'auto';
-    // 若为移动设备则启用 touchmove 事件
     if (isMobile()){
+        // 启用移动端的滚动
         document.body.removeEventListener('touchmove', (e) => {
             e.preventDefault();
         }, { passive: false });

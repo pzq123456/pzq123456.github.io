@@ -15,6 +15,7 @@ const run = Terminal.Strategy.run;
 const chat = Terminal.Strategy.chat;
 const createCanvas = Terminal.View.createCanvas;
 const infoBobble = Terminal.View.infoBobble;
+const isMobile = Terminal.View.isMobile;
 
 // ==== 页面部分 ====
 let darkBG =  "#0d1117";
@@ -185,14 +186,16 @@ myCanvas.addEventListener('wheel',function(e){
 });
 
 // 若为移动设备则监听触摸事件
-if (window.innerWidth < 800){
+if (isMobile()){
+    let startY = 0;
     myCanvas.addEventListener('touchstart',function(e){
         scrollMode = true;
-        canvasy = e.touches[0].clientY;
+        startY = e.touches[0].clientY;
     });
     myCanvas.addEventListener('touchmove',function(e){
         scrollMode = true;
-        canvasy -= e.touches[0].clientY;
+        canvasy += e.touches[0].clientY - startY;
+        startY = e.touches[0].clientY;
         if(canvasy > 0){
             canvasy = 0;
         }

@@ -31,10 +31,10 @@ export function chat(terminal,input){
     .then(res => {
         res.json().then(data => {
             if(data.candidates == undefined || data.candidates.length == 0){
-                terminal.writeHistory("-Responanse: " + "Sorry, I don't know what you are talking about.(api response error)");
+                terminal.writeHistory("-Response: " + "Sorry, I don't know what you are talking about.(api response error)");
             }else{
                 let res = data.candidates[0].output;
-                terminal.writeHistory("-Responanse: " + res);
+                terminal.writeHistory("-Response: " + res);
             }
         })
     })

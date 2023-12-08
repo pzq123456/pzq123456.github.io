@@ -1,6 +1,6 @@
 // 类别包括：命令、参数、地址
 // 命令包括：cd、ls、echo、clear、help
-const commands = ['cd', 'ls', 'echo', 'clear', 'help', 'chat', 'exit','style','about'];
+const commands = ['cd', 'ls', 'echo', 'clear', 'help', 'chat', 'exit','style','about', 'mdr'];
 // 用正则表达式表示规则
 const tokenClass = ['command', 'option', 'path', 'argument'];
 
@@ -183,8 +183,21 @@ export function Parser(tokens){
         command: '',
         options: [],
         path: '',
-        arguments: []
+        arguments: [],
+        others: ""
     };
+
+    // 若有 mdr 命令则直接返回others 
+    if (tokens[0].value === 'mdr'){
+        result.command = 'mdr';
+        // 若tokens[1] == '-response' 则返回后面的所有内容
+        if (tokens[1].value == '-Response:'){
+            result.others = tokens.slice(2).map(token => token.value).join(' ');
+            return result;
+        }
+        result.others = tokens.slice(1).map(token => token.value).join(' ');
+        return result;
+    }
     for (let i = 0; i < tokens.length; i++){
         let token = tokens[i];
         if (token.type === 'command'){

@@ -1,4 +1,4 @@
-import { fileToHtml, manipulateFile } from './helpers/markdown.js';
+import { fileToHtml, manipulateFile, stringToHtml } from './helpers/markdown.js';
 import { fillNavBar } from './helpers/navBar.js';
 import { metalist } from './blogs/meta.js'; // metalist is a list of blog metadata
 import { initPage } from './helpers/init.js';
@@ -220,12 +220,15 @@ const callBackList =
 
                     fileToHtml(comObj.path,document.getElementById('content'), getMDStyle(mode));
                     terminal.writeHistory("cd success " + comObj.path + " original file content: ");
+
                     manipulateFile(comObj.path,function(data){
                         terminal.writeHistory(data);
                     });
+
                 }else{
                     terminal.writeHistory("no such path " + comObj.path);
                 }
+                
             }else{
                 terminal.writeHistory("no path");
             }
@@ -253,11 +256,12 @@ const callBackList =
                 "-cd : change directory",
                 "-ls : list files",
                 "-help : get help",
-                "-clear : clear terminal",
+                "-clear : clear terminal options: -all",
                 "-chat : enter chat mode",
                 "-exit : exit chat mode",
                 "-style : change style: style -dark or style -light",
                 "-about : about me",
+                "-mdr : render markdown string to this page",
             ];
             helpInfo.forEach(item => {
                 terminal.writeHistory(item);
@@ -270,8 +274,19 @@ const callBackList =
             canvasy = 0;
             hc = 0;
             c = 0;
-            // 清除剪贴板
-            navigator.clipboard.writeText("");
+
+            // // 清除剪贴板
+            // navigator.clipboard.writeText("");
+            // // 清除 content
+            // document.getElementById('content').innerHTML = '';
+
+            // -all 选项代表清除所有内容
+            if (comObj.options == '-all'){
+                // 清除剪贴板
+                navigator.clipboard.writeText("");
+                // 清除 content
+                document.getElementById('content').innerHTML = '';
+            } 
         }
     },
     "chat":{
@@ -318,6 +333,17 @@ const callBackList =
             terminal.writeHistory("-春江潮水连海平，海上明月共潮生。");
             terminal.writeHistory("=== end ===");
         },
+    },
+    "mdr":{
+        "callBack": function mdRender(comObj,terminal){
+            let md = comObj.others;
+            if (md){
+                console.log(md);
+                stringToHtml(md,document.getElementById('content'), getMDStyle(mode));
+            }else{
+                terminal.writeHistory("no md string");
+            }
+        }
     }
 }
 

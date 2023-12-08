@@ -42,12 +42,19 @@ export const metalist = [
         "command": "cd"
     },
     {
+        "title" : "Blog5",
+        "path" : "blogs/Blog5.md",
+        "date" : "2023-12-8",
+        "tag" : "info",
+        "command": "cd"
+    },
+    {
         "title" : "tmp0",
         "path" : "blogs/tmp0.md",
         "date" : "2023-10-26",
         "tag" : "tmp",
         "command": "cd"
-    }
+    },
 ]
 
 const tag = [

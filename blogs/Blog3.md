@@ -20,3 +20,5 @@ info
 This chapter talks about the basic usage of command line. It is a very good tutorial for beginners. I have learned a lot from it.
 
 ### 3. [Causal Inference for The Brave and True](https://matheusfacure.github.io/python-causality-handbook/landing-page.html)
+
+### 4. [The Annotated S4](https://srush.github.io/annotated-s4/): Efficiently Modeling Long Sequences with Structured State Spaces（高效地建模长序列）

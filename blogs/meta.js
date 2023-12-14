@@ -7,6 +7,13 @@ export const metalist = [
         "command": "cd"
     },
     {
+        "title": "MLE",
+        "path": "/blogs/MLE.md",
+        "date": "2023-12-14",
+        "tag": "info",
+        "command": "cd"
+    },
+    {
         "title" : "Blog0",
         "path" : "blogs/Blog0.md",
         "date" : "2023-10-14",

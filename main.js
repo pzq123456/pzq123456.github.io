@@ -16,6 +16,11 @@ const chat = Terminal.Strategy.chat;
 const createCanvas = Terminal.View.createCanvas;
 const infoBobble = Terminal.View.infoBobble;
 const isMobile = Terminal.View.isMobile;
+const trie = Terminal.Parser.commandTrie; // 获得已经注入命令行关键词的前缀树
+// console.log(trie);
+// trie.print();
+// console.log("AutoComplete: ");
+// console.log(trie.autoComplete("cl"));
 
 // ==== 页面部分 ====
 let darkBG =  "#0d1117";
@@ -117,10 +122,19 @@ myCanvas.addEventListener('keydown',function(e){
     } else if (e.key.length === 1){
         // 输入字母
         c = data.insert(c,e.key);
+        // 检查是否有命令匹配
+        let com = trie.autoComplete(data._activeWord);
+        console.log(data._activeWord);
+        console.log(com);
+        data._candidates = com;
     }
     if (e.key === 'Backspace'){
         // 删除字母
         c = data.delete(c);
+        // 检查是否有命令匹配
+        let com = trie.autoComplete(data._current);
+        data._candidates = com;
+        console.log(com);
     }
     if (e.key === 'Enter'){
         if(!isChatMode){

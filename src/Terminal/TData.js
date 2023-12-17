@@ -11,6 +11,8 @@ export class Data{
         this._history = [];
         this._current = ''; // 当前行 / 活跃行
         this._inputHistory = []; // 输入历史
+        this._candidate = []; // 候选词
+        this._activeWord = ''; // 活跃词
     }
 
     paste(i,text){
@@ -23,6 +25,12 @@ export class Data{
     insert(i,char){
         // 在当前行的第 i 个字符前插入 char
         this._current = this._current.slice(0,i) + char + this._current.slice(i);
+        // 更新活跃词 从 i 开始向前找到第一个空格
+        let j = i;
+        while (j > 0 && this._current[j] !== ' '){
+            j--;
+        }
+        this._activeWord = this._current.slice(j,i+1);
         // 返回 i + 1 作为光标位置
         return i + 1;
     }

@@ -1,0 +1,7 @@
+{
+    "type": "module",
+    "main": "index.js",
+    "name": "canvas-terminal",
+    "version": "0.0.0",
+    "description": "canvas terminal"
+}

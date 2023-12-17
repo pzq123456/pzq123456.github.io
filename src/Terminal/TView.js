@@ -10,6 +10,7 @@ export class View{
         this.currentRectColor = 'white'; // 当前行的边框颜色
         this.currentRectBackgroundColor; // 当前行的底色
         this.backgroundColor = "rgba(20,0,20,0.5)"; // canvas 的底色
+        this.cursorPosition = [0,0]; // 光标位置
     }
 
     drawLine(line,x,y,mytokenization = tokenization,mytokenStyle = tokenStyle){
@@ -65,6 +66,27 @@ export class View{
     }
 
     /**
+     * 绘制候选字符
+     */
+    drawCandidates(candidates,x,y){
+        // 绘制候选字符
+        let ctx = this.canvas.getContext('2d');
+        let height = parseInt(this.style['font-size']);
+        y += height ;
+        // 由于字符一般不会太长 所以不用考虑换行
+        for(let candidate of candidates){
+            ctx.fillStyle = 'gray';
+            ctx.font = this.style['font-size'] + ' ' + this.style['font-family'];
+            // 绘制基准
+            ctx.textBaseline = 'bottom';
+            // 若 style 有 font-weight 则设置
+            ctx.fontWeight = 'bold';
+            ctx.fillText(candidate,x,y);
+            x += this.measureText(candidate)[0];
+        }
+    }
+
+    /**
      * 绘制当前行
      * @param {number} i - 行内光标位置
      * @param {boolean} showCursor - 是否显示光标
@@ -99,7 +121,12 @@ export class View{
         if (showCursor){
             ctx.fillStyle = cursorColor;
             ctx.fillRect(cursorX,cursorY,cursorWidth,cursorHeight);
-            // 高亮当前行
+            // 若 data._candidates 长度大于 0 则绘制第一个候选字符
+            if (this.data._candidates && this.data._candidates.length > 0 ){
+                this.drawCandidates(this.data._candidates[0],cursorX + cursorWidth,cursorY);
+            }
+            // update cursorPosition
+            this.cursorPosition = [cursorX + cursorWidth,cursorY]; // 光标位置
         }
         ctx.strokeStyle = this.currentRectColor;
         ctx.strokeRect(0,y,this.canvas.width,y2-y);

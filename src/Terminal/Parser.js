@@ -197,8 +197,8 @@ export function Parser(tokens){
     };
 
     // 若有 mdr 命令则直接返回others 
-    if (tokens[0].value === 'mdr'){
-        result.command = 'mdr';
+    if (tokens[0].value === 'mdr' || tokens[0].value === 'echo'){
+        result.command = tokens[0].value;
         // 若tokens[1] == '-response' 则返回后面的所有内容
         if (tokens[1].value == '-Response:'){
             result.others = tokens.slice(2).map(token => token.value).join(' ');

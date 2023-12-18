@@ -32,6 +32,12 @@ export class Trie{
         node.endOfWorld = true;
     }
 
+    insertArray(array){
+        for(let i = 0; i < array.length; i++){
+            this.insert(array[i]);
+        }
+    }
+
     // Search for a word in the Trie
     search(word){
         let node = this.root;

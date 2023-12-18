@@ -1,6 +1,6 @@
 import { fileToHtml, manipulateFile, stringToHtml } from './helpers/markdown.js';
 import { fillNavBar } from './helpers/navBar.js';
-import { metalist } from './blogs/meta.js'; // metalist is a list of blog metadata
+import { metalist,metalist2str } from './blogs/meta.js'; // metalist is a list of blog metadata
 import { initPage } from './helpers/init.js';
 initPage();
 
@@ -17,6 +17,10 @@ const createCanvas = Terminal.View.createCanvas;
 const infoBobble = Terminal.View.infoBobble;
 const isMobile = Terminal.View.isMobile;
 const trie = Terminal.Parser.commandTrie; // 获得已经注入命令行关键词的前缀树
+
+// console.log(metalist2str());
+trie.insertArray(metalist2str());
+// trie.print();
 // console.log(trie);
 // trie.print();
 // console.log("AutoComplete: ");
@@ -122,19 +126,19 @@ myCanvas.addEventListener('keydown',function(e){
     } else if (e.key.length === 1){
         // 输入字母
         c = data.insert(c,e.key);
-        // 检查是否有命令匹配
-        let com = trie.autoComplete(data._activeWord);
-        console.log(data._activeWord);
+        console.log(data.getLeftActiveWord(c));
+        let com = trie.autoComplete(data.getActiveWord(c-1));
         console.log(com);
         data._candidates = com;
     }
     if (e.key === 'Backspace'){
+
         // 删除字母
         c = data.delete(c);
-        // 检查是否有命令匹配
-        let com = trie.autoComplete(data._current);
-        data._candidates = com;
+        console.log(data.getLeftActiveWord(c));
+        let com = trie.autoComplete(data.getActiveWord(c-1));
         console.log(com);
+        data._candidates = com;
     }
     if (e.key === 'Enter'){
         if(!isChatMode){
@@ -159,6 +163,7 @@ myCanvas.addEventListener('keydown',function(e){
     if (e.key === 'ArrowLeft'){
         if (c > 0){
             c--;
+            // console.log(data.getActiveWord(c));
         }else{
             c = 0;
         }
@@ -166,6 +171,7 @@ myCanvas.addEventListener('keydown',function(e){
     if (e.key === 'ArrowRight'){
         if (c < data._current.length){
             c++;
+            // console.log(data.getActiveWord(c-1));
         }else{
             c = data._current.length;
         }
@@ -186,6 +192,21 @@ myCanvas.addEventListener('keydown',function(e){
         }
         scrollMode = true;
     }
+
+    // 按下 tab 键
+    if (e.key === 'Tab'){
+        c = data.tab(c);
+        // 清除候选词
+        data._candidates = [];
+    }
+    //     // 自动补全
+    //     let com = trie.autoComplete(data.getActiveWord(c-1));
+    //     console.log(com);
+    //     if (com.length > 0){
+    //         let newCom = com[0];
+    //         c = data.paste(c,newCom);
+    //     }
+    // }
 });
 
 
@@ -356,6 +377,16 @@ const callBackList =
                 stringToHtml(md,document.getElementById('content'), getMDStyle(mode));
             }else{
                 terminal.writeHistory("no md string");
+            }
+        }
+    },
+    "echo":{
+        "callBack": function echo(comObj,terminal){
+            let str = comObj.others;
+            if (str){
+                terminal.writeHistory(str);
+            }else{
+                terminal.writeHistory("no string");
             }
         }
     }

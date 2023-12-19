@@ -75,7 +75,7 @@ export class View{
         y += height ;
         // 由于字符一般不会太长 所以不用考虑换行
         for(let candidate of candidates){
-            ctx.fillStyle = 'gray';
+            ctx.fillStyle = 'rgba(255,255,255,0.5)';
             ctx.font = this.style['font-size'] + ' ' + this.style['font-family'];
             // 绘制基准
             ctx.textBaseline = 'bottom';

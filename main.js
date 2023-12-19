@@ -18,18 +18,13 @@ const infoBobble = Terminal.View.infoBobble;
 const isMobile = Terminal.View.isMobile;
 const trie = Terminal.Parser.commandTrie; // 获得已经注入命令行关键词的前缀树
 
-// console.log(metalist2str());
 trie.insertArray(metalist2str());
-// trie.print();
-// console.log(trie);
-// trie.print();
-// console.log("AutoComplete: ");
-// console.log(trie.autoComplete("cl"));
 
 // ==== 页面部分 ====
 let darkBG =  "#0d1117";
 let lightBG = "white";
 let mode = 'dark'; // dark or light
+let currentMarkdown = '/README.md'; // 当前渲染的 markdown 文件
 // 获取系统是否处于 dark mode
 const darkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
 if (darkMode){
@@ -40,8 +35,39 @@ if (darkMode){
     mode = 'light';
 }
 
+function refreshContent(){
+    fileToHtml(currentMarkdown,document.getElementById('content'), getMDStyle(mode));
+}
 
 // ==== 终端部分 ====
+const helpInfo = [
+    "cd : change directory",
+    "ls : list files",
+    "help : get help",
+    "clear : clear terminal options: -all",
+    "chat : enter chat mode",
+    "exit : exit chat mode",
+    "style : change style: style -dark or style -light",
+    "about : about me",
+    "mdr : render markdown string to this page",
+];
+
+// 将 helpInfo 中除了标点符号的单词提取至数组
+let helpInfoWords = [];
+helpInfo.forEach(item => {
+    let words = item.split(' ');
+    words.forEach(word => {
+        if (word !== '-' && word !== ':'){
+            helpInfoWords.push(word);
+        }
+    });
+});
+
+// 注入 前缀树
+trie.insertArray(helpInfoWords);
+
+
+
 let isChatMode = false; // 是否处于聊天模式
 
 
@@ -152,12 +178,13 @@ myCanvas.addEventListener('keydown',function(e){
                 c = data.enter();
                 run(obj,data,callBackList);
             }else{
-                //
                 chat(data,data._current);
                 c = data.enter();
             }
-
         }
+
+        // 清除候选词
+        data._candidates = [];
     }
     // 按下左右键
     if (e.key === 'ArrowLeft'){
@@ -199,14 +226,6 @@ myCanvas.addEventListener('keydown',function(e){
         // 清除候选词
         data._candidates = [];
     }
-    //     // 自动补全
-    //     let com = trie.autoComplete(data.getActiveWord(c-1));
-    //     console.log(com);
-    //     if (com.length > 0){
-    //         let newCom = com[0];
-    //         c = data.paste(c,newCom);
-    //     }
-    // }
 });
 
 
@@ -260,6 +279,8 @@ const callBackList =
                         terminal.writeHistory(data);
                     });
 
+                    // 更新 currentMarkdown
+                    currentMarkdown = comObj.path;
                 }else{
                     terminal.writeHistory("no such path " + comObj.path);
                 }
@@ -287,17 +308,6 @@ const callBackList =
     },
     "help": {
         "callBack": function help(comObj,terminal){
-            let helpInfo = [
-                "-cd : change directory",
-                "-ls : list files",
-                "-help : get help",
-                "-clear : clear terminal options: -all",
-                "-chat : enter chat mode",
-                "-exit : exit chat mode",
-                "-style : change style: style -dark or style -light",
-                "-about : about me",
-                "-mdr : render markdown string to this page",
-            ];
             helpInfo.forEach(item => {
                 terminal.writeHistory(item);
             });
@@ -351,10 +361,12 @@ const callBackList =
             if (comObj.options == '-dark'){
                 document.body.style.backgroundColor = darkBG;
                 mode = 'dark';
+                refreshContent();
                 terminal.writeHistory("change to dark mode 🌙 ");
             }else if (comObj.options == '-light'){
                 document.body.style.backgroundColor = lightBG;
                 mode = 'light';
+                refreshContent();
                 terminal.writeHistory("change to light mode 🔆 ");
             }else{
                 terminal.writeHistory("no such style: " + comObj.options);
@@ -388,6 +400,12 @@ const callBackList =
             }else{
                 terminal.writeHistory("no string");
             }
+        }
+    },
+    "cm":{
+        "callBack": function cm(comObj,terminal){
+            terminal.writeHistory(currentMarkdown);
+            console.log(currentMarkdown);
         }
     }
 }

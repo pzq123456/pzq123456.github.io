@@ -78,33 +78,32 @@ input:checked[type=checkbox] {
 
 
 table{
+    width: 100%;
     border-collapse: collapse;
     border-spacing: 0;
-    width: 100%;
-    margin: 0 0 1rem 0;
-    color: #ffffff;
     border: 1px solid #ffffff3a;
-    background-color: #ffffff0d;
-    border-radius: 0.25rem;
+    background-color: #3d1e448b;
+    color: #ffffff;
 }
 table th{
-    padding: 0.5rem 0.75rem;
-    vertical-align: top;
-    border-top: 1px solid #ffffff;
-    border-bottom: 1px solid #ffffffd4;
+    border: 1px solid #ffffff3a;
+    background-color: #ffffff0d;
+    color: #ffffff;
+    padding: 0.5rem 1rem;
     text-align: left;
 }
 table td{
-    padding: 0.5rem 0.75rem;
-    vertical-align: top;
-    border-top: 1px solid #ffffff3a;
-    border-bottom: 1px solid #ffffff3a;
+    border: 1px solid #ffffff3a;
+    background-color: #ffffff0d;
+    color: #ffffff;
+    padding: 0.5rem 1rem;
+    text-align: left;
 }
 table tr:nth-child(even){
-    background-color: #ffffff1f;
+    background-color: #ffffff0d;
 }
 table tr:hover{
-    background-color: #ffffff3a;
+    background-color: #ffffff24;
 }
 
 

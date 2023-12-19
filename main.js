@@ -81,7 +81,7 @@ let testStyle = {
 
 
 
-let data = Data.fromString(`type ' help ' and press enter to get help`);
+let data = Data.fromString(`Type ' help ' and press enter to get help. \nGemini ✨ in it ! Type ' chat ' to enter chat mode.`);
 
 // console.log(data);
 let c = 0;

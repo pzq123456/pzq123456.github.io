@@ -1,12 +1,5 @@
 # Zhiqing Pan's website
-
-## 测试表格
-| 1 | 2 | 3 |
-| - | - | - |
-| 4 | 5 | 6 |
-
-
-
+> - `V2.0.1` 新增自动补全，详见下方说明。
 ## Brief Introduction
 
 <img src="https://avatars.githubusercontent.com/u/82391775?v=4" width="100" height="100" alt="avatar" style="margin-right: 10px; border-radius: 50%;">
@@ -37,3 +30,4 @@ I am an undergraduate student in [Shan Dong University of Science and Technology
 ## About this site
 > - Attention: You need to click the Terminal first to focus it before you can input commands.
 > - Site Version 2.0.0 (Stable) Powered by PzqCanvasTerminal V2.0.0 (Created by Pzq123456 using vanilla JS from scratch)
+> - 基于前缀树的命令自动补全及博客地址自动补全功能已经实现，欢迎使用。使用方法：在 Terminal 中输入命令或者博客地址的前缀，看到灰色的候选字符出现，然后按下 Tab 键即可自动补全。

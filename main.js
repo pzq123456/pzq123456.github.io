@@ -50,6 +50,10 @@ const helpInfo = [
     "style : change style: style -dark or style -light",
     "about : about me",
     "mdr : render markdown string to this page",
+    "echo : echo string",
+    "cm : current markdown file path",
+    "cache : cache history to localStorage",
+    "load : load history from localStorage and clear cache",
 ];
 
 // 将 helpInfo 中除了标点符号的单词提取至数组
@@ -152,18 +156,18 @@ myCanvas.addEventListener('keydown',function(e){
     } else if (e.key.length === 1){
         // 输入字母
         c = data.insert(c,e.key);
-        console.log(data.getLeftActiveWord(c));
+        // console.log(data.getLeftActiveWord(c));
         let com = trie.autoComplete(data.getActiveWord(c-1));
-        console.log(com);
+        // console.log(com);
         data._candidates = com;
     }
     if (e.key === 'Backspace'){
 
         // 删除字母
         c = data.delete(c);
-        console.log(data.getLeftActiveWord(c));
+        // console.log(data.getLeftActiveWord(c));
         let com = trie.autoComplete(data.getActiveWord(c-1));
-        console.log(com);
+        // console.log(com);
         data._candidates = com;
     }
     if (e.key === 'Enter'){
@@ -227,8 +231,6 @@ myCanvas.addEventListener('keydown',function(e){
         data._candidates = [];
     }
 });
-
-
 
 // 监听鼠标滚动事件
 myCanvas.addEventListener('wheel',function(e){
@@ -385,7 +387,7 @@ const callBackList =
         "callBack": function mdRender(comObj,terminal){
             let md = comObj.others;
             if (md){
-                console.log(md);
+                // console.log(md);
                 stringToHtml(md,document.getElementById('content'), getMDStyle(mode));
             }else{
                 terminal.writeHistory("no md string");
@@ -407,7 +409,31 @@ const callBackList =
             terminal.writeHistory(currentMarkdown);
             console.log(currentMarkdown);
         }
-    }
+    },
+    "cache":{
+        "callBack": function saveHistory2JSON(comObj,terminal){
+            let json = data.toJSON();
+            console.log(json);
+            
+            // 将 json 缓存至浏览器
+            localStorage.setItem('myHistory',json);
+            terminal.writeHistory( `save success to ${data._timeStamp}`);
+        }
+    },
+    "load":{
+        "callBack": function loadHistoryFromJSON(comObj,terminal){
+            let json = localStorage.getItem('myHistory');
+            if (json){
+                // console.log(json);
+                data.readJSON(json);
+                terminal.writeHistory(`load success from ${data._timeStamp}`);
+                // 默认清除 cache
+                localStorage.removeItem('myHistory');
+            }else{
+                terminal.writeHistory("load failed");
+            }
+        }
+    },
 }
 
 

@@ -1,7 +1,7 @@
 // 类别包括：命令、参数、地址
 import { Trie } from "./Trie.js";
 // 命令包括：cd、ls、echo、clear、help
-const commands = ['cd', 'ls', 'echo', 'clear', 'help', 'chat', 'exit','style','about', 'mdr','cm'];
+const commands = ['cd', 'ls', 'echo', 'clear', 'help', 'chat', 'exit','style','about', 'mdr','cm','cache','load'];
 // 将 commands 注入 Trie 并返回
 function injectCommands(){
     let trie = new Trie();

@@ -11,7 +11,9 @@ export class Data{
         this._history = [];
         this._current = ''; // 当前行 / 活跃行
         this._inputHistory = []; // 输入历史
-        this._candidate = []; // 候选词
+        this._candidates = []; // 候选词
+        // 增添时间戳 默认为当前时间
+        this._timeStamp = Date.now();
     }
 
     paste(i,text){
@@ -108,6 +110,30 @@ export class Data{
         }
     }
 
+
+    // 将 data 类导出为 JSON 以供保存
+    toJSON(){
+        let json =  {
+            history: this._history,
+            current: this._current,
+            inputHistory: this._inputHistory,
+            candidates: this._candidates,
+            timeStamp: Date.now()
+        }
+        // stringify
+        return JSON.stringify(json);
+    }
+
+    // 从 JSON 中读取数据
+    readJSON(json){
+        let data = JSON.parse(json);
+        this._history = data.history;
+        this._current = data.current;
+        this._inputHistory = data.inputHistory;
+        this._candidates = data.candidates;
+        this._timeStamp = data.timeStamp;
+    }
+
     /**
      * 从字符串中读取（历史）数据
      * @param {string} str 
@@ -115,6 +141,19 @@ export class Data{
     static fromString(str){
         let data = new Data();
         data._history = str.split('\n');
+        return data;
+    }
+
+    /**
+     * 从 JSON 中读取（历史）数据
+     * @param {object} json 
+     */
+    static fromJSON(json){
+        let data = new Data();
+        data._history = json.history;
+        data._current = json.current;
+        data._inputHistory = json.inputHistory;
+        data._candidates = json.candidates;
         return data;
     }
 }

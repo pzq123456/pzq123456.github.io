@@ -15,7 +15,7 @@ body{
     justify-content: center;
 }
 #content{
-    width: 80%;
+    /* width: 100%; */
     border: 1px solid #121010;
     overflow: auto;
 }
@@ -51,10 +51,12 @@ code{
 }
 
 #terminal{
-    /* 居中 */
-    margin: 0 auto;
-    width: 88.5%;
+    /* 子标签居中 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
+
 canvas:focus {
     outline:none;
 }

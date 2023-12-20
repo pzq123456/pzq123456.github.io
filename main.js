@@ -1,6 +1,6 @@
 import { fileToHtml, manipulateFile, stringToHtml } from './helpers/markdown.js';
 import { fillNavBar } from './helpers/navBar.js';
-import { metalist,metalist2str } from './blogs/meta.js'; // metalist is a list of blog metadata
+import { metalist,metalist2str} from './blogs/meta.js'; // metalist is a list of blog metadata
 import { initPage } from './helpers/init.js';
 initPage();
 
@@ -484,6 +484,7 @@ fillNavBar(document.getElementById('navBar'),
         "text": "Home",
         "action": function(){
             fileToHtml('/README.md',document.getElementById('content'), getMDStyle(mode));
+            currentMarkdown = '/README.md';
         }
     },{
         'text':'toggleTerminal',
@@ -510,7 +511,7 @@ fillNavBar(document.getElementById('navBar'),
             }}
 
 
-        },
+        }
 ],
 {
     'width': '100%',
@@ -522,25 +523,23 @@ fillNavBar(document.getElementById('navBar'),
 }
 );
 
-fillNavBar(document.getElementById("blogsColumn"), 
-    metalist.map(item => {
-        return {
-            "text": item.title,
-            "action": function(){
-                fileToHtml(item.path, document.getElementById('content'), getMDStyle(mode));
-            },
-            "info": item.date + " " + item.tag + " " + item.title,
-        };
-    }),
-    {
-        'width': '100%',
-        'height': 'auto',
-        'display': 'flex',
-        'flex-direction': 'column',
-        'align-items': 'center',
-        'border-bottom':'1px solid gray',
-        'padding': '10px',
-    }
-);
-
-
+// fillNavBar(document.getElementById("blogsColumn"), 
+//     metalist.map(item => {
+//         return {
+//             "text": item.title,
+//             "action": function(){
+//                 fileToHtml(item.path, document.getElementById('content'), getMDStyle(mode));
+//             },
+//             "info": item.date + " " + item.tag + " " + item.title,
+//         };
+//     }),
+//     {
+//         'width': '100%',
+//         'height': 'auto',
+//         'display': 'flex',
+//         'flex-direction': 'column',
+//         'align-items': 'center',
+//         'border-bottom':'1px solid gray',
+//         'padding': '10px',
+//     }
+// );

@@ -8,7 +8,7 @@ export const metalist = [
     },
     {
         "title": "MLE",
-        "path": "/blogs/MLE.md",
+        "path": "blogs/MLE.md",
         "date": "2023-12-14",
         "tag": "info",
         "command": "cd"
@@ -78,17 +78,6 @@ const tag = [
 ]
 
 // 编写函数 将 metalist 中的所有值转化为不重复的字符串数组
-// 例如 [ 
-//     {"title": "README", "path": "/README.md", "date": "2023-10-6", "tag": "info", "command": "cd" },]
-// 转化为 [ "README", "/README.md", "2023-10-6", "info", "cd" ]
-
-// 1. 遍历 metalist
-// 2. 对于每一个对象
-// 3. 遍历对象的所有属性
-// 4. 将属性值转化为字符串
-// 5. 将字符串存入 set 中
-// 6. 将 set 转化为数组
-
 export function metalist2str(){
     let set = new Set();
     metalist.forEach((obj) => {
@@ -98,4 +87,3 @@ export function metalist2str(){
     })
     return Array.from(set);
 }
-

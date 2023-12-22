@@ -57,6 +57,13 @@ code{
     align-items: center;
 }
 
+
+canvas{
+    /* 阴影 模仿油管 影院灯效 */
+    box-shadow: 0 0 100px #be83db7a;
+}
+
+
 canvas:focus {
     outline:none;
 }

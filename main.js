@@ -22,7 +22,7 @@ trie.insertArray(metalist2str());
 
 // ==== 页面部分 ====
 let darkBG =  "#0d1117";
-let lightBG = "white";
+let lightBG = "#f0f6fc";
 let mode = 'dark'; // dark or light
 let currentMarkdown = '/README.md'; // 当前渲染的 markdown 文件
 // 获取系统是否处于 dark mode

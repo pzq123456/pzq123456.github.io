@@ -123,10 +123,10 @@ export class View{
             ctx.fillRect(cursorX,cursorY,cursorWidth,cursorHeight);
             // 若 data._candidates 长度大于 0 则绘制第一个候选字符
             // update cursorPosition
-            this.cursorPosition = [cursorX + cursorWidth,cursorY]; // 光标位置
+            this.cursorPosition = [cursorX ,cursorY]; // 光标位置
         }
         if (this.data._candidates && this.data._candidates.length > 0 ){
-            this.drawCandidates(this.data._candidates[0],cursorX + cursorWidth,cursorY);
+            this.drawCandidates(this.data._candidates[0],cursorX ,cursorY);
         }
 
 

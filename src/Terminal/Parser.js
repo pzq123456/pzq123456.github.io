@@ -56,16 +56,15 @@ export function tokenization(line){
 export function tokenStyle(token){
     if (token.type === 'command'){
         return {
-            'color': 'orange',
-            'font-weight': 'bold'
+            'color': '#ebbbff',
         }
     } else if (token.type === 'option'){
         return {
-            'color': 'blue',
+            'color': '#ffc58f',
         }
     } else if (token.type === 'path'){
         return {
-            'color': '#00ff00',
+            'color': '#ffeead',
         }
     } else if (token.type === 'argument'){
         return {
@@ -73,7 +72,7 @@ export function tokenStyle(token){
         }
     }else if (token.type === 'warning'){
         return {
-            'color': 'red',
+            'color': '#ff9da4',
         }
     }
 }
@@ -136,28 +135,27 @@ export function mdTokenization(line){
 export function mdTokenStyle(token){
     if (token.type === 'title'){
         return {
-            'color': 'orange',
-            'font-weight': 'bold'
+            'color': '#ebbbff',
         }
     } else if (token.type === 'link'){
         return {
-            'color': 'rgb(100, 25, 255)',
+            'color': '#bbdaff',
         }
     } else if (token.type === 'list'){
         return {
-            'color': '#00ff00',
+            'color': '#99ffff',
         }
     } else if (token.type === 'quote'){
         return {
-            'color': 'gray',
+            'color': '#ff9da4',
         }
     }else if (token.type === 'code'){
         return {
-            'color': 'aqua',
+            'color': '#d1f1a9',
         }
     }else if (token.type === 'hr'){
         return {
-            'color': 'red',
+            'color': '#ffeead',
         }
     }else if (token.type === 'text'){
         return {
@@ -165,7 +163,7 @@ export function mdTokenStyle(token){
         }
     }else if (token.type === 'escape'){
         return {
-            'color': 'aqua',
+            'color': '#7285b7',
         }
     }
 }

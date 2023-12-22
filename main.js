@@ -70,10 +70,7 @@ helpInfo.forEach(item => {
 // 注入 前缀树
 trie.insertArray(helpInfoWords);
 
-
-
 let isChatMode = false; // 是否处于聊天模式
-
 
 let myCanvas = createCanvas(document.getElementById('terminal'), window.innerWidth * 0.81, 600);
 let testStyle = {
@@ -340,8 +337,8 @@ const callBackList =
         "callBack": function chat(comObj,terminal){
             isChatMode = true;
             terminal.writeHistory("=== chat mode ===");
-            view.cursorColor = "orange";
-            view.currentRectColor = "green";
+            view.cursorColor = "#ebbbff";
+            view.currentRectColor = "#ebbbff";
             view.currentRectBackgroundColor = "rgba(0,255,0,0.1)";
         }
     },
@@ -352,7 +349,7 @@ const callBackList =
                 terminal.writeHistory("=== exit chat mode ===");
                 view.cursorColor = "white";
                 view.currentRectColor = "white";
-                view.currentRectBackgroundColor = "rgba(255,255,255,0.1)";
+                view.currentRectBackgroundColor = null;
             }else{
                 terminal.writeHistory("not in chat mode");
             }

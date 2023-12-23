@@ -64,7 +64,7 @@ export function tokenStyle(token){
         }
     } else if (token.type === 'path'){
         return {
-            'color': '#ffeead',
+            'color': '#bbdaff',
         }
     } else if (token.type === 'argument'){
         return {
@@ -163,7 +163,7 @@ export function mdTokenStyle(token){
         }
     }else if (token.type === 'escape'){
         return {
-            'color': '#7285b7',
+            'color': '#bbdaff',
         }
     }
 }

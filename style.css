@@ -29,24 +29,15 @@ blockquote{
 
 /* 定义 链接样式 使得其在深色背景下更加利于阅读 */
 a{
-    border: 1px solid #ffffff3a;
-    color: rgb(21, 125, 199);
-    text-decoration: none;
-    background-color: #ffffff24;
-    border-radius: 0.25rem;
+    color: rgb(62, 154, 220);
 }
 a:hover{
-    border: 1px solid #ffffff3a;
-    border-bottom: 1px solid #ffffff;
-    color: #053e80;
-    text-decoration: none;
-    background-color: #ffffff80;
-    border-radius: 0.25rem;
+    color: #bbdaff;
 }
 
 code{
     border: 1px solid #ffffff3a;
-    background-color: #54ec7734;
+    background-color: #b66ae834;
     border-radius: 0.25rem;
 }
 
@@ -119,4 +110,9 @@ table tr:hover{
 /* 隐藏滚动条 */
 ::-webkit-scrollbar {
     display: none;
+}
+
+
+.test {
+    color: #d4dbe197;
 }

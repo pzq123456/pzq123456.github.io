@@ -22,7 +22,7 @@ trie.insertArray(metalist2str());
 
 // ==== 页面部分 ====
 let darkBG =  "#0d1117";
-let lightBG = "#f0f6fc";
+let lightBG = "#d4dbe197";
 let mode = 'dark'; // dark or light
 let currentMarkdown = '/README.md'; // 当前渲染的 markdown 文件
 // 获取系统是否处于 dark mode
@@ -483,7 +483,8 @@ fillNavBar(document.getElementById('navBar'),
             fileToHtml('/README.md',document.getElementById('content'), getMDStyle(mode));
             currentMarkdown = '/README.md';
         }
-    },{
+    },
+    {
         'text':'toggleTerminal',
         'action': function(){
             // 控制 terminal 是否固定在顶部
@@ -506,8 +507,6 @@ fillNavBar(document.getElementById('navBar'),
                 this.style.backgroundColor = 'white';
                 this.style.color = 'green';
             }}
-
-
         }
 ],
 {
@@ -516,7 +515,7 @@ fillNavBar(document.getElementById('navBar'),
     'display': 'flex',
     'flex-direction': 'row',
     'align-items': 'center',
-    'border-bottom':'1px solid gray',
+    // 'border-bottom':'1px solid gray',
 }
 );
 

@@ -54,6 +54,7 @@ const helpInfo = [
     "cm : current markdown file path",
     "cache : cache history to localStorage",
     "load : load history from localStorage and clear cache",
+    "nav : show navBar options: -on or -off",
 ];
 
 // 将 helpInfo 中除了标点符号的单词提取至数组
@@ -431,6 +432,86 @@ const callBackList =
             }
         }
     },
+    "nav":{
+        "callBack": function nav(comObj,terminal){
+            if(comObj.options == '-on'){
+                // 检查是否已经存在 navBar 若存在则不再创建
+                if (document.getElementById("navBar").innerHTML !='' && document.getElementById("blogsColumn").innerHTML !=''){
+                    terminal.writeHistory("navBar already exists");
+                    return;
+                }
+                fillNavBar(document.getElementById('navBar'),
+                [
+                    {
+                        "text": "Home",
+                        "action": function(){
+                            fileToHtml('/README.md',document.getElementById('content'), getMDStyle(mode));
+                            currentMarkdown = '/README.md';
+                        }
+                    },
+                    {
+                        'text':'toggleTerminal',
+                        'action': function(){
+                            // 控制 terminal 是否固定在顶部
+                            const terminal = document.getElementById('terminal');
+                            // 在固定模式与非固定模式之间切换
+                            if (terminal.style.position === 'sticky'){
+                                terminal.style.position = 'static';
+                                terminal.style.top = '0';
+                                terminal.style.zIndex = '1';
+                
+                                // 改变自身样式
+                                this.style.backgroundColor = '#0d1117';
+                                this.style.color = 'white';
+                
+                            } else {
+                                terminal.style.position = 'sticky';
+                                terminal.style.top = '0';
+                                terminal.style.zIndex = '1';
+                                // 改变自身样式
+                                this.style.backgroundColor = 'white';
+                                this.style.color = 'green';
+                            }}
+                        }
+                ],
+                {
+                    'width': '100%',
+                    'height': 'auto',
+                    'display': 'flex',
+                    'flex-direction': 'row',
+                    'align-items': 'center',
+                    // 'border-bottom':'1px solid gray',
+                }
+                );
+            fillNavBar(document.getElementById("blogsColumn"), 
+                metalist.map(item => {
+                    return {
+                        "text": item.title,
+                        "action": function(){
+                            fileToHtml(item.path, document.getElementById('content'), getMDStyle(mode));
+                        },
+                        "info": item.date + " " + item.tag + " " + item.title,
+                    };
+                }),
+                {
+                    'width': '100%',
+                    'height': 'auto',
+                    'display': 'flex',
+                    'flex-direction': 'column',
+                    'align-items': 'center',
+                    'border-bottom':'1px solid gray',
+                    'padding': '10px',
+                }
+            );
+            terminal.writeHistory("nav on");
+            }
+            else if(comObj.options == '-off'){
+                document.getElementById("blogsColumn").innerHTML = '';
+                document.getElementById("navBar").innerHTML = '';
+                terminal.writeHistory("nav off");
+            }
+        }
+    }
 }
 
 
@@ -475,67 +556,6 @@ function getBG(mode){
 
 fileToHtml('/README.md',document.getElementById('content'), getMDStyle(mode));
 
-fillNavBar(document.getElementById('navBar'),
-[
-    {
-        "text": "Home",
-        "action": function(){
-            fileToHtml('/README.md',document.getElementById('content'), getMDStyle(mode));
-            currentMarkdown = '/README.md';
-        }
-    },
-    {
-        'text':'toggleTerminal',
-        'action': function(){
-            // 控制 terminal 是否固定在顶部
-            const terminal = document.getElementById('terminal');
-            // 在固定模式与非固定模式之间切换
-            if (terminal.style.position === 'sticky'){
-                terminal.style.position = 'static';
-                terminal.style.top = '0';
-                terminal.style.zIndex = '1';
 
-                // 改变自身样式
-                this.style.backgroundColor = '#0d1117';
-                this.style.color = 'white';
 
-            } else {
-                terminal.style.position = 'sticky';
-                terminal.style.top = '0';
-                terminal.style.zIndex = '1';
-                // 改变自身样式
-                this.style.backgroundColor = 'white';
-                this.style.color = 'green';
-            }}
-        }
-],
-{
-    'width': '100%',
-    'height': 'auto',
-    'display': 'flex',
-    'flex-direction': 'row',
-    'align-items': 'center',
-    // 'border-bottom':'1px solid gray',
-}
-);
 
-// fillNavBar(document.getElementById("blogsColumn"), 
-//     metalist.map(item => {
-//         return {
-//             "text": item.title,
-//             "action": function(){
-//                 fileToHtml(item.path, document.getElementById('content'), getMDStyle(mode));
-//             },
-//             "info": item.date + " " + item.tag + " " + item.title,
-//         };
-//     }),
-//     {
-//         'width': '100%',
-//         'height': 'auto',
-//         'display': 'flex',
-//         'flex-direction': 'column',
-//         'align-items': 'center',
-//         'border-bottom':'1px solid gray',
-//         'padding': '10px',
-//     }
-// );

@@ -162,7 +162,7 @@ export class View{
                 let height2 = this.drawLine(line,0,y,mdTokenization,mdTokenStyle);
                 // 只有在行高大于 两行高度时才绘制分割线
                 if (height2 - y > parseInt(this.style['font-size'])*2){
-                    ctx.strokeStyle = 'rgba(25,255,55,1)';
+                    ctx.strokeStyle = '#ebbbff';
                     ctx.lineWidth = 1;
                     ctx.beginPath();
                     ctx.moveTo(0,y);

@@ -1,4 +1,7 @@
 # Zhiqing Pan's website
+- 我希望这个 Terminal 就像《2001: 太空漫游》中的黑色石碑一样令人印象深刻。
+- I hope this terminal will be as impressive as the black monolith in 2001: A Space Odyssey.
+
 > - `V2.0.1` 新增自动补全，详见下方说明。
 ## Brief Introduction
 

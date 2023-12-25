@@ -83,7 +83,31 @@ let testStyle = {
 
 
 
-let data = Data.fromString(`Type ' help ' and press enter to get help. \nGemini ✨ in it ! Type ' chat ' to enter chat mode.`);
+let data = Data.fromString(`🎄Type ' help ' and press enter to get help.🎄 \n🎅Gemini ✨ in it ! Type ' chat ' to enter chat mode.🎅`);
+
+let ChristmasTree = 
+`  *    *   ()   *   *
+*        * /\\         *
+      *   /i\\\    *  *
+    *     o/\\\  *      *
+ *       ///\i\\    *
+     *   /*/o\\\\  *    *
+   *    /i//\*\\\\      *
+        /o/*\\i\\\\   *
+  *    //i//o\\\\\\\     *
+    * /*////\\\\i\*\\
+ *    //o//i\\*\\\\\\  *
+   * /i///*/\\\\\o\\\\\   *
+  *    *   ||     *    `;
+
+// 将 ChristmasTree 按行分割 并写入 data
+let lines = ChristmasTree.split('\n');
+lines.forEach(line => {
+    data.writeHistory(line);
+});
+
+
+
 
 // console.log(data);
 let c = 0;
@@ -516,7 +540,7 @@ const callBackList =
 
 
 const mdStyle = {
-    'padding': '20px',
+    'padding': '10px',
     'font-family': 'monospace',
     'font-size': '30px',
     'overflow': 'auto',
@@ -528,7 +552,7 @@ const mdStyle = {
 }; // style for the markdown content
 
 const mdStyle2 = { // 浅色主体
-    'padding': '20px',
+    'padding': '10px',
     'font-family': 'monospace',
     'font-size': '30px',
     'overflow': 'auto',

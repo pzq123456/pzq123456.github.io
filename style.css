@@ -29,10 +29,10 @@ blockquote{
 
 /* 定义 链接样式 使得其在深色背景下更加利于阅读 */
 a{
-    color: rgb(62, 154, 220);
+    color: rgba(147, 71, 219, 0.862);
 }
 a:hover{
-    color: #bbdaff;
+    color: #aa7ed1;
 }
 
 code{
@@ -51,7 +51,7 @@ code{
 
 canvas{
     /* 阴影 模仿油管 影院灯效 */
-    box-shadow: 0 0 100px #be83db7a;
+    box-shadow: 0 0 100px #572072d4;
 }
 
 

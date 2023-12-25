@@ -11,6 +11,7 @@ export class View{
         this.currentRectBackgroundColor; // 当前行的底色
         this.backgroundColor = "rgba(20,0,20,0.5)"; // canvas 的底色
         this.cursorPosition = [0,0]; // 光标位置
+        this.cursorWidth = 3; // 光标宽度
     }
 
     drawLine(line,x,y,mytokenization = tokenization,mytokenStyle = tokenStyle){
@@ -104,7 +105,7 @@ export class View{
         // 从左到右绘制 若 x 超过 canvas 的宽度则换行
         let cursorX = 0;
         let cursorY = y;
-        let cursorWidth = 3;
+        let cursorWidth = this.cursorWidth;
         let cursorHeight = height;
         let cursorColor = this.cursorColor;
 
@@ -131,7 +132,9 @@ export class View{
 
 
         ctx.strokeStyle = this.currentRectColor;
-        ctx.strokeRect(0,y,this.canvas.width,y2-y);
+        // ctx.strokeRect(0,y,this.canvas.width,y2-y);
+        // 绘制虚线框
+        this.drawDashRect(0,y,this.canvas.width,y2-y,this.currentRectColor);
 
         // 绘制底色
         if(this.currentRectBackgroundColor){
@@ -139,6 +142,28 @@ export class View{
             ctx.fillRect(0,y,this.canvas.width,y2-y);
         }
         return y2;
+    }
+
+    /**
+     * 绘制虚线矩形
+     * @param {*} x 
+     * @param {*} y 
+     * @param {*} width 
+     * @param {*} height 
+     * @param {*} color 
+     */
+    drawDashRect(x,y,width,height,color){
+        let ctx = this.canvas.getContext('2d');
+        ctx.strokeStyle = color;
+        ctx.beginPath();
+        ctx.setLineDash([5,5]);
+        ctx.lineWidth = 1;
+        ctx.moveTo(x,y);
+        ctx.lineTo(x+width,y);
+        ctx.lineTo(x+width,y+height);
+        ctx.lineTo(x,y+height);
+        ctx.lineTo(x,y);
+        ctx.stroke();
     }
 
 

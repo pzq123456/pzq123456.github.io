@@ -8,3 +8,4 @@
 1. [Datasets tagged landcover in Earth Engine](https://developers.google.com/earth-engine/datasets/tags/landcover)
 2. [SAR flood detection analysis](https://medium.com/elspinaveinz/sar-flood-detection-experiment-a5a6ed56c245)
 3. [Front-end interactive remote sensing image segmentation using SAM](https://medium.com/@lzxue/front-end-interactive-remote-sensing-image-segmentation-useing-sam-eafbfaa5a903)
+4. [Focusing on a single product pays off 专注开发一个产品，直到盈利](https://maxrozen.com/2023-focus-single-product-pays-off)

@@ -83,28 +83,7 @@ let testStyle = {
 
 
 
-let data = Data.fromString(`🎄Type ' help ' and press enter to get help.🎄 \n🎅Gemini ✨ in it ! Type ' chat ' to enter chat mode.🎅`);
-
-let ChristmasTree = 
-`  *    *   ()   *   *
-*        * /\\         *
-      *   /i\\\    *  *
-    *     o/\\\  *      *
- *       ///\i\\    *
-     *   /*/o\\\\  *    *
-   *    /i//\*\\\\      *
-        /o/*\\i\\\\   *
-  *    //i//o\\\\\\\     *
-    * /*////\\\\i\*\\
- *    //o//i\\*\\\\\\  *
-   * /i///*/\\\\\o\\\\\   *
-  *    *   ||     *    `;
-
-// 将 ChristmasTree 按行分割 并写入 data
-let lines = ChristmasTree.split('\n');
-lines.forEach(line => {
-    data.writeHistory(line);
-});
+let data = Data.fromString(`Type ' help ' and press enter to get help. \nGemini ✨ in it ! Type ' chat ' to enter chat mode.`);
 
 
 

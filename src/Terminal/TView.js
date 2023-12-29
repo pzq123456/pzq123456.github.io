@@ -164,6 +164,7 @@ export class View{
         ctx.lineTo(x,y+height);
         ctx.lineTo(x,y);
         ctx.stroke();
+        ctx.setLineDash([]);
     }
 
 

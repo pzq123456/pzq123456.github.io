@@ -21,6 +21,7 @@ I am an undergraduate student in [Shan Dong University of Science and Technology
 
 * `JavaScript`: [PzqCanvasTerminal](https://github.com/pzq123456/pzq123456.github.io) --- A terminal emulator based on HTML5 Canvas and vanilla JS. 
   * Using the design idea of data and view separation, the command auto-completion and blog address auto-completion functions are implemented by using the prefix tree.
+  * Implemented the intelligent dialogue function by calling Gemini API.
 
 
 ## Papers

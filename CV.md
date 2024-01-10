@@ -1,7 +1,5 @@
-# 潘志清 | Zhiqing Pan
-
+# Zhiqing Pan | 潘志清
 ## Brief Introduction
-
 <img src="https://avatars.githubusercontent.com/u/82391775?v=4" width="30" height="30" alt="avatar" style="margin-right: 10px; border-radius: 50%;">
 
 I am an undergraduate student in [Shan Dong University of Science and Technology](https://en.sdust.edu.cn) at the [College of Geodesy and Geomatics](https://gc.sdust.edu.cn/). I am currently working on the topic of **Geographic Information Systems (GIS)** (especially its application in **Web**). 3D WebGIS (WebGL) is my next topic to dive into.
@@ -18,17 +16,15 @@ I am an undergraduate student in [Shan Dong University of Science and Technology
   * For raster geographic data (remote sensing images, DEM):
     * Implemented the functions of reading, parsing, visualizing raster geographic data in GeoTIFF format.
     * Implemented 2D Fast Fourier Transform (FFT).
+  * Document:
+    * The project has a matching [document website](https://pzq123456.github.io/RVGeo/), [example page](https://pzq123456.github.io/RVGeo/dist/index.html) and a simple tutorial [website](https://pzq123456.github.io/RVGeo/tutorials/index.html).
 
 * `JavaScript`: [PzqCanvasTerminal](https://github.com/pzq123456/pzq123456.github.io) --- A terminal emulator based on HTML5 Canvas and vanilla JS. 
   * Using the design idea of data and view separation, the command auto-completion and blog address auto-completion functions are implemented by using the prefix tree.
   * Implemented the intelligent dialogue function by calling Gemini API.
 
-
-## Papers
-- coming soon :-)
-- A paper on medical image segmentation is under review, please stay tuned.
-
 ## Contact me
 - Email: panzhiqing15@gmail.com
 - GitHub: [pzq123456](https://github.com/pzq123456)
+- Personal Website: [pzq123456.github.io](https://pzq123456.github.io)
 

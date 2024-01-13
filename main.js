@@ -18,13 +18,14 @@ const infoBobble = Terminal.View.infoBobble;
 const isMobile = Terminal.View.isMobile;
 const trie = Terminal.Parser.commandTrie; // 获得已经注入命令行关键词的前缀树
 
-trie.insertArray(metalist2str());
+trie.insertArray(metalist2str()); // 将 metalist 中的 title 注入前缀树
 
 // ==== 页面部分 ====
 let darkBG =  "#0d1117";
 let lightBG = "#d4dbe197";
 let mode = 'dark'; // dark or light
 let currentMarkdown = '/README.md'; // 当前渲染的 markdown 文件
+
 // 获取系统是否处于 dark mode
 const darkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
 if (darkMode){
@@ -35,7 +36,7 @@ if (darkMode){
     mode = 'light';
 }
 
-function refreshContent(){
+function refreshContent(){ // 刷新 content
     fileToHtml(currentMarkdown,document.getElementById('content'), getMDStyle(mode));
 }
 
@@ -81,12 +82,7 @@ let testStyle = {
     'background-color': 'black',
 };
 
-
-
 let data = Data.fromString(`Type ' help ' and press enter to get help. \nGemini ✨ in it ! Type ' chat ' to enter chat mode.`);
-
-
-
 
 // console.log(data);
 let c = 0;
@@ -231,6 +227,7 @@ myCanvas.addEventListener('keydown',function(e){
         // 清除候选词
         data._candidates = [];
     }
+
 });
 
 // 监听鼠标滚动事件

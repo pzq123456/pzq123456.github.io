@@ -62,6 +62,9 @@ export class View{
             }
             
         }
+
+        // update cursorPosition
+        this.cursorPosition = [x ,y]; // 光标位置
         // 返回高度
         return y;
     }
@@ -141,6 +144,9 @@ export class View{
             ctx.fillStyle = this.currentRectBackgroundColor;
             ctx.fillRect(0,y,this.canvas.width,y2-y);
         }
+
+        // update cursorPosition
+        this.cursorPosition = [cursorX ,cursorY]; // 光标位置
         return y2;
     }
 

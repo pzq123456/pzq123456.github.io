@@ -1,10 +1,10 @@
 {
     "name": "pcvterm",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "PZQ-Canvas-Vertual-Terminal. Vertual terminal for browser based on canvas element. Create a terminal in your browser.",
     "main": "index.js",
     "type": "module",
-    "keywords": ["terminal", "canvas"],
+    "keywords": ["terminal", "canvas", "vertual", "browser"],
     "author": "PZQ",
     "license": "MIT",
     "homepage": "https://pzq123456.github.io",

@@ -1,4 +1,6 @@
 # PZQ-Canvas-Vertual-Terminal(pcvterm)
+## Why I create this project
+I create my personal blog website from scratch. Just for fun. I write a vertual terminal component for my website which is based on canvas and can interact with users. Read the following to learn more about this project.
 
 ## Basic Concept
 1. Data: maintain the data of terminal. A Data object should be created to store the data of terminal.

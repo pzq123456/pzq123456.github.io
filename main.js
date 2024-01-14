@@ -518,7 +518,7 @@ const callBackList =
 const mdStyle = {
     'padding': '10px',
     'font-family': 'monospace',
-    'font-size': '30px',
+    'font-size': '25px',
     'overflow': 'auto',
     'border-bottom': '1px solid white',
     'border-radius': '5px',
@@ -527,10 +527,10 @@ const mdStyle = {
     'color': 'white',
 }; // style for the markdown content
 
-const mdStyle2 = { // 浅色主体
+const mdStyle2 = { // 浅色主题
     'padding': '10px',
     'font-family': 'monospace',
-    'font-size': '30px',
+    'font-size': '25px',
     'overflow': 'auto',
     'border-bottom': '1px solid black',
     'border-radius': '5px',

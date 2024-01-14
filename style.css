@@ -106,13 +106,35 @@ table tr:hover{
     background-color: #ffffff24;
 }
 
+.test {
+    color: #d4dbe197;
+}
+
+ul{
+    list-style: none;
+    padding-left: 0;
+}
+
+li{
+
+    padding-left: 1.5rem;
+    position: relative;
+}
+li:before {
+    /* 黑色与白色空心同心圆造型 */
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.85rem;
+    width: 0.25rem;
+    height: 0.25rem;
+    border-radius: 50%;
+    border: 1px solid #ffffff;
+    background-color: #000000;
+    transition: .5s;
+}
 
 /* 隐藏滚动条 */
 ::-webkit-scrollbar {
     display: none;
-}
-
-
-.test {
-    color: #d4dbe197;
 }

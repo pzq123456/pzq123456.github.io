@@ -263,6 +263,19 @@ const callBackList =
         "callBack": function cd(comObj,terminal){
             // 判断是否有 path
             if(comObj.path){
+                if(comObj.path === '/'){
+                    fileToHtml('/README.md',document.getElementById('content'), getMDStyle(mode));
+                    terminal.writeHistory("cd success " + comObj.path + " original file content: ");
+
+                    manipulateFile(comObj.path,function(data){
+                        terminal.writeHistory(data);
+                    });
+
+                    // 更新 currentMarkdown
+                    currentMarkdown = comObj.path;
+                    return;
+                }
+
                 // 判断 path 是否在 metalist 中
                 let flag = false;
                 metalist.forEach(item => {

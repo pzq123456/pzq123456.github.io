@@ -6,8 +6,15 @@
 
 ### 2. Automic Design
 - 原子设计是一种将界面分解为更小的元素的方法，这些元素可以更容易地重用。这些元素被称为原子，因为它们是构成界面的最小单元。原子设计的目标是创建一个可扩展的设计系统，可以用于构建任何东西。原子设计的核心是将界面分解为更小的元素，这些元素可以更容易地重用。这些元素被称为原子，因为它们是构成界面的最小单元。原子设计的目标是创建一个可扩展的设计系统，可以用于构建任何东西。
-- https://www.youtube.com/watch?v=p8u_k2LIZyo
-- https://www.youtube.com/watch?v=eED4bSkYCB8
+
+### 3. 基于四叉树的碰撞检测
+> - 避免覆盖物压盖是地图开发中常见的需求，比如在地图上绘制多个点标记，当点标记重叠时，需要将点标记分散开来，以便用户可以清楚的看到每个点标记。这种需求在地图开发中非常常见，但是实现起来却并不简单。本文将介绍一种基于四叉树的碰撞检测算法，该算法可以高效的检测出多个点标记之间的碰撞，从而实现点标记的分散显示。
+
+### 4. Leaflet 源码分析
+> - Leaflet是一个开源的JavaScript库，用于移动设备友好的互动地图。它是由Vladimir Agafonkin创建的，他于2010年获得了Apple Design Award的学生奖。Leaflet最初是为移动设备设计的，因此具有轻量级、易于使用、高性能和可扩展性的特点。它可以在大多数现代桌面和移动浏览器上运行，而不需要任何额外的插件，并且可以在Android、iOS和Windows Phone等平台上运行。
+- 我会研究Leaflet的源码，并尝试进行深度定制，以满足毕业设计的需求。
+
 ## Reference
 1. [Creating a GeoJSON FeatureCollection Type for GraphQL](https://brygrill.medium.com/creating-a-geojson-featurecollection-type-for-graphql-352591451b4a)
 2. [Automic Design](https://www.youtube.com/watch?v=W3A33dmp17E)
+3. [基于四叉树的碰撞检测](https://www.youtube.com/watch?v=eED4bSkYCB8)

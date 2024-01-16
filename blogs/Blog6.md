@@ -14,7 +14,12 @@
 > - Leaflet是一个开源的JavaScript库，用于移动设备友好的互动地图。它是由Vladimir Agafonkin创建的，他于2010年获得了Apple Design Award的学生奖。Leaflet最初是为移动设备设计的，因此具有轻量级、易于使用、高性能和可扩展性的特点。它可以在大多数现代桌面和移动浏览器上运行，而不需要任何额外的插件，并且可以在Android、iOS和Windows Phone等平台上运行。
 - 我会研究Leaflet的源码，并尝试进行深度定制，以满足毕业设计的需求。
 
+### 5. 现代 WebGIS 技术
+现代WebGIS底层是数据层，提供空间数据与业务数据等基础数据支撑；中间层一般包括提供基础GIS服务的GIS服务器和提供应用服务支撑的业务逻辑服务器，其中 GIS 服务器可以是专业的GIS开发平台或开源 GIS 项目，也可以是简单的大众化应用地图服务器，主要为应用层提供地图数据服务和功能服务资源；最上层为客户端应用层，可基于 HTML5、ES6、WebGL、WebSocket、React、AngularJS、Vue.js等现代Web 技术栈，使用各类 WebGIS API 进行开发，与 GIS 服务器或业务逻辑服务器交互，实现满足具体需求的Web应用。
+
+
 ## Reference
 1. [Creating a GeoJSON FeatureCollection Type for GraphQL](https://brygrill.medium.com/creating-a-geojson-featurecollection-type-for-graphql-352591451b4a)
 2. [Automic Design](https://www.youtube.com/watch?v=W3A33dmp17E)
 3. [基于四叉树的碰撞检测](https://www.youtube.com/watch?v=eED4bSkYCB8)
+4. [现代 WebGIS 技术](https://iclient.supermap.io/web/technical-topics.html#webgis-devtools)

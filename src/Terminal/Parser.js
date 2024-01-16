@@ -15,7 +15,9 @@ const tokenClass = ['command', 'option', 'path', 'argument'];
 
 export function tokenization(line){
     // tokenization
-    let tokens = line.split(' ');
+    // let tokens = line.split(' ');
+    // splitWords
+    let tokens = splitWords(line);
     // 为每一个 token 添加类型
     tokens = tokens.map(token => {
         if (commands.includes(token)){
@@ -81,7 +83,9 @@ export function tokenStyle(token){
 // MarkDown tokenization
 export function mdTokenization(line){
     // tokenization
-    let tokens = line.split(' ');
+    // let tokens = line.split(' ');
+    // splitWords
+    let tokens = splitWords(line);
     // 为每一个 token 添加类型
     tokens = tokens.map(token => {
         // 使用正则表达式判断
@@ -218,4 +222,11 @@ export function Parser(tokens){
         }
     }
     return result;
+}
+
+
+// @function splitWords(str: String): String[]
+// Trims and splits the string on whitespace and returns the array of parts.
+export function splitWords(str) {
+	return str.trim().split(/\s+/);
 }

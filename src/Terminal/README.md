@@ -1,4 +1,5 @@
 # PZQ-Canvas-Vertual-Terminal(pcvterm)
+
 ## Why I create this project
 I create my personal blog website from scratch. Just for fun. I write a vertual terminal component for my website which is based on canvas and can interact with users. Read the following to learn more about this project.
 
@@ -8,6 +9,11 @@ I create my personal blog website from scratch. Just for fun. I write a vertual 
 3. Parser: parse the command. A Parser object parse the command and return a command object.
 4. Strategy: run the command. A Strategy object run the command object and change the data of terminal.
 5. Canvas: the canvas element. A Canvas object is the canvas element.
+
+## change log
+### 2024-1-16
+1. fix: split string bug in Parser
+
 ## quick start
 
 ### template

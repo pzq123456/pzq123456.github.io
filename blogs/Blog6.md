@@ -16,6 +16,7 @@
 
 ### 5. 现代 WebGIS 技术
 现代WebGIS底层是数据层，提供空间数据与业务数据等基础数据支撑；中间层一般包括提供基础GIS服务的GIS服务器和提供应用服务支撑的业务逻辑服务器，其中 GIS 服务器可以是专业的GIS开发平台或开源 GIS 项目，也可以是简单的大众化应用地图服务器，主要为应用层提供地图数据服务和功能服务资源；最上层为客户端应用层，可基于 HTML5、ES6、WebGL、WebSocket、React、AngularJS、Vue.js等现代Web 技术栈，使用各类 WebGIS API 进行开发，与 GIS 服务器或业务逻辑服务器交互，实现满足具体需求的Web应用。
+- https://iclient.supermap.io/web/books/modern-web-gis-in-action/11cong-chuan-tong-web-dao-xian-dai-web-kai-fa.html
 
 
 ## Reference

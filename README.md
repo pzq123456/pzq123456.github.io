@@ -44,3 +44,5 @@ I am an undergraduate student in [Shan Dong University of Science and Technology
 > - Command auto-completion and blog address auto-completion based on prefix tree have been implemented. Welcome to use.
 >   - 使用方法：在 Terminal 中输入命令或者博客地址的前缀，看到灰色的候选字符出现，然后按下 Tab 键即可自动补全。
 >   - Usage: Input the prefix of a command or a blog address in the Terminal, and you will see the gray candidate characters appear. Then press the Tab key to complete the input automatically.
+
+## [Buy me a coffee](https://www.buymeacoffee.com/pzq123456)

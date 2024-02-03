@@ -2,6 +2,8 @@ import { fileToHtml, manipulateFile, stringToHtml } from './helpers/markdown.js'
 import { fillNavBar } from './helpers/navBar.js';
 import { metalist,metalist2str} from './blogs/meta.js'; // metalist is a list of blog metadata
 import { initPage } from './helpers/init.js';
+
+import { getWeather } from './src/Terminal/weather.js';
 initPage();
 
 import * as Terminal from '/src/Terminal/index.js';
@@ -389,9 +391,19 @@ const callBackList =
     "about":{
         "callBack": function about(comObj,terminal){
             terminal.writeHistory("=== about ===");
-            terminal.writeHistory("-Site Version 2.0.0 (Stable) Powered by PzqCanvasTerminal V2.0.0 (Created by Pzq123456 using vanilla JS from scratch)");
-            terminal.writeHistory("-春江潮水连海平，海上明月共潮生。");
-            terminal.writeHistory("=== end ===");
+            // 打印当前时间
+            let date = new Date();
+            // 格式化时间
+            let time = date.toLocaleString();
+            terminal.writeHistory("current time: " + time);
+
+            const callBack = function(weatherData){
+                terminal.writeHistory(weatherData);
+                terminal.writeHistory("=== end ===");
+            }
+            getWeather(callBack); 
+            terminal.writeHistory("[Powered by pcvterm.js & Gemini ✨]");
+            terminal.writeHistory("[春江潮水连海平，海上明月共潮生。]");
         },
     },
     "mdr":{

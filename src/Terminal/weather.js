@@ -17,9 +17,14 @@ export function weatherTextToEmoji(text) {
       return '☀️';
     } else if (lowerCaseText.includes('snow')) {
       return '❄️';
-    } else {
+    } else if (lowerCaseText.includes('thunderstorm')) {
+      return '⛈️';
+    } else if (lowerCaseText.includes('drizzle')) {
+      return '🌦️';
+    } else if (lowerCaseText.includes('mist')) {
       return '🌫️';
     }
+    return '';
 }
 
 // 解析天气数据并生成英文描述
@@ -29,9 +34,7 @@ function parseWeatherData(data) {
     const weather = data.weather[0].main;
     const description = data.weather[0].description;
 
-    // const englishDescription = `The weather in ${location} (your location) is currently ${weather.toLowerCase()} with a temperature of ${temperature} degrees Celsius. ${description}.`;
-    // add emoji to the description
-    const englishDescription = `The weather in ${location} (your location) is currently ${weather.toLowerCase()} with a temperature of ${temperature} degrees Celsius. ${description}. ${weatherTextToEmoji(weather)}`;
+    const englishDescription = `The weather in ${location} (your location) is currently ${weather.toLowerCase()} with a temperature of ${temperature} °C. ${description}. ${weatherTextToEmoji(weather)}`;
     return englishDescription;
 }
   
@@ -66,5 +69,3 @@ export async function getWeather(callBack) {
     console.error('Geolocation is not supported by your browser.');
     }
 }
-
-

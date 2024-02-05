@@ -51,7 +51,7 @@ const helpInfo = [
     "chat : enter chat mode",
     "exit : exit chat mode",
     "style : change style: style -dark or style -light",
-    "about : about me",
+    "about : about me and weather & time",
     "mdr : render markdown string to this page",
     "echo : echo string",
     "cm : current markdown file path",
@@ -373,17 +373,33 @@ const callBackList =
     },
     "style":{
         "callBack": function style(comObj,terminal){
+            if (!comObj.options || comObj.options.length == 0){
+                terminal.writeHistory("no style. please input -dark or -light");
+                return;
+            }
+
             if (comObj.options == '-dark'){
-                document.body.style.backgroundColor = darkBG;
-                mode = 'dark';
-                refreshContent();
-                terminal.writeHistory("change to dark mode 🌙 ");
+                if(mode === 'dark'){
+                    terminal.writeHistory("already in dark mode");
+                    return;
+                }else{
+                    document.body.style.backgroundColor = darkBG;
+                    mode = 'dark';
+                    refreshContent();
+                    terminal.writeHistory("change to dark mode 🌙 ");
+                }
             }else if (comObj.options == '-light'){
-                document.body.style.backgroundColor = lightBG;
-                mode = 'light';
-                refreshContent();
-                terminal.writeHistory("change to light mode 🔆 ");
+                if(mode === 'light'){
+                    terminal.writeHistory("already in light mode");
+                    return;
+                }else{
+                    document.body.style.backgroundColor = lightBG;
+                    mode = 'light';
+                    refreshContent();
+                    terminal.writeHistory("change to light mode 🔆 ");
+                }
             }else{
+                console.log(comObj.options);
                 terminal.writeHistory("no such style: " + comObj.options);
             }
         }
@@ -580,7 +596,3 @@ function getBG(mode){
 
 
 fileToHtml('/README.md',document.getElementById('content'), getMDStyle(mode));
-
-
-
-

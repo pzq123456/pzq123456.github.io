@@ -36,7 +36,7 @@ I am an undergraduate student in [Shan Dong University of Science and Technology
 - This site is powered by `pcvterm.js`, a JavaScript library for creating a simple terminal on a web page.
 
 <details>
-  <summary>Click to see site usage</summary>
+  <summary>💡Click to see site usage</summary>
 
 > - Attention: You need to click the Terminal first to focus it before you can input commands.
 > - If you want to browser my blogs, you could first type `ls` to list all the files and then type `cd some_Blog.md` to open it.(e.g. `cd blogs/Blog0.md`) 

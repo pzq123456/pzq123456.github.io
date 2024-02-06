@@ -407,6 +407,8 @@ const callBackList =
     "about":{
         "callBack": function about(comObj,terminal){
             terminal.writeHistory("=== about ===");
+            terminal.writeHistory("[Powered by pcvterm.js & Gemini ✨]");
+            terminal.writeHistory("[春江潮水连海平，海上明月共潮生。]");
             // 打印当前时间
             let date = new Date();
             // 格式化时间
@@ -418,8 +420,8 @@ const callBackList =
                 terminal.writeHistory("=== end ===");
             }
             getWeather(callBack); 
-            terminal.writeHistory("[Powered by pcvterm.js & Gemini ✨]");
-            terminal.writeHistory("[春江潮水连海平，海上明月共潮生。]");
+            // 打印 网站字体 
+            terminal.writeHistory("font-family: monospace");
         },
     },
     "mdr":{

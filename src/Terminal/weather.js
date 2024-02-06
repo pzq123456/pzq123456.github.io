@@ -34,7 +34,9 @@ function parseWeatherData(data) {
     const weather = data.weather[0].main;
     const description = data.weather[0].description;
 
-    const englishDescription = `The weather in ${location} (your location) is currently ${weather.toLowerCase()} with a temperature of ${temperature} °C. ${description}. ${weatherTextToEmoji(weather)}`;
+    const englishDescription = `The weather in ${location} (your location) is currently ${weather.toLowerCase()} 
+    with a temperature of ${temperature} °C.
+    ${description}. ${weatherTextToEmoji(weather)}`;
     return englishDescription;
 }
   

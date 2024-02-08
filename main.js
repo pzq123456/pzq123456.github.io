@@ -598,9 +598,9 @@ function getBG(mode){
 
 
 fileToHtml('/README.md',document.getElementById('content'), getMDStyle(mode));
-// // 在所有资源加载完成后隐藏加载动画
-// window.addEventListener('load', function() {
-//     var loadingOverlay = document.getElementById('loading-overlay');
-//     loadingOverlay.style.display = 'none';
-//   });
+// 在所有资源加载完成后隐藏加载动画
+window.addEventListener('load', function() {
+    var loadingOverlay = document.getElementById('loading-overlay');
+    loadingOverlay.style.display = 'none';
+  });
   

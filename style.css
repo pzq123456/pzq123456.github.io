@@ -157,3 +157,34 @@ footer{
 footer a{
     color: #d975eae0;
 }
+#loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(38, 36, 36, 0.452);
+    /* 背景模糊 */
+    backdrop-filter: blur(10px);
+
+    z-index: 9999; /* 确保加载动画位于其他内容之上 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .loader {
+    border: 8px solid #ffffff;
+    border-radius: 50%;
+    border-top: 8px solid #d400ff;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite; /* 旋转动画 */
+  }
+
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  

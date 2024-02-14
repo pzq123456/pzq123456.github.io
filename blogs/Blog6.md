@@ -41,6 +41,9 @@
 -  Fastify is a web framework highly focused on providing the best developer experience with the least overhead and a powerful plugin architecture. It is inspired by Hapi and Express and as far as we know, it is one of the fastest web frameworks in town.
 - https://fastify.dev/
 
+### *11. 15 分钟城市
+https://henryspatialanalysis.com/news/2023-08-16-walkability-tutorial.html
+
 ## Reference
 1. [Creating a GeoJSON FeatureCollection Type for GraphQL](https://brygrill.medium.com/creating-a-geojson-featurecollection-type-for-graphql-352591451b4a)
 2. [Automic Design](https://www.youtube.com/watch?v=W3A33dmp17E)

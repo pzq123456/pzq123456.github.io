@@ -42,7 +42,9 @@
 - https://fastify.dev/
 
 ### *11. 15 分钟城市
+> 使用 R 写的后端， js 仅作为前端可视化。
 https://henryspatialanalysis.com/news/2023-08-16-walkability-tutorial.html
+https://henryspatialanalysis.com/assets/news/walkability_tutorial_results/
 
 ## Reference
 1. [Creating a GeoJSON FeatureCollection Type for GraphQL](https://brygrill.medium.com/creating-a-geojson-featurecollection-type-for-graphql-352591451b4a)

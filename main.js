@@ -84,7 +84,7 @@ let testStyle = {
     'background-color': 'black',
 };
 
-let data = Data.fromString(`Type ' help ' and press enter to get help. \nGemini ✨ in it ! Type ' chat ' to enter chat mode.`);
+let data = Data.fromString(`🏮🎉🧧Happy Chinese New Year !🧧🎉🏮 \n Type "help" and press enter to get help. \n Gemini ✨ in it ! Type "chat" to enter chat mode.`);
 
 // console.log(data);
 let c = 0;

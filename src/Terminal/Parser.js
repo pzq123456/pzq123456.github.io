@@ -228,5 +228,7 @@ export function Parser(tokens){
 // @function splitWords(str: String): String[]
 // Trims and splits the string on whitespace and returns the array of parts.
 export function splitWords(str) {
-	return str.trim().split(/\s+/);
+	// return str.trim().split(/\s+/);
+    // 以空格为分隔符 但是对于连续的空格 譬如 tab 代表四个空格 则会被认为一个 token
+    return str.trim().split(' ');
 }

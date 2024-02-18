@@ -61,6 +61,8 @@ canvas{
     /* 阴影 模仿油管 影院灯效 */
     box-shadow: 0 0 100px #58346ca7;
     border-radius: 0.5rem;
+    /* 边框 */
+    border: 1px solid #fefefe4e;
 }
 
 

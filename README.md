@@ -29,8 +29,7 @@ I am an undergraduate student in [Shan Dong University of Science and Technology
 
 ## Current Status
 - I am currently working on my Graduation Project, which is about the application of GIS in Web. In detail, I am trying to develop a `programmable GIS` platform based on WebGIS and GIS algorithms.
-
-
+- I am using TypeScript to refactor the core code (CRS and Geometry part) of LeafLet in order to better support the development of WebGIS.(see [RVGeo-Next](https://github.com/pzq123456/RVGeo/tree/next) for more details) The refactored core code of LeafLet will be reused in my project.
 
 ## About this site
 - This site is powered by `pcvterm.js`, a JavaScript library for creating a simple terminal on a web page.
@@ -42,7 +41,7 @@ I am an undergraduate student in [Shan Dong University of Science and Technology
 > - If you want to browser my blogs, you could first type `ls` to list all the files and then type `cd some_Blog.md` to open it.(e.g. `cd blogs/Blog0.md`) 
 >    - It is a little bit cumbersome, but you can use the `Tab` key to auto-complete the file name. 
 >    - In the `ls` list, you can directly copy the line which contains the file name you intend to open and paste it into the terminal, then press `Enter` to open it.
-> - I will insert the LLM (Large Language Model) to make the terminal more intelligent and user-friendly. You can just type `chat` to start a conversation with the LLM (PaLM2 from Google). In the feature, I will regularly use my blogs to fine-tune the LLM to make it more suitable for my site.
+> - You can just type `chat` to start a conversation with the LLM (PaLM2 from Google).In the feature, I will regularly use my blogs to fine-tune the LLM to make it more suitable for my site.
 
 </details>
 

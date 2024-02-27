@@ -1,5 +1,7 @@
 import { tokenization, tokenStyle, mdTokenization, mdTokenStyle } from './Parser.js';
 
+const maxLineChar = 3000;
+
 export class View{
     constructor(data,canvas,style){
         this.data = data; // 数据 class
@@ -14,7 +16,30 @@ export class View{
         this.cursorWidth = 3; // 光标宽度
     }
 
+    drawLine2(line, x, y) {
+        // 降级渲染
+        let ctx = this.canvas.getContext('2d');
+        let height = parseInt(this.style['font-size']);
+        y += height;
+      
+        // Assume single style for all tokens (remove style logic)
+        ctx.fillStyle = 'white'; // Change to your default color
+        ctx.font = this.style['font-size'] + ' ' + this.style['font-family'];
+
+        // Draw the entire line at once
+        ctx.fillText(line, x, y);
+      
+        // Update cursor position
+        this.cursorPosition = [x, y];
+        // Return height
+        return y;
+    }
+
     drawLine(line,x,y,mytokenization = tokenization,mytokenStyle = tokenStyle){
+        // 若输入的行长度大于 maxLineChar 则 降级为 drawLine2
+        if (line.length > maxLineChar){
+            return this.drawLine2(line,x,y);
+        }
         // 解析 获得 tokens 获得 token 的样式 然后绘制
         let tokens = mytokenization(line);
         let ctx = this.canvas.getContext('2d');
@@ -360,3 +385,15 @@ export class infoBobble{
 
 }
 
+// 节流
+export function throttle(func, wait) {
+    let timer = null;
+    return function () {
+        if (!timer) {
+            timer = setTimeout(() => {
+                func.apply(this, arguments);
+                timer = null;
+            }, wait);
+        }
+    };
+}

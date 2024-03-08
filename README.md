@@ -30,6 +30,10 @@ I am an undergraduate student in [Shan Dong University of Science and Technology
 ## Current Status
 - I am currently working on my Graduation Project, which is about the application of GIS in Web. In detail, I am trying to develop a `programmable GIS` platform based on WebGIS and GIS algorithms.
 - I am using TypeScript to refactor the core code (CRS and Geometry part) of LeafLet in order to better support the development of WebGIS.(see [RVGeo-Next](https://github.com/pzq123456/RVGeo/tree/next) for more details) The refactored core code of LeafLet will be reused in my project.
+- Reading the books: 
+  - [ ] [Eloquent JavaScript 4th edition (2024)](https://eloquentjavascript.net)
+
+
 
 ## About this site
 - This site is powered by `pcvterm.js`, a JavaScript library for creating a simple terminal on a web page.

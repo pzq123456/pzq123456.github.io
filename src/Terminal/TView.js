@@ -11,7 +11,7 @@ export class View{
         this.cursorColor = 'white'; // 光标颜色
         this.currentRectColor = 'white'; // 当前行的边框颜色
         this.currentRectBackgroundColor; // 当前行的底色
-        this.backgroundColor = "rgba(20,0,20,0.5)"; // canvas 的底色
+        this.backgroundColor = "rgba(10,10,110,0.4)"; // canvas 的底色
         this.cursorPosition = [0,0]; // 光标位置
         this.cursorWidth = 3; // 光标宽度
     }

@@ -14,6 +14,12 @@ export class View{
         this.backgroundColor = "rgba(10,10,110,0.4)"; // canvas 的底色
         this.cursorPosition = [0,0]; // 光标位置
         this.cursorWidth = 3; // 光标宽度
+        this.mirrorCanvas = null; // 镜像 canvas
+    }
+
+    // 提取当前 canvas 中的图像
+    toImage(){
+        return this.canvas.toDataURL();
     }
 
     drawLine2(line, x, y) {

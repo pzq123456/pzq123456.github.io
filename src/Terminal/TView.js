@@ -347,8 +347,8 @@ export class infoBobble{
         let style = {
             'position': 'fixed',
             'bottom': '0',
-            'left': '0',
-            'width': '100%',
+            'right': '0',
+            'width': '20%',
             'height': 'auto',
             'background-color': 'rgba(0,0,0,0.5)',
             'color': 'white',
@@ -357,6 +357,7 @@ export class infoBobble{
             'padding': '10px',
             'z-index': '100',
             'text-align': 'center',
+            'border-radius': '10px',
         };
         if (this.type === 'error'){
             style['background-color'] = 'rgba(255,0,0,0.5)';
@@ -371,8 +372,19 @@ export class infoBobble{
     }
 
     render(){
+        // create close button
         let div = document.createElement('div');
         div.textContent = this.info;
+
+        let close = document.createElement('span');
+        close.textContent = 'x';
+        close.style.float = 'right';
+        close.style.cursor = 'pointer';
+        close.addEventListener('click',()=>{
+            document.body.removeChild(div);
+        });
+        div.appendChild(close);
+
         let style = this.getStyle();
         for(let key in style){
             div.style[key] = style[key];

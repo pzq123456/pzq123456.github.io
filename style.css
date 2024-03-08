@@ -8,20 +8,17 @@ body{
 }
 .wrapper{
     width: 100%;
-    margin: 0 auto;
     display: flex;
-    flex-wrap: wrap;
     justify-content: center;
-
+    padding: 3rem 0;
 }
+
 #content{
-    /* width: 100%; */
-    border: 1px solid #121010;
     overflow: auto;
     padding: 1rem;
     margin: 1rem 0;
     border-radius: 0.5rem;
-    box-shadow: 0 0 30px #4f4d50d4;
+    box-shadow: 0 0 30px #aabdc16f;
 }
 blockquote{
     background-color: #ccc7f024;
@@ -33,15 +30,15 @@ blockquote{
 
 /* 定义 链接样式 使得其在深色背景下更加利于阅读 */
 a{
-    color: rgba(147, 71, 219, 0.862);
+    color: rgba(10, 142, 237, 0.862);
 }
 a:hover{
-    color: #aa7ed1;
+    color: #2b91d1;
 }
 
 code{
-    border: 1px solid #ffffff3a;
-    background-color: #b66ae834;
+    border: 1px solid #8883832e;
+    background-color: #75b3dc6d;
     border-radius: 0.25rem;
 }
 
@@ -59,7 +56,7 @@ code{
 
 canvas{
     /* 阴影 模仿油管 影院灯效 */
-    box-shadow: 0 0 100px #58346ca7;
+    box-shadow: 0 0 100px #558198a7;
     border-radius: 0.5rem;
     /* 边框 */
     border: 1px solid #fefefe4e;
@@ -157,7 +154,7 @@ footer{
 }
 
 footer a{
-    color: #d975eae0;
+    color: #75b7eae0;
 }
 #loading-overlay {
     position: fixed;

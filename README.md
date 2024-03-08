@@ -29,11 +29,9 @@ I am an undergraduate student in [Shan Dong University of Science and Technology
 
 ## Current Status
 - I am currently working on my Graduation Project, which is about the application of GIS in Web. In detail, I am trying to develop a `programmable GIS` platform based on WebGIS and GIS algorithms.
-- I am using TypeScript to refactor the core code (CRS and Geometry part) of LeafLet in order to better support the development of WebGIS.(see [RVGeo-Next](https://github.com/pzq123456/RVGeo/tree/next) for more details) The refactored core code of LeafLet will be reused in my project.
-- Reading the books: 
+- Use TypeScript to refactor the core code (CRS and Geometry part) of LeafLet in order to better support the development of WebGIS.(see [RVGeo-Next](https://github.com/pzq123456/RVGeo/tree/next) for more details) The refactored core code of LeafLet will be reused in my project.
+- Read some books: 
   - [ ] [Eloquent JavaScript 4th edition (2024)](https://eloquentjavascript.net)
-
-
 
 ## About this site
 - This site is powered by `pcvterm.js`, a JavaScript library for creating a simple terminal on a web page.
@@ -53,8 +51,12 @@ I am an undergraduate student in [Shan Dong University of Science and Technology
 
 <a href="https://www.buymeacoffee.com/pzq123456" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/purple_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
 
-## site update notations
+<details>
+  <summary>🔧 site update notations</summary>
+
 - I have downgraded the line-rendering function when the line is too long to be effectively rendered in the terminal. Now, if the line has more than 3000 characters, it will be downgraded to a simple line(may outside the canvas) withouth any style. In this case, youcan use `cmd + c` to copy the content and paste it into a text editor to read it.(or you can use `mdr` command to render it in current page.)
 ```bash
 mdr content # the content is the text you want to render(more than 3000 characters)
 ```
+
+</details>

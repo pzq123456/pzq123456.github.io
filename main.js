@@ -84,7 +84,7 @@ let testStyle = {
     'background-color': 'black',
 };
 
-let data = Data.fromString(`🏮🎉🧧Happy Chinese New Year !🧧🎉🏮 \n Type "help" and press enter to get help. \n Gemini ✨ in it ! Type "chat" to enter chat mode.`);
+let data = Data.fromString(`Type "help" and press enter to get help. \n Gemini ✨ in it ! Type "chat" to enter chat mode.`);
 
 // console.log(data);
 let c = 0;
@@ -289,6 +289,10 @@ const callBackList =
 
                     fileToHtml(comObj.path,document.getElementById('content'), getMDStyle(mode));
                     terminal.writeHistory("cd success " + comObj.path + " original file content: ");
+                    // let info = new infoBobble('enable scroll','success',1000);
+                    // info.render();
+                    let info = new infoBobble(`cd success ${comObj.path}`,'success',1000);
+                    info.render();
 
                     manipulateFile(comObj.path,function(data){
                         terminal.writeHistory(data);

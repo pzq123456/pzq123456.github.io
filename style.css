@@ -190,3 +190,48 @@ footer a{
     100% { transform: rotate(360deg); }
   }
   
+  #loading-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background-color: #00000000;
+    z-index: 9999;
+  }
+
+  #loading-bar::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50%;
+    height: 100%;
+    background-color: #0000ff;
+    animation: loading 2s linear infinite;
+    box-shadow: 0 0 10px #00b7ff;
+  }
+
+  @keyframes loading {
+      0% {
+          left: 0;
+          width: 0;
+      }
+      10% {
+          left: 10%;
+          width: 10%;
+      }
+      20% {
+          left: 20%;
+          width: 20%;
+      }        
+      30% {
+          left: 30%;
+          width: 30%;
+      }
+      100% {
+          left: 100%;
+          width: 10%;
+      }
+
+  }

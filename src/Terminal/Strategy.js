@@ -20,6 +20,7 @@ export function chat(terminal,input){
             "text": input
         }
     }
+    openLoadingBar();
     // 发送请求
     fetch(url,{
         method: 'POST',
@@ -36,9 +37,18 @@ export function chat(terminal,input){
                 let res = data.candidates[0].output;
                 terminal.writeHistory("-Response: " + res);
             }
+            closeLoadingBar();
         })
     })
     .catch(err => {
         console.log(err);
     })
+}
+
+function closeLoadingBar(){
+    document.getElementById("loading-bar").style.display = "none";
+}
+
+function openLoadingBar(){
+    document.getElementById("loading-bar").style.display = "block";
 }

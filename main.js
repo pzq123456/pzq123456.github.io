@@ -21,7 +21,7 @@ const isMobile = Terminal.View.isMobile;
 const trie = Terminal.Parser.commandTrie; // 获得已经注入命令行关键词的前缀树
 
 trie.insertArray(metalist2str()); // 将 metalist 中的 title 注入前缀树
-
+closeLoadingBar();
 // ==== 页面部分 ====
 let darkBG =  "#0d1117";
 let lightBG = "#d4dbe197";
@@ -419,9 +419,12 @@ const callBackList =
             let time = date.toLocaleString();
             terminal.writeHistory("current time: " + time);
 
+            // open loading bar
+            openLoadingBar();
             const callBack = function(weatherData){
                 terminal.writeHistory(weatherData);
                 terminal.writeHistory("=== end ===");
+                closeLoadingBar();
             }
             getWeather(callBack); 
             // 打印 网站字体 
@@ -608,3 +611,10 @@ window.addEventListener('load', function() {
     loadingOverlay.style.display = 'none';
   });
   
+function closeLoadingBar(){
+    document.getElementById("loading-bar").style.display = "none";
+}
+
+function openLoadingBar(){
+    document.getElementById("loading-bar").style.display = "block";
+}

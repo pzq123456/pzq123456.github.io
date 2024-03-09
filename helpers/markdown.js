@@ -28,7 +28,8 @@ function parseStyle(style) {
  * @param {*} elementId 
  * @param {JSON} style - optional
  */
-export function fileToHtml(filePath, element, style) {      
+export function fileToHtml(filePath, element, style) {     
+    openLoadingBar(); 
     axios.get(filePath)
     .then(function (response) {
         // if no elementId, create one
@@ -42,6 +43,7 @@ export function fileToHtml(filePath, element, style) {
         if (style) {
             element.setAttribute('style',parseStyle(style));
         }
+        closeLoadingBar();
     })
     .catch(function (error) {
         // handle error
@@ -89,3 +91,10 @@ export function manipulateFile(filepath,callBack){
     });
 }
 
+function closeLoadingBar(){
+    document.getElementById("loading-bar").style.display = "none";
+}
+
+function openLoadingBar(){
+    document.getElementById("loading-bar").style.display = "block";
+}

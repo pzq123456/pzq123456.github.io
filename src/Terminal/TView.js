@@ -298,7 +298,7 @@ export function createCanvas(
         // 禁用滚动
         disableScroll();
         // infoBobble
-        let info = new infoBobble('disable scroll click outside Terminal to enable scroll','error',3000);
+        let info = new infoBobble('click outside Terminal to enable scroll','error',3000);
         info.render();
     });
 
@@ -397,7 +397,10 @@ export class infoBobble{
         }
         document.body.appendChild(div);
         setTimeout(()=>{
-            document.body.removeChild(div);
+            // get parent
+            if (div.parentNode){
+                div.parentNode.removeChild(div);
+            }
         },this.time);
     }
 

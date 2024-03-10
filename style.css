@@ -141,11 +141,6 @@ li:before {
     transition: .5s;
 }
 
-/* 隐藏滚动条 */
-::-webkit-scrollbar {
-    display: none;
-}
-
 footer{
     text-align: center;
     padding: 1rem;

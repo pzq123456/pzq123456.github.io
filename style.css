@@ -30,7 +30,7 @@ blockquote{
 
 /* 定义 链接样式 使得其在深色背景下更加利于阅读 */
 a{
-    color: rgba(10, 142, 237, 0.862);
+    color: rgba(10, 142, 237, 0.862);   
 }
 a:hover{
     color: #2b91d1;
@@ -92,6 +92,7 @@ table{
     background-color: #3d1e448b;
     color: #ffffff;
 }
+
 table th{
     border: 1px solid #ffffff3a;
     background-color: #ffffff0d;
@@ -106,9 +107,11 @@ table td{
     padding: 0.5rem 1rem;
     text-align: left;
 }
+
 table tr:nth-child(even){
     background-color: #ffffff0d;
 }
+
 table tr:hover{
     background-color: #ffffff24;
 }
@@ -123,7 +126,6 @@ ul{
 }
 
 li{
-
     padding-left: 1.5rem;
     position: relative;
 }
@@ -165,24 +167,24 @@ footer a{
     display: flex;
     justify-content: center;
     align-items: center;
-  }
-  
-  .loader {
-    border: 8px solid #ffffff;
+}
+
+.loader {
+    border: 8px solid #d2caca34;
     border-radius: 50%;
-    border-top: 8px solid #d400ff;
+    border-top: 8px solid #4949e5;
     width: 50px;
     height: 50px;
     animation: spin 1s linear infinite; /* 旋转动画 */
-  }
+}
 
-  
-  @keyframes spin {
+
+@keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
-  }
-  
-  #loading-bar {
+}
+
+#loading-bar {
     position: fixed;
     top: 0;
     left: 0;
@@ -190,9 +192,9 @@ footer a{
     height: 5px;
     background-color: #00000000;
     z-index: 9999;
-  }
+}
 
-  #loading-bar::after {
+#loading-bar::after {
     content: "";
     position: absolute;
     top: 0;
@@ -202,28 +204,33 @@ footer a{
     background-color: #0000ff;
     animation: loading 2s linear infinite;
     box-shadow: 0 0 10px #00b7ff;
-  }
+}
 
-  @keyframes loading {
-      0% {
-          left: 0;
-          width: 0;
-      }
-      10% {
-          left: 10%;
-          width: 10%;
-      }
-      20% {
-          left: 20%;
-          width: 20%;
-      }        
-      30% {
-          left: 30%;
-          width: 30%;
-      }
-      100% {
-          left: 100%;
-          width: 10%;
-      }
+@keyframes loading {
+    0% {
+        left: 0;
+        width: 0;
+    }
+    10% {
+        left: 10%;
+        width: 10%;
+    }
+    20% {
+        left: 20%;
+        width: 20%;
+    }        
+    30% {
+        left: 30%;
+        width: 30%;
+    }
+    100% {
+        left: 100%;
+        width: 10%;
+    }
 
-  }
+}
+
+  /* 隐藏滚动条 */
+::-webkit-scrollbar {
+    display: none;
+}

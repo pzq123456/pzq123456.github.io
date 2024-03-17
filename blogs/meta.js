@@ -34,48 +34,6 @@ export const metalist = [
         "tag" : "front-end",
         "command": "cd"
     },
-    {
-        "title" : "Blog2",
-        "path" : "blogs/Blog2.md",
-        "date" : "2023-10-23",
-        "tag" : "info",
-        "command": "cd"
-    },
-    {
-        "title" : "Blog3",
-        "path" : "blogs/Blog3.md",
-        "date" : "2023-10-23",
-        "tag" : "front-end",
-        "command": "cd"
-    },
-    {
-        "title" : "Blog4",
-        "path" : "blogs/Blog4.md",
-        "date" : "2023-10-24",
-        "tag" : "front-end",
-        "command": "cd"
-    },
-    {
-        "title" : "Blog5",
-        "path" : "blogs/Blog5.md",
-        "date" : "2023-12-8",
-        "tag" : "info",
-        "command": "cd"
-    },
-    {
-        "title" : "Blog6",
-        "path" : "blogs/Blog6.md",
-        "date" : "2024-1-10",
-        "tag" : "info",
-        "command": "cd"
-    },
-    {
-        "title" : "tmp0",
-        "path" : "blogs/tmp0.md",
-        "date" : "2023-10-26",
-        "tag" : "tmp",
-        "command": "cd"
-    },
 ]
 
 const tag = [

@@ -1,6 +1,6 @@
 # Zhiqing Pan | 潘志清
 ## Brief Introduction
-<img src="https://avatars.githubusercontent.com/u/82391775?v=4" width="30" height="30" alt="avatar" style="margin-right: 10px; border-radius: 50%;">
+<img src="https://avatars.githubusercontent.com/u/82391775?v=4" width="50" height="50" alt="avatar" style="margin-right: 10px; border-radius: 50%;">
 
 I am an undergraduate student in [Shan Dong University of Science and Technology](https://en.sdust.edu.cn) at the [College of Geodesy and Geomatics](https://gc.sdust.edu.cn/). I am currently working on the topic of **Geographic Information Systems (GIS)** (especially its application in **Web**). 3D WebGIS (WebGL) is my next topic to dive into.
 

@@ -89,21 +89,18 @@ table{
     border-collapse: collapse;
     border-spacing: 0;
     border: 1px solid #ffffff3a;
-    background-color: #3d1e448b;
-    color: #ffffff;
+    background-color: #7452b92a;
 }
 
 table th{
     border: 1px solid #ffffff3a;
     background-color: #ffffff0d;
-    color: #ffffff;
     padding: 0.5rem 1rem;
     text-align: left;
 }
 table td{
     border: 1px solid #ffffff3a;
     background-color: #ffffff0d;
-    color: #ffffff;
     padding: 0.5rem 1rem;
     text-align: left;
 }

@@ -17,9 +17,11 @@ I am an undergraduate student in [Shan Dong University of Science and Technology
   [![](https://data.jsdelivr.com/v1/package/npm/rvgeo/badge)](https://www.jsdelivr.com/package/npm/rvgeo) <img src="imgs/logo.svg" width="30" height="30"> 
 
   > Resources:
-  >  * [demo](https://pzq123456.github.io/RVGeo/dist/index.html)
-  >  * [document](https://pzq123456.github.io/RVGeo/)
-  >  * [tutorials](https://pzq123456.github.io/RVGeo/tutorials/) 
+  > | name | link |
+  > | -- | -- |
+  > | demo | https://pzq123456.github.io/RVGeo/dist/index.html |
+  > | documents | https://pzq123456.github.io/RVGeo/ | 
+  > | tutorials | https://pzq123456.github.io/RVGeo/tutorials/ | 
 
 
 * `JavaScript`: [pcvterm.js](https://www.npmjs.com/package/pcvterm) --- A JavaScript library for creating a simple terminal on a web page.(This site is powered by it.)
@@ -39,6 +41,7 @@ I am an undergraduate student in [Shan Dong University of Science and Technology
 - Read some books and blogs: 
   - [ ] [Eloquent JavaScript 4th edition (2024)](https://eloquentjavascript.net)
   - [ ] [Mike Bostock](https://bost.ocks.org/mike/)
+  - [ ] [Red Blob Games](https://www.redblobgames.com)
 
 ## About this site
 <details>

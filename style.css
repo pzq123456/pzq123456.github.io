@@ -126,8 +126,9 @@ li{
     padding-left: 1.5rem;
     position: relative;
 }
+
 li:before {
-    /* 黑色与白色空心同心圆造型 */
+
     content: '';
     position: absolute;
     left: 0;

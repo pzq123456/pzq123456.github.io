@@ -84,7 +84,8 @@ let testStyle = {
     'background-color': 'black',
 };
 
-let data = Data.fromString(`Type "help" and press enter to get help. \n Gemini ✨ in it ! Type "chat" to enter chat mode.`);
+let data = Data.fromString(`- Type "help" and press enter to get help. \n - Gemini ✨ in it ! Type "chat" to enter chat mode.`);
+
 
 // console.log(data);
 let c = 0;
@@ -94,10 +95,11 @@ let scrollMode = false;
 let i = 0;// 用于控制光标闪烁
 let view = new View(data,myCanvas,testStyle);
 
+let ctx = myCanvas.getContext('2d');
+
 animationEngine(100/60, () => {
-    // clear canvas
-    myCanvas.getContext('2d').clearRect(0,0,myCanvas.width,myCanvas.height);
     let y = 0;
+    ctx.clearRect(0,0,myCanvas.width,myCanvas.height);
 
     if (myCanvas === document.activeElement){
         if (i % 60 < 30){
@@ -111,8 +113,10 @@ animationEngine(100/60, () => {
     if (y > myCanvas.height && !scrollMode){
         canvasy -= y - myCanvas.height;
     }
+
     i++;
 });
+
 
 // 监听键盘事件输入字母
 myCanvas.addEventListener('keydown',function(e){

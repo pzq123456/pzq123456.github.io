@@ -30,8 +30,15 @@ export const metalist = [
     {
         "title" : "Blog1",
         "path" : "blogs/Blog1.md",
-        "date" : "2023-10-15",
+        "date" : "2024-3-15",
         "tag" : "front-end",
+        "command": "cd"
+    },
+    {
+        "title" : "tips",
+        "path" : "blogs/Blog2.md",
+        "date" : "2024-4-29",
+        "tag" : "info",
         "command": "cd"
     },
 ]

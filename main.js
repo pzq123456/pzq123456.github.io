@@ -4,6 +4,7 @@ import { metalist,metalist2str} from './blogs/meta.js'; // metalist is a list of
 import { initPage } from './helpers/init.js';
 
 import { getWeather } from './src/Terminal/weather.js';
+
 initPage();
 
 import * as Terminal from '/src/Terminal/index.js';
@@ -354,6 +355,8 @@ const callBackList =
                 navigator.clipboard.writeText("");
                 // 清除 content
                 document.getElementById('content').innerHTML = '';
+                // 本页面的所有缓存
+                localStorage.clear();
             } 
         }
     },

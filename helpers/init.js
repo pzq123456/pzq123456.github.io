@@ -1,5 +1,6 @@
 import {markedHighlight} from './highlight.js'
 import { fileToHtml } from './markdown.js';
+
 export function initPage(){
     document.body.onkeydown = function (event) { 
         // 禁止键盘事件 滚动页面
@@ -17,6 +18,15 @@ export function initPage(){
           }
         })
     );
+
+    // 检查浏览器是否有 bktree 缓存若无则加载
+    if (!localStorage.getItem('bktree')){
+        fetch('/bktree.json')
+            .then(response => response.json())
+            .then(data => {
+                localStorage.setItem('bktree', JSON.stringify(data));
+            });
+    }
 }
 
 export function initPage2(){

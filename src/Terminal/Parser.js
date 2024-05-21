@@ -1,5 +1,6 @@
 // 类别包括：命令、参数、地址
 import { Trie } from "./Trie.js";
+import { BKTree,checkSpelling } from "./SpellCheck.js"
 // 命令包括：cd、ls、echo、clear、help
 const commands = ['cd', 'ls', 'echo', 'clear', 'help', 'chat', 'exit','style','about', 'mdr','cm','cache','load','nav'];
 // 将 commands 注入 Trie 并返回
@@ -10,16 +11,21 @@ function injectCommands(){
 }
 export const commandTrie = injectCommands(); // 命令前缀树
 
-// 用正则表达式表示规则
-const tokenClass = ['command', 'option', 'path', 'argument'];
+let bktree;
+if(localStorage.getItem('bktree')){
+    bktree = BKTree.fromJSON(localStorage.getItem('bktree'));
+}
 
 export function tokenization(line){
     // tokenization
-    // let tokens = line.split(' ');
+    // 从缓存中恢复对象
+
+    
     // splitWords
     let tokens = splitWords(line);
     // 为每一个 token 添加类型
     tokens = tokens.map(token => {
+        
         if (commands.includes(token)){
             return {
                 type: 'command',
@@ -43,7 +49,20 @@ export function tokenization(line){
                 value: token
             }
         }
-        else{
+
+        if(bktree){
+            if (!checkSpelling(token, bktree)){
+                return {
+                    type: 'warning',
+                    value: token
+                }
+            }else{
+                return {
+                    type: 'argument',
+                    value: token
+                }
+            }
+        }else{
             return {
                 type: 'argument',
                 value: token
@@ -67,6 +86,7 @@ export function tokenStyle(token){
     } else if (token.type === 'path'){
         return {
             'color': '#bbdaff',
+            'dash': 'underline'
         }
     } else if (token.type === 'argument'){
         return {
@@ -75,6 +95,7 @@ export function tokenStyle(token){
     }else if (token.type === 'warning'){
         return {
             'color': '#ff9da4',
+            'dash': 'wavyline'
         }
     }
 }

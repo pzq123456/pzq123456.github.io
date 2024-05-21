@@ -1,6 +1,7 @@
 import { tokenization, tokenStyle, mdTokenization, mdTokenStyle } from './Parser.js';
 
 const maxLineChar = 3000;
+let measureTextCache = {};
 
 export class View{
     constructor(data,canvas,style){
@@ -57,10 +58,19 @@ export class View{
             ctx.font = this.style['font-size'] + ' ' + this.style['font-family'];
             // 绘制基准
             ctx.textBaseline = 'bottom';
-            // 若 style 有 font-weight 则设置
-            if (style['font-weight']){
-                ctx.fontWeight = style['font-weight'];
-                // 设置为粗体
+            // 若 style 有下划线则设置
+            if (style['dash']){
+                if(style['dash'] === 'wavyline'){
+                    this.wavyline(ctx,x,y,x+this.measureText(token.value)[0],y,2,10,style['color']);
+                }
+                if(style['dash'] === 'underline'){
+                    ctx.strokeStyle = style['color'];
+                    ctx.lineWidth = 1;
+                    ctx.beginPath();
+                    ctx.moveTo(x,y+2);
+                    ctx.lineTo(x+this.measureText(token.value)[0],y+2);
+                    ctx.stroke();
+                }
             }
             // 若 x 超过 canvas 的宽度则换行
             let [width, _height] = this.measureText(token.value+" ");
@@ -98,6 +108,21 @@ export class View{
         this.cursorPosition = [x ,y]; // 光标位置
         // 返回高度
         return y;
+    }
+
+    wavyline(ctx,fromx, fromy, tox, toy, amplitude, wavelength, color){
+        // 画波浪线
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(fromx, fromy);
+        let delta = 0;
+        for(let x = fromx; x < tox; x++){
+            let y = fromy + amplitude * Math.sin(2 * Math.PI * delta / wavelength);
+            ctx.lineTo(x, y);
+            delta++;
+        }
+        ctx.stroke();
     }
 
     /**
@@ -166,7 +191,7 @@ export class View{
 
 
         ctx.strokeStyle = this.currentRectColor;
-        // ctx.strokeRect(0,y,this.canvas.width,y2-y);
+
         // 绘制虚线框
         this.drawDashRect(0,y,this.canvas.width,y2-y,this.currentRectColor);
 
@@ -193,7 +218,7 @@ export class View{
         let ctx = this.canvas.getContext('2d');
         ctx.strokeStyle = color;
         ctx.beginPath();
-        ctx.setLineDash([5,5]);
+        ctx.setLineDash([3,10]);
         ctx.lineWidth = 1;
         ctx.moveTo(x,y);
         ctx.lineTo(x+width,y);
@@ -255,11 +280,20 @@ export class View{
      * @returns [width, height]
      */
     measureText(text){
-        let ctx = this.canvas.getContext('2d');
-        ctx.font = this.style['font-size'] + ' ' + this.style['font-family'];
-        let metrics = ctx.measureText(text);
-        return [metrics.width, metrics.actualBoundingBoxAscent+metrics.actualBoundingBoxDescent];
+        // 优化：使用缓存
+        // cache mode
+        if (measureTextCache[text]){
+            return measureTextCache[text];
+        }else{
+            let ctx = this.canvas.getContext('2d');
+            ctx.font = this.style['font-size'] + ' ' + this.style['font-family'];
+            let metrics = ctx.measureText(text);
+            // cache
+            measureTextCache[text] = [metrics.width, metrics.actualBoundingBoxAscent+metrics.actualBoundingBoxDescent];
+            return [metrics.width, metrics.actualBoundingBoxAscent+metrics.actualBoundingBoxDescent];
+        }
     }
+
 }
 
 /**

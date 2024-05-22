@@ -241,8 +241,14 @@ export class View{
         for(let j = 0; j < this.data._history.length; j++){
             let line = this.data._history[j];
             if (j == i){
-                // 两次的高度差作为底色的高度
-                let height2 = this.drawLine(line,0,y);
+                let height2 ;
+                if(j == 0){
+                    height2 = this.drawLine(line,0,y);
+                }
+                else{
+                    height2 = this.drawLine(line,0,y,mdTokenization,mdTokenStyle);
+                }
+
                 ctx.fillStyle = 'rgba(255,255,255,0.1)';
                 ctx.fillRect(0,y,this.canvas.width,height2-y);
                 y = height2;

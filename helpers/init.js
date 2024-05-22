@@ -18,15 +18,6 @@ export function initPage(){
           }
         })
     );
-
-    // 检查浏览器是否有 bktree 缓存若无则加载
-    if (!localStorage.getItem('bktree')){
-        fetch('/bktree.json')
-            .then(response => response.json())
-            .then(data => {
-                localStorage.setItem('bktree', JSON.stringify(data));
-            });
-    }
 }
 
 export function initPage2(){

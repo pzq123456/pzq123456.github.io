@@ -30,7 +30,7 @@ export class View{
         y += height;
       
         // Assume single style for all tokens (remove style logic)
-        ctx.fillStyle = 'white'; // Change to your default color
+        ctx.fillStyle = '#ff9da4'; // Change to your default color
         ctx.font = this.style['font-size'] + ' ' + this.style['font-family'];
 
         // Draw the entire line at once

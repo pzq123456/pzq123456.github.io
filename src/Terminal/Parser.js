@@ -14,6 +14,14 @@ export const commandTrie = injectCommands(); // 命令前缀树
 let bktree;
 if(localStorage.getItem('bktree')){
     bktree = BKTree.fromJSON(localStorage.getItem('bktree'));
+}else{
+    // 等待 bktree 加载
+    fetch('/bktree.json')
+        .then(response => response.json())
+        .then(data => {
+            localStorage.setItem('bktree', JSON.stringify(data));
+            bktree = BKTree.fromJSON(localStorage.getItem('bktree'));
+        });
 }
 
 export function tokenization(line){
@@ -31,7 +39,7 @@ export function tokenization(line){
                 type: 'command',
                 value: token
             }
-        }else if(token.includes('.') || token.includes('/')){
+        }else if(token.includes('/')){
             return {
                 type: 'path',
                 value: token
@@ -43,7 +51,7 @@ export function tokenization(line){
                 value: token
             }
             // 含有 ! 或 no 说明为警告
-        }else if(token.startsWith('!') || token.startsWith('no')){
+        }else if(token.startsWith('!')){
             return {
                 type: 'warning',
                 value: token
@@ -51,6 +59,14 @@ export function tokenization(line){
         }
 
         if(bktree){
+            // 若包涵数字及特殊字符则不进行拼写检查
+            let reg = /^[A-Za-z]+$/;
+            if (!reg.test(token)){
+                return {
+                    type: 'argument',
+                    value: token
+                }
+            }
             if (!checkSpelling(token, bktree)){
                 return {
                     type: 'warning',
@@ -100,62 +116,32 @@ export function tokenStyle(token){
     }
 }
 
-
-// MarkDown tokenization
-export function mdTokenization(line){
-    // tokenization
-    // let tokens = line.split(' ');
-    // splitWords
-    let tokens = splitWords(line);
-    // 为每一个 token 添加类型
-    tokens = tokens.map(token => {
-        // 使用正则表达式判断
-        if (token.includes('#')){
-            return {
-                type: 'title',
-                value: token
-            }
-        }else if (token.includes('[') || token.includes(']') || token.includes('(') || token.includes(')')){
-            return {
-                type: 'link',
-                value: token
-            }
-        }else if (token.startsWith('---')){
-            return {
-                type: 'hr',
-                value: token
-            }
-        }else if (token.startsWith('>')){
-            return {
-                type: 'quote',
-                value: token
-            }
-        }else if (token.startsWith("```")){
-            return {
-                type: 'code',
-                value: token
-            }
-        }else if (token.includes('*') || token.startsWith('-') || token.includes('+')){
-            return {
-                type: 'list',
-                value: token
-            }
-        }
-        else if (token.startsWith('//') || token.startsWith('/*') || token.startsWith('*/') || token.includes('/')){
-            return {
-                type: 'escape',
-                value: token
-            }
-        }else{
-            return {
-                type: 'text',
-                value: token
-            }
-        }
-    }
-    );
-    return tokens;
-}
+export function mdTokenization(line) {
+    const tokens = line.split(' '); // Assume splitWords is a simple split
+  
+    let hasEscape = false;
+  
+    return tokens.map(token => {
+      if (token.startsWith('//')) {
+        hasEscape = true;
+        return { type: 'escape', value: token };
+      } else if (!hasEscape) { // Short-circuit if escape found earlier
+        if (token.includes('#')) {
+          return { type: 'title', value: token };
+        } else if (token.includes('[') || token.includes(']') ||
+                   token.includes('(') || token.includes(')')) {
+          return { type: 'link', value: token };
+        } else if (token.startsWith('---')) {
+          return { type: 'hr', value: token };
+        } else if (token.startsWith('>')) {
+          return { type: 'quote', value: token };
+        } else if (token.startsWith("```")) {
+          return { type: 'code', value: token };
+        } // ... other checks
+      }  
+      return { type: 'text', value: token };
+    });
+  }
 
 export function mdTokenStyle(token){
     if (token.type === 'title'){
@@ -248,8 +234,8 @@ export function Parser(tokens){
 
 // @function splitWords(str: String): String[]
 // Trims and splits the string on whitespace and returns the array of parts.
-export function splitWords(str) {
-	// return str.trim().split(/\s+/);
+export function splitWords(line) {
     // 以空格为分隔符 但是对于连续的空格 譬如 tab 代表四个空格 则会被认为一个 token
-    return str.trim().split(' ');
+    return line.trim().split(' ');
+    // return line.split(/(\s+)/).filter(token => token.trim().length > 0);
 }

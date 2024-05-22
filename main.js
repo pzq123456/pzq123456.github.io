@@ -85,7 +85,7 @@ let testStyle = {
     'background-color': 'black',
 };
 
-let data = Data.fromString(`- Type "help" and press enter to get help. \n - Gemini ✨ in it ! Type "chat" to enter chat mode.`);
+let data = Data.fromString(`- If you type a wronggg word, it will show red wave line under it (spell-checking).\n- Type "help" and press enter to get help.`); // 初始化 data
 
 
 // console.log(data);

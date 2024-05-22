@@ -111,7 +111,7 @@ export async function createBKTreeFromURL(url) {
     return bktree;
 }
 
-export function checkSpelling(word, bkTree, maxDistance = 2){
+export function checkSpelling(word, bkTree, maxDistance = 1){
     // 更具查询的返回结果判断该单词是否拼写错误 若返回的结果为空则说明该单词拼写错误
     // boolean
     return bkTree.search(word, maxDistance).length > 0;

@@ -15,6 +15,7 @@ front-end
 > - BT `UTC+8` 2023.10.15 21:28 --> ET `UTC+8` 2023.10.22 14:25
 > - ChangeLog
 >  - `UTC+8` 2023.10.22 14:25 完成初稿
+> - `UTC+8` 2024.5.23 12:00 修改部分内容
 
 ## TODO
 使用 HTML 的 Canvas 标签，实现一个简易的命令行窗口。只实现键盘输入，不实现鼠标输入。
@@ -27,6 +28,8 @@ front-end
 该项目具有一定挑战性，比一般的基于 Dom 的解决方案要复杂。
 
 ## 数据结构设计
+> - 此二次重构前的内容请参考最新实现。
+
 对于这个简易命令行窗口，我设计了由小到大的三种数据结构：Block、Line、TerminalData。它们之间是逐级包裹的关系。
 - Block: ["H","E","E","L","L","^"]
 - Line: [block1,block2,block3]
@@ -61,6 +64,8 @@ export function drawLine(canvas, line, x, y, style, i = null){ //...
 这些函数都能够根据当前的数据内容、画布大小以及光标索引位置渲染出当前帧。
 
 ## 基于动画窗口的动画渲染
+> - 此为二次重构前的内容请参考最新实现。
+
 下面，我们以某一名为`line`的行类别数据渲染为例：
 - 使用样例：需要注意的是，其中`i`及`c`需要作为全局变量对待。`i`用于检测当前动画帧的奇偶性并以此为凭据绘制闪烁光标动画。`c`代表当前行中光标的位置，为一个整数，渲染函数会计算出当前光标所在的具体层级。
     ```js
@@ -101,6 +106,8 @@ export function drawLine(canvas, line, x, y, style, i = null){ //...
     ```
 - 其中 timeInterval 代表绘制的间隔时间， callback 则是用于具体绘制的回调函数（再该函数中需要包含清除画布的代码）。
 ## 简易键盘事件控制
+> - 此为二次重构前的内容请参考最新实现。
+
 键盘事件只绑定在 Canvas 元素上，只有该元素有焦点才能输入（命令行底部的提示条高亮代表有焦点）。我采用事件列表的形式批量注册事件，这样可以一定程度上简化代码。
 - 以下是业务代码：
     ```js
@@ -147,6 +154,8 @@ export function drawLine(canvas, line, x, y, style, i = null){ //...
     }
     ```
 ## 简易语法高亮 
+> - 此为二次重构前的内容请参考最新实现。
+
 - 打算使用 Abstract Syntax Trees - ASTs 但是我打算首先写一个简单的硬编码过度一下，之后配合解释器一起实现 ASTs
 - 当前语法高亮实现方案：一个根据 block 内容返回不同样式的判断函数
     ```js
@@ -204,6 +213,8 @@ export function drawLine(canvas, line, x, y, style, i = null){ //...
     ```
 
 ## 简化 Shell 解释器
+> - 此为二次重构前的内容请参考最新实现。
+
 - 用于记录命令的数据结构设计如下：
     ```js
     [{
@@ -283,6 +294,23 @@ export function drawLine(canvas, line, x, y, style, i = null){ //...
     ```
     - 由于运行策略都记录在`commandList`中，我们只需要在`commandList`中找到对应的命令，然后传入参数执行即可。
 > 注意： 由于光标的渲染依赖全局变量 c ，所以我们最好在 main.js 中定义操作事件列表。同样的道理，对于键盘事件也需要在 main.js 中定义。因为只有 main.js 内的 c 才是全局可以访问的。
+
+## 高级功能
+> - 此三次重构前的内容，三次重构尚未进行。
+> - todo：高级功能存在不完善的地方，考虑在第三次重构中解决。
+
+### 1. 英文拼写检查
+> - [The Algorithm Behind Spell Checkers](https://www.youtube.com/watch?v=d-Eq6x1yssU&t=3s)
+
+基于[Levenshtein](https://en.wikipedia.org/wiki/Levenshtein_distance)距离，这是一种编辑距离，可以量测两个字符串之间从一个变为另一个所需的编辑（插入、删除、替换）步数，认为两个字符串约相似则距离值越小。基于bktree及Levenshtein距离对一个包含三千词左右的常用英文词库构建索引函数，并对用户输入的每一个词作编辑距离为1的匹配，若匹配结果为空则认为该词语拼写错误。（该部分存在不完善的地方）。
+
+后续：将词语修正并入候选字符提示中去。需设计新的提示ui，可能需要重构现有的。
+
+### 2. 候选字符提示
+基于前缀树，具体内容后补。
+
+### 3. Chat mode
+基于谷歌的API，将用户输入发送给服务器并渲染输出。技术难度较小。
 
 ## Reference
   1. [Bash](https://en.wikipedia.org/wiki/Bash_(Unix_shell)): Bash is a command processor that typically runs in a text window where the user types commands that cause actions. 

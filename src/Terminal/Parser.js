@@ -24,6 +24,8 @@ if(localStorage.getItem('bktree')){
         });
 }
 
+let spellCache = new Map();
+
 export function tokenization(line){
     // tokenization
     // 从缓存中恢复对象
@@ -67,17 +69,34 @@ export function tokenization(line){
                     value: token
                 }
             }
-            if (!checkSpelling(token, bktree)){
-                return {
-                    type: 'warning',
-                    value: token
+            // 检查拼写 cache
+            if (spellCache.has(token)){
+                if (spellCache.get(token)){
+                    return {
+                        type: 'argument',
+                        value: token
+                    }
+                }else{
+                    return {
+                        type: 'warning',
+                        value: token
+                    }
                 }
-            }else{
+            }
+            // 检查拼写
+            let result = checkSpelling(token, bktree);
+            spellCache.set(token, result);
+            if (result){
                 return {
                     type: 'argument',
                     value: token
                 }
             }
+            return {
+                type: 'warning',
+                value: token
+            }
+
         }else{
             return {
                 type: 'argument',

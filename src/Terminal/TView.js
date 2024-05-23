@@ -242,13 +242,7 @@ export class View{
             let line = this.data._history[j];
             if (j == i){
                 let height2 ;
-                if(j == 0){
-                    height2 = this.drawLine(line,0,y);
-                }
-                else{
-                    height2 = this.drawLine(line,0,y,mdTokenization,mdTokenStyle);
-                }
-
+                height2 = this.drawLine(line,0,y);
                 ctx.fillStyle = 'rgba(255,255,255,0.1)';
                 ctx.fillRect(0,y,this.canvas.width,height2-y);
                 y = height2;

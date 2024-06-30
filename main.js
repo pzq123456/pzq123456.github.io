@@ -424,12 +424,29 @@ const callBackList =
             let date = new Date();
             // 格式化时间
             let time = date.toLocaleString();
-            terminal.writeHistory("current time: " + time);
+            // 根据时间判断问候语
+            let hour = date.getHours();
+            let greeting = "";
+
+            if (hour >= 0 && hour < 6){
+                greeting = "good midnight";
+            }else if (hour >= 6 && hour < 12){
+                greeting = "good morning";
+            }else if (hour >= 12 && hour < 18){
+                greeting = "good afternoon";
+            }else{
+                greeting = "good evening";
+            }
+
+            terminal.writeHistory("current time: " + time + " " + greeting + "!🌞");
 
             // open loading bar
             openLoadingBar();
             const callBack = function(weatherData){
-                terminal.writeHistory(weatherData);
+                // terminal.writeHistory(weatherData);
+                weatherData.forEach(item => {
+                    terminal.writeHistory(item);
+                });
                 terminal.writeHistory("=== end ===");
                 closeLoadingBar();
             }

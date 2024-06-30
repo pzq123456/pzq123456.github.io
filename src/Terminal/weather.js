@@ -27,6 +27,27 @@ export function weatherTextToEmoji(text) {
     return '';
 }
 
+// Tips for weather
+export function weatherTips(text) {
+    const lowerCaseText = text.toLowerCase();
+    if (lowerCaseText.includes('rain')) {
+      return 'Remember to bring an umbrella when you go out.';
+    } else if (lowerCaseText.includes('cloud')) {
+      return 'It is a good day to go out for a walk.';
+    } else if (lowerCaseText.includes('clear')) {
+      return 'It is a good day to go out for a walk.';
+    } else if (lowerCaseText.includes('snow')) {
+      return 'Remember to wear warm clothes when you go out.';
+    } else if (lowerCaseText.includes('thunderstorm')) {
+      return 'Remember to stay indoors and avoid going out.';
+    } else if (lowerCaseText.includes('drizzle')) {
+      return 'Remember to bring an umbrella when you go out.';
+    } else if (lowerCaseText.includes('mist')) {
+      return 'Remember to drive carefully when you go out.';
+    }
+    return '';
+}
+
 // 解析天气数据并生成英文描述
 function parseWeatherData(data) {
     const location = data.name;
@@ -34,9 +55,10 @@ function parseWeatherData(data) {
     const weather = data.weather[0].main;
     const description = data.weather[0].description;
 
-    const englishDescription = `- The weather in ${location} is currently ${weather.toLowerCase()} with a temperature of ${temperature} °C.
- - ${description}. ${weatherTextToEmoji(weather)}`;
-    return englishDescription;
+    const englishDescriptionList = [`- The weather in ${location} is currently ${weather.toLowerCase()} with a temperature of ${temperature} °C.`,
+       `- ${description}. ${weatherTextToEmoji(weather)}`,`- ${weatherTips(weather)}`
+    ];
+    return  englishDescriptionList;
 }
   
 // 获取用户位置并获取天气信息

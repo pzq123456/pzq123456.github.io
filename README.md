@@ -38,10 +38,12 @@ I am an undergraduate student in [Shan Dong University of Science and Technology
 - Email: panzhiqing15@gmail.com
 - GitHub: [pzq123456](https://github.com/pzq123456)
 
-## Current Status
-- I am currently working on my Graduation Project, which is about the application of GIS in Web. In detail, I am trying to develop a `programmable GIS` platform based on WebGIS and GIS algorithms. 
-  - **Achievements So far**: see the new [demo page](https://pzq123456.github.io/RVGeo/dist/index.html) for RVGeo. Users can now edit scripts and then run them in this page.
-- Read some books and blogs: 
+## Current Status and Plan
+- Active Learning Project:
+  - carJS(July): I am currently following [Radu Mariescu Istodor](https://radufromfinland.com/)'s YouTube course [Self-Driving Car Series](https://www.youtube.com/watch?v=NkI9ia2cLhc&list=PLB0Tybl0UNfYoJE7ZwsBQoDIG4YN9ptyY) to build a self-driving car [demo page](https://pzq123456.github.io/carJS/) from scratch. repo : [carJS](https://github.com/pzq123456/carJS).
+- To-Do List:
+  - RVGeo(August V2.1.0): I am going to build a simple interactive demo page built on reusable components from RVGeo. For example, a canvas-based editor for drawing and editing geometries.
+- Read some books and blogs(long-term): 
   - [ ] [Eloquent JavaScript 4th edition (2024)](https://eloquentjavascript.net)
   - [ ] [Mike Bostock](https://bost.ocks.org/mike/)
   - [ ] [Red Blob Games](https://www.redblobgames.com)

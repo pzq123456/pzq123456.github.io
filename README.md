@@ -2,12 +2,12 @@
 
 ## Brief Introduction
 
-<img src="https://avatars.githubusercontent.com/u/82391775?v=4" width="100" height="100" alt="avatar" style="margin-right: 10px; border-radius: 50%;">
+<img src="https://avatars.githubusercontent.com/u/82391775?v=4" width="100" height="100" alt="avatar" style="margin-right: 10px; border-radius: 5%;">
 
-I am an undergraduate student in [Shan Dong University of Science and Technology](https://en.sdust.edu.cn) at the [College of Geodesy and Geomatics](https://gc.sdust.edu.cn/), currently working on the topic of **Geographic Information Systems (GIS)** (especially its application in **Web**).
+Hi, There!
 
 ## Education
-- 2020.09 - 2024.06: B.S. in Geodesy and Geomatics, [Shan Dong University of Science and Technology](https://en.sdust.edu.cn), China
+- 2020.09 - 2024.06: B.S. in Geodesy and Geomatics, [Shan Dong University of Science and Technology](https://en.sdust.edu.cn), China.
 
 ## Gallery
 

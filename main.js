@@ -429,16 +429,16 @@ const callBackList =
             let greeting = "";
 
             if (hour >= 0 && hour < 6){
-                greeting = "good midnight";
+                greeting = "good midnight 🌛";
             }else if (hour >= 6 && hour < 12){
-                greeting = "good morning";
+                greeting = "good morning 🌞";
             }else if (hour >= 12 && hour < 18){
-                greeting = "good afternoon";
+                greeting = "good afternoon 🌞";
             }else{
-                greeting = "good evening";
+                greeting = "good evening 🌛";
             }
 
-            terminal.writeHistory("current time: " + time + " " + greeting + "!🌞");
+            terminal.writeHistory("current time: " + time + " " + greeting + "!");
 
             // open loading bar
             openLoadingBar();

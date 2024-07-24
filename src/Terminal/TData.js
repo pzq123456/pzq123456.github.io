@@ -47,23 +47,27 @@ export class Data{
         return this._current.slice(left + 1,i);
     }
 
-    insert(i,char){
-        // 在当前行的第 i 个字符前插入 char
-        this._current = this._current.slice(0,i) + char + this._current.slice(i);
-        // 返回 i + 1 作为光标位置
-        return i + 1;
-    }
+    // insert(i,char){
+    //     // 在当前行的第 i 个字符前插入 char
+    //     this._current = this._current.slice(0,i) + char + this._current.slice(i);
+    //     // 返回 i + 1 作为光标位置
+    //     return i + 1;
+    // }
 
     /**
      * 删除 i 前一个字符
      * @param {number} i - index 
      */
-    delete(i){
-        // 删除当前行的第 i 个字符
-        this._current = this._current.slice(0,i-1) + this._current.slice(i);
-        // 若 i > 0 则返回 i - 1 作为光标位置
-        // 否则返回 0 作为光标位置
-        return i > 0 ? i - 1 : 0;
+    delete(i, length = 1){
+        // // 删除当前行的第 i 个字符
+        // this._current = this._current.slice(0,i-1) + this._current.slice(i);
+        // // 若 i > 0 则返回 i - 1 作为光标位置
+        // // 否则返回 0 作为光标位置
+        // return i > 0 ? i - 1 : 0;
+        length == 0 ? length = 1 : length;
+        // 删除指定长度的字符
+        this._current = this._current.slice(0,i-length) + this._current.slice(i);
+        return i - length > 0 ? i - length : 0;
     }
 
     enter(){
@@ -92,6 +96,11 @@ export class Data{
         return this._history.join('\n') + '\n' + this._current;
     }
 
+    resetCurr(){
+        // 重置当前行
+        this._current = '';
+    }
+
     clear(){
         // 清空历史记录和当前行
         this._history = [];
@@ -107,6 +116,14 @@ export class Data{
             // 写入四个空格
             this._current = this._current.slice(0,i) + '    ' + this._current.slice(i);
             return i + 4;
+        }
+    }
+
+    getCurrent(c=-1){
+        if(c == -1){
+            return this._current.slice();
+        }else{
+            return this._current[c];
         }
     }
 

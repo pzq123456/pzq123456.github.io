@@ -159,7 +159,7 @@ myCanvas.addEventListener('keydown',function(e){
 
     } else if (e.key.length === 1){
         // 输入字母
-        c = data.insert(c,e.key);
+        c = data.paste(c,e.key);
         // console.log(data.getLeftActiveWord(c));
         let com = trie.autoComplete(data.getActiveWord(c-1));
         // console.log(com);

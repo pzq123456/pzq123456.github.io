@@ -157,7 +157,12 @@ myCanvas.addEventListener('keydown',function(e){
             info.render();
         });
 
-    } else if (e.key.length === 1){
+    } else if(e.key === 'z' && e.metaKey || e.key === 'z' && e.ctrlKey){
+        c = data.undo();
+    }else if(e.key === 'y' && e.metaKey || e.key === 'y' && e.ctrlKey){
+        c = data.redo();
+    }
+    else if (e.key.length === 1){
         // 输入字母
         c = data.paste(c,e.key);
         // console.log(data.getLeftActiveWord(c));

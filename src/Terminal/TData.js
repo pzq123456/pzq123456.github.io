@@ -14,13 +14,78 @@ export class Data{
         this._candidates = []; // 候选词
         // 增添时间戳 默认为当前时间
         this._timeStamp = Date.now();
+        this._undoStack = [];
+        this._redoStack = [];
     }
 
-    paste(i,text){
-        // 在当前行的第 i 个字符前粘贴 text
-        this._current = this._current.slice(0,i) + text + this._current.slice(i);
-        // 返回 i + text.length 作为光标位置
+    // paste(i,text){
+    //     // 在当前行的第 i 个字符前粘贴 text
+    //     this._current = this._current.slice(0,i) + text + this._current.slice(i);
+    //     // 返回 i + text.length 作为光标位置
+    //     return i + text.length;
+    // }
+
+    // delete(i, length = 1){
+    //     length == 0 ? length = 1 : length;
+    //     // 删除指定长度的字符
+    //     this._current = this._current.slice(0,i-length) + this._current.slice(i);
+    //     return i - length > 0 ? i - length : 0;
+    // }
+    paste(i, text) {
+        // 保存当前状态到撤销栈
+        this._undoStack.push({ action: 'paste', index: i, text: text });
+        // 清空重做栈
+        this._redoStack = [];
+
+        // 执行粘贴操作
+        this._current = this._current.slice(0, i) + text + this._current.slice(i);
         return i + text.length;
+    }
+
+    delete(i, length = 1) {
+        if (length == 0) length = 1;
+        
+        // 保存当前状态到撤销栈
+        const deletedText = this._current.slice(i - length, i);
+        this._undoStack.push({ action: 'delete', index: i, length: length, text: deletedText });
+        // 清空重做栈
+        this._redoStack = [];
+
+        // 执行删除操作
+        this._current = this._current.slice(0, i - length) + this._current.slice(i);
+        return i - length > 0 ? i - length : 0;
+    }
+
+    undo() {
+        if (this._undoStack.length === 0) return this._current.length;
+
+        const lastAction = this._undoStack.pop();
+        this._redoStack.push(lastAction);
+
+        if (lastAction.action === 'paste') {
+            this._current = this._current.slice(0, lastAction.index) + this._current.slice(lastAction.index + lastAction.text.length);
+        } else if (lastAction.action === 'delete') {
+            this._current = this._current.slice(0, lastAction.index - lastAction.length) + lastAction.text + this._current.slice(lastAction.index - lastAction.length);
+        }
+        return this._current.length;
+    }
+
+    redo() {
+        if (this._redoStack.length === 0) return this._current.length;
+
+        const lastAction = this._redoStack.pop();
+        this._undoStack.push(lastAction);
+
+        if (lastAction.action === 'paste') {
+            this._current = this._current.slice(0, lastAction.index) + lastAction.text + this._current.slice(lastAction.index);
+        } else if (lastAction.action === 'delete') {
+            this._current = this._current.slice(0, lastAction.index - lastAction.length) + this._current.slice(lastAction.index);
+        }
+        return this._current.length;
+    }
+
+    getCurrentText() {
+        return this._current;
     }
 
     getActiveWord(i){
@@ -47,28 +112,7 @@ export class Data{
         return this._current.slice(left + 1,i);
     }
 
-    // insert(i,char){
-    //     // 在当前行的第 i 个字符前插入 char
-    //     this._current = this._current.slice(0,i) + char + this._current.slice(i);
-    //     // 返回 i + 1 作为光标位置
-    //     return i + 1;
-    // }
 
-    /**
-     * 删除 i 前一个字符
-     * @param {number} i - index 
-     */
-    delete(i, length = 1){
-        // // 删除当前行的第 i 个字符
-        // this._current = this._current.slice(0,i-1) + this._current.slice(i);
-        // // 若 i > 0 则返回 i - 1 作为光标位置
-        // // 否则返回 0 作为光标位置
-        // return i > 0 ? i - 1 : 0;
-        length == 0 ? length = 1 : length;
-        // 删除指定长度的字符
-        this._current = this._current.slice(0,i-length) + this._current.slice(i);
-        return i - length > 0 ? i - length : 0;
-    }
 
     enter(){
         // 将当前行写入历史记录 并清空当前行

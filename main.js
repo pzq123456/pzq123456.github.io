@@ -95,6 +95,7 @@ let canvasy = 0;
 let scrollMode = false;
 let i = 0;// 用于控制光标闪烁
 let view = new View(data,myCanvas,testStyle);
+const lineHeight = view.getLineHeight(); // 获取行高
 
 let ctx = myCanvas.getContext('2d');
 
@@ -165,7 +166,6 @@ myCanvas.addEventListener('keydown',function(e){
     else if (e.key.length === 1){
         // 输入字母
         c = data.paste(c,e.key);
-        // console.log(data.getLeftActiveWord(c));
         let com = trie.autoComplete(data.getActiveWord(c-1));
         // console.log(com);
         data._candidates = com;
@@ -244,7 +244,7 @@ myCanvas.addEventListener('keydown',function(e){
 // 监听鼠标滚动事件
 myCanvas.addEventListener('wheel',function(e){
     scrollMode = true;
-    canvasy -= e.deltaY;
+    canvasy -= Math.sign(e.deltaY) * lineHeight; // lineHeight 的整数倍 ：确保每次滚动一行
     if(canvasy > 0){
         canvasy = 0;
     }

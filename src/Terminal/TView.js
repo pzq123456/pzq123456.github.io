@@ -294,6 +294,10 @@ export class View{
         }
     }
 
+    getLineHeight(){
+        return parseInt(this.style['font-size']);
+    }
+
 }
 
 /**

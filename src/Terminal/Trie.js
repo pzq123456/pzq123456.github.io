@@ -38,6 +38,10 @@ export class Trie{
         }
     }
 
+    insertText(text){
+        this.insertArray(this.extractUniqueWords(text));
+    }
+
     // Search for a word in the Trie
     search(word){
         let node = this.root;
@@ -161,6 +165,39 @@ export class Trie{
         }
         return trie;
     }
+
+    /**
+     * 分词：从(多行)文本中提取唯一单词列表
+     * @example
+     * ```js
+     *  extractUniqueWords('Hi! My name is John. I am a software engineer.');
+     * // ['hi', 'my', 'name', 'is', 'john', 'i', 'am', 'a', 'software', 'engineer']
+     *  extractUniqueWords('Hi! My name is John. I am a software engineer.',2); // minLength = 2
+     * // ['name', 'john', 'software', 'engineer']
+     * ```
+     * @param {string} text 
+     * @param {number} minLength - 去除小于等于 minLength 的单词
+     * @returns 
+     */
+    extractUniqueWords(text, minLength = 1) {
+        // text 为字符串 将其转换为数组
+        text = text.split('\n');
+        const wordSet = new Set();
+        const punctuation = /[.,:;!?()'"-]/g;
+
+        // 剔除小于等于 minLength 的单词
+        text.forEach(item => {
+            let words = item.split(/\s+/);  // 按空格分割，支持多个空格
+            words.forEach(word => {
+                let cleanWord = word.replace(punctuation, '');  // 去除标点符号
+                if (cleanWord && cleanWord.length > minLength) {
+                    wordSet.add(cleanWord.toLowerCase());  // 转换为小写并添加到Set中
+                }
+            });
+        });
+    
+        return Array.from(wordSet);
+    }
 }
 
 // // test code
@@ -177,3 +214,4 @@ export class Trie{
 // // trie.autoComplete("ap");
 // console.log(trie.autoComplete("ap"));
 // console.log(trie.autoComplete("w"));
+

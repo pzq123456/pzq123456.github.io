@@ -7,7 +7,8 @@
  * ]
  */
 export class Data{
-    constructor(){
+    constructor(trie){
+        this.trie = trie;
         this._history = [];
         this._current = ''; // 当前行 / 活跃行
         this._inputHistory = []; // 输入历史
@@ -18,19 +19,10 @@ export class Data{
         this._redoStack = [];
     }
 
-    // paste(i,text){
-    //     // 在当前行的第 i 个字符前粘贴 text
-    //     this._current = this._current.slice(0,i) + text + this._current.slice(i);
-    //     // 返回 i + text.length 作为光标位置
-    //     return i + text.length;
-    // }
+    updateCandidates(c){
+        this._candidates = this.trie.autoComplete(this.getActiveWord(c));
+    }
 
-    // delete(i, length = 1){
-    //     length == 0 ? length = 1 : length;
-    //     // 删除指定长度的字符
-    //     this._current = this._current.slice(0,i-length) + this._current.slice(i);
-    //     return i - length > 0 ? i - length : 0;
-    // }
     paste(i, text) {
         // 保存当前状态到撤销栈
         this._undoStack.push({ action: 'paste', index: i, text: text });
@@ -39,7 +31,12 @@ export class Data{
 
         // 执行粘贴操作
         this._current = this._current.slice(0, i) + text + this._current.slice(i);
-        return i + text.length;
+
+        let index = i + text.length;
+
+        this.updateCandidates(index - 1);
+
+        return index;
     }
 
     delete(i, length = 1) {
@@ -53,54 +50,69 @@ export class Data{
 
         // 执行删除操作
         this._current = this._current.slice(0, i - length) + this._current.slice(i);
-        return i - length > 0 ? i - length : 0;
+        let index = i - length > 0 ? i - length : 0;
+        this.updateCandidates(index - 1);
+
+        return index;
+    }
+    
+    _applyAction(action, isUndo) {
+        if (action.action === 'paste') {
+            this._current = isUndo
+                ? this._current.slice(0, action.index) + this._current.slice(action.index + action.text.length)
+                : this._current.slice(0, action.index) + action.text + this._current.slice(action.index);
+        } else if (action.action === 'delete') {
+            this._current = isUndo
+                ? this._current.slice(0, action.index - action.length) + action.text + this._current.slice(action.index - action.length)
+                : this._current.slice(0, action.index - action.length) + this._current.slice(action.index);
+        }
+        let index = this._current.length;
+        this.updateCandidates(index - 1);
+        return index;
     }
 
     undo() {
         if (this._undoStack.length === 0) return this._current.length;
-
         const lastAction = this._undoStack.pop();
         this._redoStack.push(lastAction);
-
-        if (lastAction.action === 'paste') {
-            this._current = this._current.slice(0, lastAction.index) + this._current.slice(lastAction.index + lastAction.text.length);
-        } else if (lastAction.action === 'delete') {
-            this._current = this._current.slice(0, lastAction.index - lastAction.length) + lastAction.text + this._current.slice(lastAction.index - lastAction.length);
-        }
-        return this._current.length;
+        return this._applyAction(lastAction, true);
     }
 
     redo() {
         if (this._redoStack.length === 0) return this._current.length;
-
         const lastAction = this._redoStack.pop();
         this._undoStack.push(lastAction);
+        return this._applyAction(lastAction, false);
+    }
 
-        if (lastAction.action === 'paste') {
-            this._current = this._current.slice(0, lastAction.index) + lastAction.text + this._current.slice(lastAction.index);
-        } else if (lastAction.action === 'delete') {
-            this._current = this._current.slice(0, lastAction.index - lastAction.length) + this._current.slice(lastAction.index);
-        }
-        return this._current.length;
+    clearUndoRedo() {
+        this._undoStack = [];
+        this._redoStack = [];
     }
 
     getCurrentText() {
         return this._current;
     }
 
-    getActiveWord(i){
-        // 从当前行的第 i 个字符开始 向两边扩展 直到遇到空格或者边界
-        // 返回扩展后的字符串
-        let left = i - 1;
-        let right = i;
-        while(left >= 0 && this._current[left] !== ' '){
-            left--;
+    getActiveWord(i) {
+        if (i < 0 || i >= this._current.length) return '';
+    
+        let start = i;
+        let end = i;
+    
+        // 向左扩展，找到单词的起始位置
+        while (start > 0 && this._current[start - 1] !== ' ') {
+            start--;
         }
-        while(right < this._current.length && this._current[right] !== ' '){
-            right++;
+    
+        // 向右扩展，找到单词的结束位置
+        while (end < this._current.length && this._current[end] !== ' ') {
+            end++;
         }
-        return this._current.slice(left + 1,right);
+    
+        return this._current.slice(start, end);
     }
+    
 
     getLeftActiveWord(i){
         // 从当前行的第 i 个字符开始 向左扩展 直到遇到空格或者边界
@@ -151,17 +163,17 @@ export class Data{
         this._current = '';
     }
 
-    tab(i){
-        // 若有候选词 则将候选词接着当前行的第 i 个字符写入当前行
-        if(this._candidates.length > 0){
-            this._current = this._current.slice(0,i) + this._candidates[0] + this._current.slice(i);
-            return i + this._candidates[0].length;
-        }else{
+    tab(i) {
+
+        if (this._candidates.length > 0) {
+            // 若有候选词 则将候选词接着当前行的第 i 个字符写入当前行
+            return this.paste(i, this._candidates[0]);
+        } else {
             // 写入四个空格
-            this._current = this._current.slice(0,i) + '    ' + this._current.slice(i);
-            return i + 4;
+            return this.paste(i, '    ');
         }
     }
+    
 
     getCurrent(c=-1){
         if(c == -1){
@@ -199,8 +211,14 @@ export class Data{
      * 从字符串中读取（历史）数据
      * @param {string} str 
      */
-    static fromString(str){
-        let data = new Data();
+    static fromString(str, trie = null){
+        let data;
+        if(trie){
+            trie.insertText(str);
+            data = new Data(trie);
+        }else{
+            data = new Data();
+        }
         data._history = str.split('\n');
         return data;
     }

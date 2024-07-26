@@ -85,7 +85,7 @@ let testStyle = {
     'background-color': 'black',
 };
 
-let data = Data.fromString(`- If you type a wronggg word, it will show red wave line under it (spell-checking).\n- Type "help" and press enter to get help.`); // 初始化 data
+let data = Data.fromString(`- If you type a wronggg word, it will show red wave line under it (spell-checking).\n- Type "help" and press enter to get help.`,trie); // 初始化 data
 
 
 // console.log(data);
@@ -174,9 +174,7 @@ myCanvas.addEventListener('keydown',function(e){
 
         // 删除字母
         c = data.delete(c);
-        // console.log(data.getLeftActiveWord(c));
         let com = trie.autoComplete(data.getActiveWord(c-1));
-        // console.log(com);
         data._candidates = com;
     }
     if (e.key === 'Enter'){
@@ -198,6 +196,7 @@ myCanvas.addEventListener('keydown',function(e){
 
         // 清除候选词
         data._candidates = [];
+        data.clearUndoRedo();
     }
     // 按下左右键
     if (e.key === 'ArrowLeft'){
@@ -622,13 +621,6 @@ function getMDStyle(mode){
         return mdStyle;
     }else{
         return mdStyle2;
-    }
-}
-function getBG(mode){
-    if (mode === 'dark'){
-        return darkBG;
-    }else{
-        return lightBG;
     }
 }
 

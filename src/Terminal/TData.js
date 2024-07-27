@@ -95,7 +95,8 @@ export class Data{
     }
 
     getActiveWord(i) {
-        if (i < 0 || i >= this._current.length) return '';
+        // 若单词本身为空格，则返回空字符串
+        if (i < 0 || i >= this._current.length || this._current[i] === ' ') return '';
     
         let start = i;
         let end = i;

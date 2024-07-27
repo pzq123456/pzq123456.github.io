@@ -64,7 +64,10 @@ Hi, There!
 <details>
   <summary>🔧 site update notations</summary>
 
-  - 2024.7.26: add undo-redo function in the terminal. Now you can use `ctrl + z` and `ctrl + y` to undo and redo the command you have inputed. This function is based on the command design pattern, and you can find more details in `Data` class.
+  - 2024.7.27: 
+    - fix: When using the `up` and `down` keys to control the highlighted history line, it may go out of the canvas. Now, we can use the `up` and `down` keys to navigate history lines, and the terminal ensures the highlighted line always stays within bounds.
+  - 2024.7.26: 
+    - add: undo-redo function in the terminal. Now you can use `ctrl + z` and `ctrl + y` to undo and redo the command you have inputed. This function is based on the command design pattern, and you can find more details in `Data` class.
   - 2024.3.8: I have optimized the style of the site. 
   - 2024.2.20: I have downgraded the line-rendering function when the line is too long to be effectively rendered in the terminal. Now, if the line has more than 3000 characters, it will be downgraded to a simple line(may outside the canvas) withouth any style. In this case, you can use `cmd + c` to copy the content and paste it into a text editor to read it.(or you can use `mdr` command to render it in current page.)
     ```bash

@@ -42,7 +42,7 @@ export class View{
         return y;
     }
 
-    drawLine(line,x,y,mytokenization = tokenization,mytokenStyle = tokenStyle){
+    drawLine(line, x, y, mytokenization = tokenization, mytokenStyle = tokenStyle){
         // 若输入的行长度大于 maxLineChar 则 降级为 drawLine2
         if (line.length > maxLineChar){
             return this.drawLine2(line,x,y);
@@ -59,23 +59,13 @@ export class View{
             // 绘制基准
             ctx.textBaseline = 'bottom';
             // 若 style 有下划线则设置
-            if (style['dash']){
-                if(style['dash'] === 'wavyline'){
-                    this.wavyline(ctx,x,y,x+this.measureText(token.value)[0],y,2,10,style['color']);
-                }
-                if(style['dash'] === 'underline'){
-                    ctx.strokeStyle = style['color'];
-                    ctx.lineWidth = 1;
-                    ctx.beginPath();
-                    ctx.moveTo(x,y+2);
-                    ctx.lineTo(x+this.measureText(token.value)[0],y+2);
-                    ctx.stroke();
-                }
-            }
+            this.underline(token.value, ctx, style, x, y);
+
             // 若 x 超过 canvas 的宽度则换行
             let [width, _height] = this.measureText(token.value+" ");
 
             if (x + width > this.canvas.width){
+                
                 while(x + width > this.canvas.width){
                     let i = 0;
                     let tmp = '';
@@ -85,15 +75,21 @@ export class View{
                     }
                     if(y>0){
                         ctx.fillText(tmp,x,y);
+                        // 若 style 有下划线则设置
                     }
                     x = 0;
                     y += height;
+
                     token.value = token.value.slice(i);
+
+                    this.underline(token.value, ctx, style, x, y);
                     [width, _height] = this.measureText(token.value+" ");
                 }
+
                 if(y>0){
                     ctx.fillText(token.value,x,y);
                 }
+
                 x += width;
             }else{
                 if(y>0){
@@ -110,7 +106,21 @@ export class View{
         return y;
     }
 
-    wavyline(ctx,fromx, fromy, tox, toy, amplitude, wavelength, color){
+    underline(text, ctx, style, x, y){
+        let tox = x + this.measureText(text)[0];
+        switch(style['dash']){
+            case 'wavyline':
+                this.#wavyline(ctx, x, y, tox, style['color']);
+                break;
+            case 'underline':
+                this.#dashline(ctx, x, y, tox, style['color']);
+                break;
+            default:
+                break;
+        }
+    }
+
+    #wavyline(ctx,fromx, fromy, tox, color, amplitude = 2, wavelength = 10){
         // 画波浪线
         ctx.strokeStyle = color;
         ctx.lineWidth = 1;
@@ -120,6 +130,23 @@ export class View{
         for(let x = fromx; x < tox; x++){
             let y = fromy + amplitude * Math.sin(2 * Math.PI * delta / wavelength);
             ctx.lineTo(x, y);
+            delta++;
+        }
+        ctx.stroke();
+    }
+
+    #dashline(ctx,fromx, fromy, tox, color, dash = 5){
+        // 画虚线
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        let delta = 0;
+        for(let x = fromx; x < tox; x++){
+            if (delta % (dash*2) < dash){
+                ctx.lineTo(x, fromy);
+            }else{
+                ctx.moveTo(x, fromy);
+            }
             delta++;
         }
         ctx.stroke();

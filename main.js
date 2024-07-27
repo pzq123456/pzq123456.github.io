@@ -23,6 +23,7 @@ const trie = Terminal.Parser.commandTrie; // 获得已经注入命令行关键�
 
 trie.insertArray(metalist2str()); // 将 metalist 中的 title 注入前缀树
 closeLoadingBar();
+
 // ==== 页面部分 ====
 let darkBG =  "#0d1117";
 let lightBG = "#d4dbe197";
@@ -85,13 +86,14 @@ let testStyle = {
     'background-color': 'black',
 };
 
-let data = Data.fromString(`- If you type a wronggg word, it will show red wave line under it (spell-checking).\n- Type "help" and press enter to get help.`,trie); // 初始化 data
+let data = Data.fromString(`- Use it like a regular terminal! \n- Type "help" and press enter to get help.`,trie); // 初始化 data
 
 
 // console.log(data);
 let c = 0;
 let hc = 0; // history cursor
 let canvasy = 0;
+let activey = 0;
 let scrollMode = false;
 let i = 0;// 用于控制光标闪烁
 let view = new View(data,myCanvas,testStyle);
@@ -115,6 +117,8 @@ animationEngine(100/60, () => {
     if (y > myCanvas.height && !scrollMode){
         canvasy -= y - myCanvas.height;
     }
+
+    activey = canvasy + hc*lineHeight;
 
     i++;
 });
@@ -198,19 +202,19 @@ myCanvas.addEventListener('keydown',function(e){
         data._candidates = [];
         data.clearUndoRedo();
     }
+    
     // 按下左右键
     if (e.key === 'ArrowLeft'){
         if (c > 0){
             c--;
-            // console.log(data.getActiveWord(c));
         }else{
             c = 0;
         }
     }
+
     if (e.key === 'ArrowRight'){
         if (c < data._current.length){
             c++;
-            // console.log(data.getActiveWord(c-1));
         }else{
             c = data._current.length;
         }
@@ -221,14 +225,31 @@ myCanvas.addEventListener('keydown',function(e){
         hc--;
         if (hc < 0){
             hc = 0;
+            canvasy = 0;
         }
+
+        activey = canvasy + hc*lineHeight;
+
+        if(activey < 0){
+            canvasy += lineHeight;
+        }
+
         scrollMode = true;
     }
+
     if (e.key === 'ArrowDown'){
         hc++;
+
         if (hc > data._history.length - 1){
             hc = data._history.length - 1;
         }
+
+        activey = canvasy + hc*lineHeight;
+        if(activey + lineHeight >= myCanvas.height){
+
+            canvasy -= lineHeight;
+        }
+
         scrollMode = true;
     }
 
@@ -248,6 +269,7 @@ myCanvas.addEventListener('wheel',function(e){
     if(canvasy > 0){
         canvasy = 0;
     }
+    activey = canvasy + hc*lineHeight;
 });
 
 // 若为移动设备则监听触摸事件

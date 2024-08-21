@@ -52,12 +52,17 @@ export function weatherTips(text) {
 function parseWeatherData(data) {
     const location = data.name;
     const temperature = data.main.temp;
+    const feels_like = data.main.feels_like;
+    const humidity = data.main.humidity;
     const weather = data.weather[0].main;
     const description = data.weather[0].description;
 
-    const englishDescriptionList = [`- The weather in ${location} is currently ${weather.toLowerCase()} with a temperature of ${temperature} °C.`,
-       `- ${description}. ${weatherTextToEmoji(weather)}`,`- ${weatherTips(weather)}`
+    const englishDescriptionList = [
+        `- The weather in ${location} is currently ${weather.toLowerCase()} with a temperature of ${temperature} °C.`,
+        `- The temperature feels like ${feels_like} °C, humidity is ${humidity}%.`,
+        `- ${description}. ${weatherTextToEmoji(weather)}`,`- ${weatherTips(weather)}`
     ];
+
     return  englishDescriptionList;
 }
   

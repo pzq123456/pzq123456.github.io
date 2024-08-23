@@ -11,7 +11,7 @@ Hi, There!
 - GitHub: [pzq123456](https://github.com/pzq123456)
 
 ## Education
-- 2020.09 - 2024.06: B.S. in Geodesy and Geomatics, [Shan Dong University of Science and Technology](https://en.sdust.edu.cn), China.
+- 2020.09 - 2024.06: B.S. in Geodesy and Geomatics, [Shan Dong University of Science and Technology](https://en.sdust.edu.cn), Qingdao, China.
 - 2024.09 - Now: MSc in Geomatics, [The Hong Kong Polytechnic University](https://www.polyu.edu.hk/tc/), Hong Kong, China.
 
 ## Gallery

@@ -78,7 +78,7 @@ trie.insertArray(helpInfoWords);
 
 let isChatMode = false; // 是否处于聊天模式
 
-let myCanvas = createCanvas(document.getElementById('terminal'), window.innerWidth * 0.81, 600);
+let myCanvas = createCanvas(document.getElementById('terminal'), window.innerWidth * 0.81, 648);
 let testStyle = {
     'font-family': 'monospace',
     'font-size': '36px',

@@ -1,26 +1,21 @@
-xintao.liu@polyu.edu.hk
-Here's a concise yet effective application letter based on your background:
+<!-- xintao.liu@polyu.edu.hk -->
 
----
+# Project Guidance Request
 
-**Subject:** Project Collaboration Request
+Dear Professor Xintao Liu,
 
-Dear [Professor's Name],
+I hope this message finds you well. My name is [Zhiqing Pan](https://pzq123456.github.io/), and I am writing to formally express my interest in working on a project (LSGI552) under your supervision. After reviewing your research on urban computing platforms, I believe your guidance would be invaluable to my development and the success of the project.
 
-I hope this message finds you well. My name is Zhiqing Pan, and I am deeply interested in contributing to your ongoing research or projects. I have hands-on experience in WebGIS development, spatial data processing, and medical imaging. My key projects include:
+My key projects include:
 
-- Developing **RVGeo**, a TypeScript library for spatial analysis and visualization.
-- Creating **RVScripter**, a web map rendering framework similar to Leaflet.js.
-- Contributing to **Cornerstone3D**, optimizing its medical imaging rendering framework.
+- WebGIS : 
+  - [RVGeo](https://github.com/pzq123456/RVGeo), a TypeScript library for spacial information analysis and visualization([demo](https://pzq123456.github.io/RVGeo/dist/index.html)). 
+  - [RVScripter](https://github.com/pzq123456/RVScripter), a web map rendering framework similar to Leaflet.js([demo](https://pzq123456.github.io/RVScripter/)).
+- spatial data processing and visualization : [Shanghai Commuting Patterns Unveiled through Shared Bicycle Data](https://github.com/pzq123456/bike)
 
-I am particularly interested in your work because [briefly mention how your interests align with their work]. I would be honored to collaborate and contribute my technical expertise.
+Please find my attached resume for further details. 
 
-Thank you for your time and consideration. I look forward to the possibility of working with you.
+Thank you for considering my request. I look forward to your response.
 
 Best regards,  
 Zhiqing Pan  
-[Your Contact Info]
-
----
-
-Make sure to customize the letter by mentioning how your skills align with the professor's work.

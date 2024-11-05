@@ -2,13 +2,13 @@ export const metalist = [
     {
         "title" : "README",
         "path" : "/README.md",
-        "date" : "2023-10-6",
+        "date" : "2024-11-5",
         "tag" : "info",
         "command": "cd"
     },
     {
         "title" : "CV",
-        "path" : "/CV.md",
+        "path" : "../CV/CV.md",
         "date" : "2023-12-29",
         "tag" : "info",
         "command": "cd"

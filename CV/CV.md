@@ -3,25 +3,25 @@
 ## Brief Introduction
 <img src="../imgs/pzq.JPG" width="15%" height="15%" alt="avatar" style="margin-right: 10px; border-radius: 5%;">
 
-I have a bachelor's degree in Geodesy and Geomatics from Shandong University of Science and Technology. During my undergraduate period, I mainly studied GIS, remote sensing technology, cartography, geodesy, and other related courses. I participated in several projects, including WebGIS development, spatial data processing, and visualization. I am proficient in programming languages such as JavaScript, TypeScript, Python, familiar with front-end development technologies, familiar with the basic principles and applications of geographic information systems, and have strong spatial data processing and visualization capabilities.
+I have a certain experience in WebGIS development, and I am familiar with programming languages such as **JavaScript**, **TypeScript**, and **Python**. I am familiar with popular front-end toolchains and frameworks (**Node.js**, **Vite**, **Vue**, etc.), and have a strong ability in spatial data processing and visualization. In terms of WebGIS development, I focus on the implementation of spatial algorithms and the visualization of geographic information data on the browser side. At the same time, I have a certain research on the underlying principles of web map engines, familiar with concepts such as WebMercator projection, tiled maps, vector maps.
+
+For GPS positioning principles and algorithms, I have systematically studied related courses during my undergraduate and master's courses. In particular, in the course, I have an understanding of the Android system [GNSS raw measurement data](https://developer.android.com/develop/sensors-and-location/sensors/gnss?hl=zh-cn).
 
 ## Education
-- 2020.09 - 2024.06: B.S. in Geodesy and Geomatics, [Shan Dong University of Science and Technology](https://en.sdust.edu.cn), Qingdao, China.
+- 2020.09 - 2024.06: **Bachelor of Scienc**e in Geodesy and Geomatics, [Shan Dong University of Science and Technology](https://en.sdust.edu.cn), Qingdao, China.
+- 2024.09 - 2025.06: **Master of Science** in Geomatics, [Department of Land Surveying and Geo-Informatics (LSGI)](https://www.polyu.edu.hk/lsgi/), Hong Kong Polytechnic University, Hong Kong.
 
-## Experience
-
-My undergraduate thesis is "[Shanghai Commuting Patterns Unveiled through Shared Bicycle Data](https://github.com/pzq123456/bike)", which mainly discusses the spatial distribution characteristics of shared bicycle commuting in Shanghai and the spatial distribution of the ebb and flow of bicycles and possible reasons.
-
-In terms of WebGIS development, I focus on the implementation of spatial algorithms and the visualization of geographic information data on the browser side. I have experience in efficiently rendering large-scale geographic data. At the same time, I have a certain research on the underlying principles of web map engines, familiar with concepts such as WebMercator projection, tiled maps, vector maps, and implemented a web map rendering framework similar to Leaflet.js.
-
-In addition, I also participated in a project on the image segmentation of human lower limb bone joints. The project is mainly based on the improved U-Net network structure, which improves the accuracy of bone joint image segmentation by fusing the axial attention mechanism. During the development of the web platform for this project, I communicated with the Cornerstone3D development team to optimize the compatibility and development experience of the Cornerstone3D front-end medical image rendering framework with Vue and Vite.
+## Work Experience
+- 2024.09 - 2025.06: **Part-Time Research Assistant** in [Department of Land Surveying and Geo-Informatics (LSGI)](https://www.polyu.edu.hk/lsgi/), Hong Kong Polytechnic University, Hong Kong. Mainly responsible for the development of WebGIS platform about the research of Global EV Charging Station Location Optimization and Planning.
 
 ## Projects
 - WebGIS : [RVGeo](https://github.com/pzq123456/RVGeo), a TypeScript library for spacial information analysis and visualization([demo](https://pzq123456.github.io/RVGeo/dist/index.html)). [RVScripter](https://github.com/pzq123456/RVScripter), a web map rendering framework similar to Leaflet.js([demo](https://pzq123456.github.io/RVScripter/)).
-- Medical imaging & Machine learning: Contributed to optimizing the development experience of the Cornerstone3D front-end medical imaging rendering framework. [GitHub link](https://github.com/cornerstonejs/cornerstone3D/issues/594)
 
 ## Contact me
 
 - Email: panzhiqing15@gmail.com
 - GitHub: [pzq123456](https://github.com/pzq123456)
-<!-- CV写的正式一点吧，把你的教育背景、工作、实习之类的写上去 -->
+- Website: [https://pzq123456.github.io](https://pzq123456.github.io)
+
+## Download
+- [PDF version](https://github.com/pzq123456/pzq123456.github.io/blob/main/CV/Panzhiqing_CV.pdf)

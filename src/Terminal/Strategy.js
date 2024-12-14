@@ -10,8 +10,33 @@ export function run(comObj, terminal, callBackList) {
     }
   }
 
-// 假设 'Base64Decoder' 和 'env' 已经定义
-export async function chat(terminal, input) {
+// // 假设 'Base64Decoder' 和 'env' 已经定义
+// export async function chat(terminal, input) {
+//     // 从环境变量获取 API 密钥并解码
+//     const key = Base64Decoder(env['PALM_API_KEY']); 
+  
+//     // 使用 GoogleGenerativeAI 类来调用 API
+//     const genAI = new GoogleGenerativeAI(key);
+//     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+  
+//     // 打开加载条
+//     openLoadingBar();
+  
+//     try {
+//       // 调用 API 生成文本
+//       const result = await model.generateContent(input);  // 直接传递输入文本作为参数
+//         // 输出结果到终端
+//       terminal.writeHistory(result.response.text);
+//     } catch (error) {
+//       // 错误处理
+//       terminal.writeHistory("Error: " + error);
+//     } finally {
+//       // 关闭加载条
+//       closeLoadingBar();
+//     }
+//   }
+
+export function chat(terminal, input) {
     // 从环境变量获取 API 密钥并解码
     const key = Base64Decoder(env['PALM_API_KEY']); 
   
@@ -22,19 +47,18 @@ export async function chat(terminal, input) {
     // 打开加载条
     openLoadingBar();
   
-    try {
-      // 调用 API 生成文本
-      const result = await model.generateContent(input);  // 直接传递输入文本作为参数
-  
+    // 调用 API 生成文本
+    model.generateContent(input).then((result) => {
       // 输出结果到终端
-      terminal.writeHistory(result.response.text);
-    } catch (error) {
+      terminal.writeHistory(result.response.text());
+    }).catch((error) => {
       // 错误处理
       terminal.writeHistory("Error: " + error);
-    } finally {
+    }).finally(() => {
       // 关闭加载条
       closeLoadingBar();
-    }
+    });
+
   }
 
   function closeLoadingBar() {

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Code Editor with Advanced Features</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/default.min.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    .editor-container {
+      display: flex;
+      position: relative;
+      border: 1px solid #ccc;
+      min-height: 200px;
+      background: #f5f5f5;
+      overflow: hidden;
+    }
+    .line-numbers {
+      width: 40px;
+      background: #eaeaea;
+      color: #555;
+      text-align: right;
+      padding: 10px;
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+      line-height: 1.5;
+      white-space: pre-wrap;
+      user-select: none;
+    }
+    .highlight-layer, .editable-layer {
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+      line-height: 1.5;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      padding: 10px;
+      flex: 1;
+    }
+    .highlight-layer {
+      position: absolute;
+      top: 0;
+      left: 40px;
+      width: calc(100% - 40px);
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+      color: #444;
+    }
+    .editable-layer {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      height: 100%;
+      background: transparent;
+      outline: none;
+      color: transparent;
+      caret-color: black;
+    }
+    .editable-layer {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      height: 100%;
+      background: transparent;
+      outline: none;
+      color: transparent;
+      caret-color: black;
+    }
+  </style>
+</head>
+<body>
+  <h1>Code Editor with Advanced Features</h1>
+  <label for="language">Select Language: </label>
+  <select id="language" onchange="setCodeMode(this.value)">
+    <option value="auto">Auto Detect</option>
+    <option value="javascript">JavaScript</option>
+    <option value="python">Python</option>
+    <option value="html">HTML</option>
+    <option value="css">CSS</option>
+  </select>
+  <button onclick="exportCode()">Export Code</button>
+  <div class="editor-container">
+    <div class="line-numbers"></div>
+    <pre class="highlight-layer"></pre>
+    <div class="editable-layer" contenteditable="true" oninput="updateHighlight()"></div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+  <script>
+    let currentLanguage = 'auto'; // Default mode
+    let debounceTimeout;
+
+    // Escape HTML special characters
+    function escapeHTML(str) {
+      return str.replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+    }
+
+    // Debounce function to optimize updates
+    function debounce(func, wait) {
+      clearTimeout(debounceTimeout);
+      debounceTimeout = setTimeout(func, wait);
+    }
+
+    // Update line numbers
+    function updateLineNumbers() {
+      const editableLayer = document.querySelector('.editable-layer');
+      const lineNumbers = document.querySelector('.line-numbers');
+      const lineCount = editableLayer.innerText.split('\n').length;
+      lineNumbers.innerText = Array.from({ length: lineCount }, (_, i) => i + 1).join('\n');
+    }
+
+    // Update highlight layer based on user input
+    function updateHighlight() {
+      debounce(() => {
+        const editableLayer = document.querySelector('.editable-layer');
+        const highlightLayer = document.querySelector('.highlight-layer');
+
+        // Get the content from the editable layer
+        const content = escapeHTML(editableLayer.innerText);
+
+        // Highlight content using Highlight.js
+        const highlightedCode = currentLanguage === 'auto'
+          ? hljs.highlightAuto(content).value
+          : hljs.highlight(content, { language: currentLanguage }).value;
+
+        // Update the highlight layer
+        highlightLayer.innerHTML = highlightedCode.replace(/\n/g, '<br>');
+
+        // Update line numbers
+        updateLineNumbers();
+      }, 100); // Adjust debounce delay as needed
+    }
+
+    // Set code mode and update highlight
+    function setCodeMode(language) {
+      currentLanguage = language;
+      updateHighlight();
+    }
+
+    // Export code to a .txt file
+    function exportCode() {
+      const editableLayer = document.querySelector('.editable-layer');
+      const content = editableLayer.innerText;
+      const blob = new Blob([content], { type: 'text/plain' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'code.txt';
+      link.click();
+    }
+  </script>
+</body>
+</html>

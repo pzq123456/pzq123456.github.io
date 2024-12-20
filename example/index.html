@@ -3,33 +3,47 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Code Editor with Advanced Features</title>
+  <title>Code Editor with Virtual Scrolling</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/default.min.css">
   <style>
     body {
       font-family: Arial, sans-serif;
       margin: 20px;
     }
+
     .editor-container {
       display: flex;
       position: relative;
       border: 1px solid #ccc;
-      min-height: 200px;
+      height: 400px;
       background: #f5f5f5;
       overflow: hidden;
     }
+
     .line-numbers {
       width: 40px;
       background: #eaeaea;
       color: #555;
       text-align: right;
-      padding: 10px;
+      padding: 0;
       font-family: 'Courier New', monospace;
       font-size: 14px;
       line-height: 1.5;
-      white-space: pre-wrap;
       user-select: none;
+      overflow: hidden;
     }
+
+    .line-numbers div {
+      height: 20px;
+      padding-right: 10px;
+    }
+
+    .content-area {
+      flex: 1;
+      position: relative;
+      overflow: auto;
+    }
+
     .highlight-layer, .editable-layer {
       font-family: 'Courier New', monospace;
       font-size: 14px;
@@ -37,42 +51,33 @@
       white-space: pre-wrap;
       word-wrap: break-word;
       padding: 10px;
-      flex: 1;
     }
+
     .highlight-layer {
       position: absolute;
       top: 0;
-      left: 40px;
-      width: calc(100% - 40px);
-      height: 100%;
+      left: 0;
+      width: 100%;
+      color: #444;
       pointer-events: none;
       z-index: 1;
-      color: #444;
     }
+
     .editable-layer {
-      position: relative;
-      z-index: 2;
+      position: absolute;
+      top: 0;
+      left: 0;
       width: 100%;
-      height: 100%;
       background: transparent;
       outline: none;
       color: transparent;
       caret-color: black;
-    }
-    .editable-layer {
-      position: relative;
       z-index: 2;
-      width: 100%;
-      height: 100%;
-      background: transparent;
-      outline: none;
-      color: transparent;
-      caret-color: black;
     }
   </style>
 </head>
 <body>
-  <h1>Code Editor with Advanced Features</h1>
+  <h1>Code Editor with Virtual Scrolling</h1>
   <label for="language">Select Language: </label>
   <select id="language" onchange="setCodeMode(this.value)">
     <option value="auto">Auto Detect</option>
@@ -83,77 +88,63 @@
   </select>
   <button onclick="exportCode()">Export Code</button>
   <div class="editor-container">
-    <div class="line-numbers"></div>
-    <pre class="highlight-layer"></pre>
-    <div class="editable-layer" contenteditable="true" oninput="updateHighlight()"></div>
+    <div class="line-numbers" id="lineNumbers"></div>
+    <div class="content-area">
+      <pre class="highlight-layer" id="highlightLayer"></pre>
+      <div class="editable-layer" id="editableLayer" contenteditable="true"></div>
+    </div>
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
   <script>
-    let currentLanguage = 'auto'; // Default mode
-    let debounceTimeout;
+    const editableLayer = document.getElementById('editableLayer');
+    const highlightLayer = document.getElementById('highlightLayer');
+    const lineNumbers = document.getElementById('lineNumbers');
+    const lineHeight = 20; // 每行的固定高度
 
-    // Escape HTML special characters
-    function escapeHTML(str) {
-      return str.replace(/&/g, '&amp;')
-                .replace(/</g, '&lt;')
-                .replace(/>/g, '&gt;')
-                .replace(/"/g, '&quot;')
-                .replace(/'/g, '&#039;');
-    }
-
-    // Debounce function to optimize updates
-    function debounce(func, wait) {
-      clearTimeout(debounceTimeout);
-      debounceTimeout = setTimeout(func, wait);
-    }
-
-    // Update line numbers
+    // 更新行号
     function updateLineNumbers() {
-      const editableLayer = document.querySelector('.editable-layer');
-      const lineNumbers = document.querySelector('.line-numbers');
-      const lineCount = editableLayer.innerText.split('\n').length;
-      lineNumbers.innerText = Array.from({ length: lineCount }, (_, i) => i + 1).join('\n');
+      const lines = editableLayer.innerText.split('\n').length;
+      const fragment = document.createDocumentFragment();
+      for (let i = 1; i <= lines; i++) {
+        const div = document.createElement('div');
+        div.textContent = i;
+        fragment.appendChild(div);
+      }
+      lineNumbers.innerHTML = '';
+      lineNumbers.appendChild(fragment);
     }
 
-    // Update highlight layer based on user input
+    // 更新高亮内容
     function updateHighlight() {
-      debounce(() => {
-        const editableLayer = document.querySelector('.editable-layer');
-        const highlightLayer = document.querySelector('.highlight-layer');
-
-        // Get the content from the editable layer
-        const content = escapeHTML(editableLayer.innerText);
-
-        // Highlight content using Highlight.js
-        const highlightedCode = currentLanguage === 'auto'
-          ? hljs.highlightAuto(content).value
-          : hljs.highlight(content, { language: currentLanguage }).value;
-
-        // Update the highlight layer
-        highlightLayer.innerHTML = highlightedCode.replace(/\n/g, '<br>');
-
-        // Update line numbers
-        updateLineNumbers();
-      }, 100); // Adjust debounce delay as needed
+      const content = editableLayer.innerText
+        // .replace(/&/g, '&amp;')
+        // .replace(/</g, '&lt;')
+        // .replace(/>/g, '&gt;');
+      highlightLayer.innerHTML = hljs.highlightAuto(content).value.replace(/\n/g, '<br>');
     }
 
-    // Set code mode and update highlight
-    function setCodeMode(language) {
-      currentLanguage = language;
+    // 同步滚动
+    function syncScroll() {
+      const scrollTop = editableLayer.scrollTop;
+      highlightLayer.scrollTop = scrollTop;
+      lineNumbers.scrollTop = scrollTop;
+    }
+
+    // 初始化编辑器
+    function initEditor() {
+      updateLineNumbers();
       updateHighlight();
+
+      editableLayer.addEventListener('input', () => {
+        updateLineNumbers();
+        updateHighlight();
+      });
+
+      editableLayer.addEventListener('scroll', syncScroll);
     }
 
-    // Export code to a .txt file
-    function exportCode() {
-      const editableLayer = document.querySelector('.editable-layer');
-      const content = editableLayer.innerText;
-      const blob = new Blob([content], { type: 'text/plain' });
-      const link = document.createElement('a');
-      link.href = URL.createObjectURL(blob);
-      link.download = 'code.txt';
-      link.click();
-    }
+    document.addEventListener('DOMContentLoaded', initEditor);
   </script>
 </body>
 </html>

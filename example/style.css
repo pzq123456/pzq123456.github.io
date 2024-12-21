@@ -1,0 +1,48 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+  }
+  
+  .editor-container {
+    display: flex;
+    position: relative;
+    border: 1px solid #ccc;
+    min-height: 200px;
+    background: #f5f5f5;
+    box-sizing: border-box; /* Ensure padding and border are included in element size */
+    width: 100%; /* Make the container full width */
+    height: 400px; /* Set a fixed height */
+  }
+  
+  .highlight-layer, .editable-layer {
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    box-sizing: border-box; /* Include padding in width and height calculations */
+    overflow-y: auto; /* Enable scrolling when content overflows */
+    height: 100%; /* Make both layers fill the container */
+    width: 100%; /* Ensure both layers take the full width */
+  }
+  
+  .highlight-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    color: #444;
+    pointer-events: none; /* Disable interaction with the highlight layer */
+    margin: 0; /* Ensure the text is aligned with the line numbers */
+  }
+  
+  .editable-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    background: transparent;
+    outline: none;
+    color: transparent; /* Hide the text */
+    caret-color: black; /* Show caret color when typing */
+  }

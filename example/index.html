@@ -3,148 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Code Editor with Virtual Scrolling</title>
+  <title>Code Editor</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/default.min.css">
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 20px;
-    }
-
-    .editor-container {
-      display: flex;
-      position: relative;
-      border: 1px solid #ccc;
-      height: 400px;
-      background: #f5f5f5;
-      overflow: hidden;
-    }
-
-    .line-numbers {
-      width: 40px;
-      background: #eaeaea;
-      color: #555;
-      text-align: right;
-      padding: 0;
-      font-family: 'Courier New', monospace;
-      font-size: 14px;
-      line-height: 1.5;
-      user-select: none;
-      overflow: hidden;
-    }
-
-    .line-numbers div {
-      height: 20px;
-      padding-right: 10px;
-    }
-
-    .content-area {
-      flex: 1;
-      position: relative;
-      overflow: auto;
-    }
-
-    .highlight-layer, .editable-layer {
-      font-family: 'Courier New', monospace;
-      font-size: 14px;
-      line-height: 1.5;
-      white-space: pre-wrap;
-      word-wrap: break-word;
-      padding: 10px;
-    }
-
-    .highlight-layer {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      color: #444;
-      pointer-events: none;
-      z-index: 1;
-    }
-
-    .editable-layer {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      background: transparent;
-      outline: none;
-      color: transparent;
-      caret-color: black;
-      z-index: 2;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Code Editor with Virtual Scrolling</h1>
-  <label for="language">Select Language: </label>
-  <select id="language" onchange="setCodeMode(this.value)">
-    <option value="auto">Auto Detect</option>
-    <option value="javascript">JavaScript</option>
-    <option value="python">Python</option>
-    <option value="html">HTML</option>
-    <option value="css">CSS</option>
-  </select>
-  <button onclick="exportCode()">Export Code</button>
   <div class="editor-container">
-    <div class="line-numbers" id="lineNumbers"></div>
-    <div class="content-area">
-      <pre class="highlight-layer" id="highlightLayer"></pre>
-      <div class="editable-layer" id="editableLayer" contenteditable="true"></div>
-    </div>
+    <pre class="highlight-layer"></pre>
+    <div class="editable-layer" contenteditable="true" ></div>
   </div>
-
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
-  <script>
-    const editableLayer = document.getElementById('editableLayer');
-    const highlightLayer = document.getElementById('highlightLayer');
-    const lineNumbers = document.getElementById('lineNumbers');
-    const lineHeight = 20; // 每行的固定高度
-
-    // 更新行号
-    function updateLineNumbers() {
-      const lines = editableLayer.innerText.split('\n').length;
-      const fragment = document.createDocumentFragment();
-      for (let i = 1; i <= lines; i++) {
-        const div = document.createElement('div');
-        div.textContent = i;
-        fragment.appendChild(div);
-      }
-      lineNumbers.innerHTML = '';
-      lineNumbers.appendChild(fragment);
-    }
-
-    // 更新高亮内容
-    function updateHighlight() {
-      const content = editableLayer.innerText
-        // .replace(/&/g, '&amp;')
-        // .replace(/</g, '&lt;')
-        // .replace(/>/g, '&gt;');
-      highlightLayer.innerHTML = hljs.highlightAuto(content).value.replace(/\n/g, '<br>');
-    }
-
-    // 同步滚动
-    function syncScroll() {
-      const scrollTop = editableLayer.scrollTop;
-      highlightLayer.scrollTop = scrollTop;
-      lineNumbers.scrollTop = scrollTop;
-    }
-
-    // 初始化编辑器
-    function initEditor() {
-      updateLineNumbers();
-      updateHighlight();
-
-      editableLayer.addEventListener('input', () => {
-        updateLineNumbers();
-        updateHighlight();
-      });
-
-      editableLayer.addEventListener('scroll', syncScroll);
-    }
-
-    document.addEventListener('DOMContentLoaded', initEditor);
-  </script>
+  <script type="module" src="./main.js"></script>
 </body>
 </html>

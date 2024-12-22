@@ -1,6 +1,7 @@
 body {
     font-family: Arial, sans-serif;
     margin: 20px;
+    background: #000000;
   }
   
   .editor-container {
@@ -8,7 +9,7 @@ body {
     position: relative;
     border: 1px solid #ccc;
     min-height: 200px;
-    background: #f5f5f5;
+    background: #251f3f;
     box-sizing: border-box; /* Ensure padding and border are included in element size */
     width: 100%; /* Make the container full width */
     height: 400px; /* Set a fixed height */
@@ -34,6 +35,7 @@ body {
     color: #444;
     pointer-events: none; /* Disable interaction with the highlight layer */
     margin: 0; /* Ensure the text is aligned with the line numbers */
+    color : #fff;
   }
   
   .editable-layer {
@@ -44,5 +46,5 @@ body {
     background: transparent;
     outline: none;
     color: transparent; /* Hide the text */
-    caret-color: black; /* Show caret color when typing */
+    caret-color: rgb(255, 255, 255); /* Show caret color when typing */
   }

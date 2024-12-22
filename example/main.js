@@ -2,7 +2,6 @@
  const highlightLayer = document.querySelector('.highlight-layer');
  const editableLayer = document.querySelector('.editable-layer');
  const container = document.querySelector('.editor-container');
- 
 
  let debounceTimer;
  

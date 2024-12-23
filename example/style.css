@@ -16,12 +16,8 @@ body {
   }
   
   .highlight-layer, .editable-layer {
-    font-family: 'Courier New', monospace;
-    font-size: 14px;
-    line-height: 1.5;
-    white-space: pre-wrap;
-    word-wrap: break-word;
-    box-sizing: border-box; /* Include padding in width and height calculations */
+    /* font-family: 'Courier New', monospace; */
+    /* font-size: 14px; */
     overflow-y: auto; /* Enable scrolling when content overflows */
     height: 100%; /* Make both layers fill the container */
     width: 100%; /* Ensure both layers take the full width */
@@ -45,39 +41,6 @@ body {
     z-index: 2;
     background: transparent;
     outline: none;
-    color: transparent; /* Hide the text */
-    caret-color: rgb(255, 255, 255); /* Show caret color when typing */
-  }
-
-  .error {
-    background-color: rgba(255, 0, 0, 0.2); /* Red background for errors */
-    text-decoration: underline;
-    color: red;
-  }
-
-  .error-line {
-    background-color: rgba(255, 0, 0, 0.2);
-  }
-
-  .error-message {
-    color: red;
-    margin-top: 10px;
-    background-color: rgba(255, 0, 0, 0.2);
-  }
-
-
-  .error-char {
-    background-color: rgba(255, 0, 0, 0.5);
-    color: #fff;
-    font-weight: bold;
-  }
-  .error-tooltip {
-    position: absolute;
-    background: rgba(0, 0, 0, 0.8);
-    color: #fff;
-    padding: 5px 10px;
-    border-radius: 5px;
-    font-size: 12px;
-    z-index: 1000;
-    white-space: nowrap;
+    color: transparent; /* Hide the caret */
+    caret-color: #fff; /* Set the caret color */
   }

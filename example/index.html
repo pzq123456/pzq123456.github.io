@@ -7,12 +7,21 @@
   <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/default.min.css"> -->
    <link rel="stylesheet" href="dracula.css">
   <link rel="stylesheet" href="style.css">
+  <script type="importmap">
+    {
+      "imports": {
+        "@google/generative-ai": "https://esm.run/@google/generative-ai"
+      }
+    }
+  </script>
 </head>
 <body>
+  <div id="loading-bar"></div>
 
   <div class="toolbar">
     <button id="run">Run</button>
     <button id="clear">Clear</button>
+    <button id="chat">chat</button>
   </div>
 
   <div class="editor-container">

@@ -1,4 +1,7 @@
-import { throttle, syncScroll, pasteAsPlainText, handleTabKey } from './utils.js';
+import { debounce, syncScroll, pasteAsPlainText, handleTabKey } from './utils.js';
+
+import { chat } from './gemini.js';
+
 import { init, 
   highlightLayer, 
   editableLayer, 
@@ -6,12 +9,19 @@ import { init,
  } from './init.js';
 
 init();
+closeLoadingBar();
 
 const btn_run = document.getElementById('run');
 const btn_clear = document.getElementById('clear');
+const btn_chat = document.getElementById('chat');
 
 const output = document.getElementById('output');
 
+btn_chat.addEventListener('click', () => {
+  chat(editableLayer, editableLayer.innerText);
+});
+
+// debounce(chat(editableLayer, editableLayer.innerText), 2000);
 function runCode(editableLayer, output) {
   return function() {
     const code = editableLayer.innerText;
@@ -37,10 +47,9 @@ pasteAsPlainText(editableLayer);
 handleTabKey(editableLayer);
 
 // 监听输入事件
-editableLayer.addEventListener('input', (e) => {
-  updateHighlight();
-  // updateCanvas();
-});
+// editableLayer.addEventListener('input', (e) => {
+//   updateHighlight();
+// });
 
 // 使用 web worker 高亮显示代码
 const worker = new Worker('worker.js');
@@ -52,3 +61,20 @@ function updateHighlight() {
   const content = editableLayer.innerText;
   worker.postMessage(content);
 }
+
+function closeLoadingBar(){
+  document.getElementById("loading-bar").style.display = "none";
+}
+
+function openLoadingBar(){
+  document.getElementById("loading-bar").style.display = "block";
+}
+
+
+function animate() {
+  requestAnimationFrame(animate);
+  // updateHighlight();
+  debounce(updateHighlight, 1000)();
+}
+
+animate();

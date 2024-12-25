@@ -1,4 +1,4 @@
-import { debounce, syncScroll, pasteAsPlainText, handleTabKey } from './utils.js';
+import { throttle, syncScroll, pasteAsPlainText, handleTabKey } from './utils.js';
 import { init, 
   highlightLayer, 
   editableLayer, 
@@ -7,37 +7,48 @@ import { init,
 
 init();
 
+const btn_run = document.getElementById('run');
+const btn_clear = document.getElementById('clear');
+
+const output = document.getElementById('output');
+
+function runCode(editableLayer, output) {
+  return function() {
+    const code = editableLayer.innerText;
+    try {
+      const result = eval(code);
+      output.innerText = result;
+    } catch (error) {
+      output.innerText = error.message;
+    }
+  }
+}
+
+
+btn_run.addEventListener('click', runCode(editableLayer,output));
+btn_clear.addEventListener('click', () => {
+  editableLayer.innerText = '';
+  updateHighlight();
+});
+
+
 syncScroll(editableLayer, highlightLayer);
 pasteAsPlainText(editableLayer);
 handleTabKey(editableLayer);
 
 // 监听输入事件
-editableLayer.addEventListener('input', () => {
-  debounce(updateHighlight, 200)();
+editableLayer.addEventListener('input', (e) => {
+  updateHighlight();
   // updateCanvas();
 });
 
-// // animate loop
-// function animate() {
-//   updateHighlight();
-//   requestAnimationFrame(animate);
-// }
-
-// animate();
-
+// 使用 web worker 高亮显示代码
+const worker = new Worker('worker.js');
+worker.onmessage = (event) => { highlightLayer.innerHTML = event.data; }
 
 // 更新高亮显示
 function updateHighlight() {
   // 获取可编辑层内容并保留换行符
   const content = editableLayer.innerText;
-  const highlighted = hljs.highlightAuto(content, ['javascript', 'html', 'css', 'markdown', 'bash']); // 高亮代码
-  highlightLayer.innerHTML = highlighted.value;
-}
-
-// 使用 html2canvas 渲染 highlighLayer 到 canvas
-function updateCanvas() {
-  const ctx = myCanvas.getContext('2d'); // 获取 canvas 上下文
-  // 随机绘制背景色
-  ctx.fillStyle = `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255})`;
-  ctx.fillRect(0, 0, myCanvas.width, myCanvas.height);
+  worker.postMessage(content);
 }

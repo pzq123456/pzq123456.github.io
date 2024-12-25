@@ -3,7 +3,21 @@ body {
     margin: 20px;
     background: #000000;
   }
-  
+.output-container{
+  width: 100%;
+  height: 200px;
+  background: #ffffff;
+}
+#output{
+  color: red;
+}
+.toolbar {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    width: 200px;
+  }
+
   .editor-container {
     display: flex;
     position: relative;
@@ -12,12 +26,10 @@ body {
     background: #251f3f;
     box-sizing: border-box; /* Ensure padding and border are included in element size */
     width: 100%; /* Make the container full width */
-    height: 400px; /* Set a fixed height */
+    height: 500px; /* Set a fixed height */
   }
   
   .highlight-layer, .editable-layer {
-    /* font-family: 'Courier New', monospace; */
-    /* font-size: 14px; */
     overflow-y: auto; /* Enable scrolling when content overflows */
     height: 100%; /* Make both layers fill the container */
     width: 100%; /* Ensure both layers take the full width */
@@ -41,6 +53,7 @@ body {
     z-index: 2;
     background: transparent;
     outline: none;
-    color: transparent; /* Hide the caret */
-    caret-color: #fff; /* Set the caret color */
+    color: transparent; 
+    /* color: red; */
+    caret-color: #fff; 
   }

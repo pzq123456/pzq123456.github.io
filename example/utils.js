@@ -1,5 +1,3 @@
-// Description: This file contains the common utility functions used in the application.
-
 // Function to debounce the function call
 export function debounce(fn, delay) {
     let timer;
@@ -10,6 +8,18 @@ export function debounce(fn, delay) {
       }, delay);
     };
   }
+
+export function throttle(fn, delay) {
+    let timer;
+    return function () {
+        if (!timer) {
+            timer = setTimeout(() => {
+                fn.apply(this, arguments);
+                timer = null;
+            }, delay);
+        }
+    };
+}
 
 // 过滤粘贴内容的函数，去除样式
 export function sanitizePaste(content) {
@@ -34,31 +44,36 @@ export function syncScroll(mainLayer, ...layers) {
 
     const validLayers = layers.filter(layer => layer instanceof HTMLElement);
 
-    // 监听主层滚动事件
-    mainLayer.addEventListener('scroll', () => {
+    // 同步滚动条位置的逻辑
+    function syncScrollPosition() {
         const scrollTop = mainLayer.scrollTop;
+        // console.log(scrollTop);
         validLayers.forEach(layer => {
-            if (layer.scrollTop !== scrollTop) {
-                layer.scrollTop = scrollTop;
+            layer.scrollTop = scrollTop;
+        });
+    }
+
+    // 监听主层滚动事件
+    mainLayer.addEventListener('scroll', syncScrollPosition);
+
+    // 监听主层内容变化（如回车新增内容时）
+    mainLayer.addEventListener('input', syncScrollPosition);
+
+    // 可选：监听其他层的滚动事件，双向同步主层
+    validLayers.forEach(layer => {
+        layer.addEventListener('scroll', () => {
+            const scrollTop = layer.scrollTop;
+            if (mainLayer.scrollTop !== scrollTop) {
+                mainLayer.scrollTop = scrollTop;
             }
+            // 同步其他层
+            validLayers.forEach(otherLayer => {
+                if (otherLayer !== layer && otherLayer.scrollTop !== scrollTop) {
+                    otherLayer.scrollTop = scrollTop;
+                }
+            });
         });
     });
-
-    // // 监听其他层的滚动事件，反向同步主层
-    // validLayers.forEach(layer => {
-    //     layer.addEventListener('scroll', () => {
-    //         const scrollTop = layer.scrollTop;
-    //         if (mainLayer.scrollTop !== scrollTop) {
-    //             mainLayer.scrollTop = scrollTop;
-    //         }
-    //         // 让其他层与当前层保持一致
-    //         validLayers.forEach(otherLayer => {
-    //             if (otherLayer !== layer && otherLayer.scrollTop !== scrollTop) {
-    //                 otherLayer.scrollTop = scrollTop;
-    //             }
-    //         });
-    //     });
-    // });
 }
 
 export function pasteAsPlainText(element) {
@@ -87,11 +102,6 @@ export function pasteAsPlainText(element) {
         element.dispatchEvent(new Event('input'));
     });
 }
-
-// // 判断某个元素是否有焦点
-// export function isElementFocused(element) {
-//     return element === document.activeElement;
-// }
 
 // 在 contenteditable 元素中屏蔽原生 Tab 事件并插入指定数量的空格
 export function handleTabKey(element, tabSize = 2) {
@@ -126,7 +136,3 @@ export function handleTabKey(element, tabSize = 2) {
         }
     });
 }
-
-
-
-  

@@ -2,40 +2,32 @@ import { debounce, syncScroll, pasteAsPlainText, handleTabKey } from './utils.js
 
 import { chat } from './gemini.js';
 
-import { init, 
-  highlightLayer, 
-  editableLayer, 
-  myCanvas
- } from './init.js';
+import { init, highlightLayer, editableLayer, } from './init.js';
 
 init();
-closeLoadingBar();
 
-const btn_run = document.getElementById('run');
+// const btn_run = document.getElementById('run');
 const btn_clear = document.getElementById('clear');
 const btn_chat = document.getElementById('chat');
-
-const output = document.getElementById('output');
 
 btn_chat.addEventListener('click', () => {
   chat(editableLayer, editableLayer.innerText);
 });
 
 // debounce(chat(editableLayer, editableLayer.innerText), 2000);
-function runCode(editableLayer, output) {
-  return function() {
-    const code = editableLayer.innerText;
-    try {
-      const result = eval(code);
-      output.innerText = result;
-    } catch (error) {
-      output.innerText = error.message;
-    }
-  }
-}
+// function runCode(editableLayer) {
+//   return function() {
+//     const code = editableLayer.innerText;
+//     try {
+//       const result = eval(code);
+//       console.log(result);
+//     } catch (error) {
+//       console.error(error);
+//     }
+//   }
+// }
 
-
-btn_run.addEventListener('click', runCode(editableLayer,output));
+// btn_run.addEventListener('click', runCode(editableLayer));
 btn_clear.addEventListener('click', () => {
   editableLayer.innerText = '';
   updateHighlight();
@@ -47,9 +39,9 @@ pasteAsPlainText(editableLayer);
 handleTabKey(editableLayer);
 
 // 监听输入事件
-// editableLayer.addEventListener('input', (e) => {
-//   updateHighlight();
-// });
+editableLayer.addEventListener('input', (e) => {
+  updateHighlight();
+});
 
 // 使用 web worker 高亮显示代码
 const worker = new Worker('worker.js');
@@ -62,19 +54,9 @@ function updateHighlight() {
   worker.postMessage(content);
 }
 
-function closeLoadingBar(){
-  document.getElementById("loading-bar").style.display = "none";
-}
+// function animate() {
+//   requestAnimationFrame(animate);
+//   debounce(updateHighlight, 1000)();
+// }
 
-function openLoadingBar(){
-  document.getElementById("loading-bar").style.display = "block";
-}
-
-
-function animate() {
-  requestAnimationFrame(animate);
-  // updateHighlight();
-  debounce(updateHighlight, 1000)();
-}
-
-animate();
+// animate();

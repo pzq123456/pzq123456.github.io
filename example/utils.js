@@ -56,24 +56,24 @@ export function syncScroll(mainLayer, ...layers) {
     // 监听主层滚动事件
     mainLayer.addEventListener('scroll', syncScrollPosition);
 
-    // 监听主层内容变化（如回车新增内容时）
-    mainLayer.addEventListener('input', syncScrollPosition);
+    // // 监听主层内容变化（如回车新增内容时）
+    // mainLayer.addEventListener('input', syncScrollPosition);
 
-    // 可选：监听其他层的滚动事件，双向同步主层
-    validLayers.forEach(layer => {
-        layer.addEventListener('scroll', () => {
-            const scrollTop = layer.scrollTop;
-            if (mainLayer.scrollTop !== scrollTop) {
-                mainLayer.scrollTop = scrollTop;
-            }
-            // 同步其他层
-            validLayers.forEach(otherLayer => {
-                if (otherLayer !== layer && otherLayer.scrollTop !== scrollTop) {
-                    otherLayer.scrollTop = scrollTop;
-                }
-            });
-        });
-    });
+    // // 可选：监听其他层的滚动事件，双向同步主层
+    // validLayers.forEach(layer => {
+    //     layer.addEventListener('scroll', () => {
+    //         const scrollTop = layer.scrollTop;
+    //         if (mainLayer.scrollTop !== scrollTop) {
+    //             mainLayer.scrollTop = scrollTop;
+    //         }
+    //         // 同步其他层
+    //         validLayers.forEach(otherLayer => {
+    //             if (otherLayer !== layer && otherLayer.scrollTop !== scrollTop) {
+    //                 otherLayer.scrollTop = scrollTop;
+    //             }
+    //         });
+    //     });
+    // });
 }
 
 export function pasteAsPlainText(element) {
@@ -135,4 +135,13 @@ export function handleTabKey(element, tabSize = 2) {
             element.dispatchEvent(new Event('input'));
         }
     });
+}
+
+
+export function closeLoadingBar(){
+    document.getElementById("loading-bar").style.display = "none";
+}
+
+export function openLoadingBar(){
+    document.getElementById("loading-bar").style.display = "block";
 }

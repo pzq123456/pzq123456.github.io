@@ -1,103 +1,92 @@
 body {
-    font-family: Arial, sans-serif;
-    margin: 20px;
-    background: #000000;
-  }
-.output-container{
-  width: 100%;
-  height: 200px;
-  background: #ffffff;
+  font-family: Arial, sans-serif;
+  margin: 20px;
+  background: #251f3f;
 }
-#output{
-  color: red;
-}
+
 .toolbar {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
-    width: 200px;
-  }
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  width: 100px;
+  border-radius: 5px;
+  background: #8f8f8fcb;
+}
 
-  .editor-container {
-    display: flex;
-    position: relative;
-    border: 1px solid #ccc;
-    min-height: 200px;
-    background: #251f3f;
-    box-sizing: border-box; /* Ensure padding and border are included in element size */
-    width: 100%; /* Make the container full width */
-    height: 500px; /* Set a fixed height */
-  }
-  
-  .highlight-layer, .editable-layer {
-    overflow-y: auto; /* Enable scrolling when content overflows */
-    height: 100%; /* Make both layers fill the container */
-    width: 100%; /* Ensure both layers take the full width */
-  }
-  
-  .highlight-layer {
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 1;
-    color: #444;
-    pointer-events: none; /* Disable interaction with the highlight layer */
-    margin: 0; /* Ensure the text is aligned with the line numbers */
-    color : #fff;
-  }
-  
-  .editable-layer {
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 2;
-    background: transparent;
-    outline: none;
-    color: transparent; 
-    /* color: red; */
-    caret-color: #fff; 
-  }
+.editor-container {
+  display: flex;
+  position: relative;
+  min-height: 200px;
+  width: 100%;
 
-  #loading-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(38, 36, 36, 0.45);
-    backdrop-filter: blur(10px);
-    z-index: 9999; /* 确保加载动画位于其他内容之上 */
-    display: flex;
-    justify-content: center;
-    align-items: center;
+}
+
+.highlight-layer, .editable-layer {
+  height: 100%; 
+  width: 100%;
+}
+
+.highlight-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  color: #444;
+  pointer-events: none; /* Disable interaction with the highlight layer */
+  margin: 0; /* Ensure the text is aligned with the line numbers */
+  color : #fff;
+}
+
+.editable-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  color: transparent; 
+  caret-color: #fff; 
+  outline: none;
+}
+
+#loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(38, 36, 36, 0.45);
+  backdrop-filter: blur(10px);
+  z-index: 9999; /* 确保加载动画位于其他内容之上 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 #loading-bar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 5px;
-    background-color: transparent;
-    z-index: 9999;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background-color: transparent;
+  z-index: 9999;
 }
 
 #loading-bar::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 50%;
-    height: 100%;
-    background-color: #0000ff;
-    animation: loading 2s linear infinite;
-    box-shadow: 0 0 10px #00b7ff;
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  background-color: #0000ff;
+  animation: loading 2s linear infinite;
+  box-shadow: 0 0 10px #00b7ff;
 }
 
 @keyframes loading {
-    0% { left: 0; width: 0; }
-    10% { left: 10%; width: 10%; }
-    20% { left: 20%; width: 20%; }
-    30% { left: 30%; width: 30%; }
-    100% { left: 100%; width: 10%; }
+  0% { left: 0; width: 0; }
+  10% { left: 10%; width: 10%; }
+  20% { left: 20%; width: 20%; }
+  30% { left: 30%; width: 30%; }
+  100% { left: 100%; width: 10%; }
 }

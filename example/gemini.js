@@ -25,6 +25,9 @@ export function chat(editableLayer, input) {
     model.generateContent(input).then((result) => {
       // 输出结果到终端 向其中插入文本
       editableLayer.innerText += result.response.text();
+      // 模拟触发 input 事件
+      const event = new Event('input', { bubbles: true, cancelable: true });
+      editableLayer.dispatchEvent(event);
     }).catch((error) => {
       // 错误处理
       editableLayer.innerText += error;

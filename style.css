@@ -1,10 +1,23 @@
+:root {
+    --font-family: monospace;
+    --font-size: 1rem;
+    --font-weight: 400;
+    --line-height: 1.5;
+    --text-color: #858796;
+    --background-color: #0d1117;
+    --link-color: rgba(10, 142, 237, 0.86);
+    --link-hover-color: #2b91d1;
+    --border-color: rgba(255, 255, 255, 0.23);
+    --shadow-color: rgba(170, 189, 193, 0.44);
+}
+
 body {
-    font-family: monospace;
-    font-size: 1rem;
-    font-weight: 400;
-    line-height: 1.5;
-    color: #858796;
-    background-color: #0d1117;
+    font-family: var(--font-family);
+    font-size: var(--font-size);
+    font-weight: var(--font-weight);
+    line-height: var(--line-height);
+    color: var(--text-color);
+    background-color: var(--background-color);
 }
 
 .wrapper {
@@ -16,10 +29,6 @@ body {
 
 #content {
     overflow: auto;
-    padding: 1rem;
-    margin: 1rem 0;
-    border-radius: 0.5rem;
-    box-shadow: 0 0 30px rgba(170, 189, 193, 0.44);
 }
 
 blockquote {
@@ -30,13 +39,12 @@ blockquote {
     margin-bottom: 1rem;
 }
 
-/* 链接样式，优化深色背景下的可读性 */
 a {
-    color: rgba(10, 142, 237, 0.86);   
+    color: var(--link-color);
 }
 
 a:hover {
-    color: #2b91d1;
+    color: var(--link-hover-color);
 }
 
 code {
@@ -46,7 +54,6 @@ code {
 }
 
 #terminal {
-    /* 子标签居中 */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -54,21 +61,14 @@ code {
 
 #header {
     text-align: center;
-    font-family: monospace;
-}
+    font-family: var(--font-family);
 
-canvas {
-    /* 阴影，模仿油管影院灯效 */
-    box-shadow: 0 0 100px rgba(85, 129, 152, 0.65);
-    border-radius: 0.5rem;
-    border: 1px solid rgba(254, 254, 254, 0.31);
 }
 
 canvas:focus {
     outline: none;
 }
 
-/* 自定义复选框样式，提升美观度 */
 input[type="checkbox"] {
     width: 20px;
     height: 20px;
@@ -88,11 +88,11 @@ table {
     width: 100%;
     border-collapse: collapse;
     background-color: rgba(116, 82, 185, 0.16);
-    border: 1px solid rgba(255, 255, 255, 0.23);
+    border: 1px solid var(--border-color);
 }
 
 th, td {
-    border: 1px solid rgba(255, 255, 255, 0.23);
+    border: 1px solid var(--border-color);
     background-color: rgba(255, 255, 255, 0.05);
     padding: 0.5rem 1rem;
     text-align: left;
@@ -133,7 +133,7 @@ footer {
     text-align: center;
     padding: 1rem;
     font-size: 1.5rem;
-    font-family: monospace;
+    font-family: var(--font-family);
 }
 
 footer a {
@@ -148,7 +148,7 @@ footer a {
     height: 100%;
     background-color: rgba(38, 36, 36, 0.45);
     backdrop-filter: blur(10px);
-    z-index: 9999; /* 确保加载动画位于其他内容之上 */
+    z-index: 9999;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -161,6 +161,7 @@ footer a {
     width: 50px;
     height: 50px;
     animation: spin 1s linear infinite;
+    will-change: transform;
 }
 
 @keyframes spin {
@@ -188,17 +189,20 @@ footer a {
     background-color: #0000ff;
     animation: loading 2s linear infinite;
     box-shadow: 0 0 10px #00b7ff;
+    will-change: transform;
 }
 
 @keyframes loading {
-    0% { left: 0; width: 0; }
-    10% { left: 10%; width: 10%; }
-    20% { left: 20%; width: 20%; }
-    30% { left: 30%; width: 30%; }
-    100% { left: 100%; width: 10%; }
+    0% { transform: translateX(0); }
+    100% { transform: translateX(100%); }
 }
 
-/* 隐藏滚动条 */
-::-webkit-scrollbar {
-    display: none;
+@media (max-width: 768px) {
+    .wrapper {
+        padding: 1rem 0;
+    }
+
+    #content {
+        padding: 0.5rem;
+    }
 }

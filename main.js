@@ -86,7 +86,7 @@ let testStyle = {
     'background-color': 'black',
 };
 
-let data = Data.fromString(`- Use it like a regular terminal! \n- Type "help" and press enter to get help.`,trie); // 初始化 data
+let data = Data.fromString(`- Happy New Year 2025! \n- Type "help" and press enter to get help.`,trie); // 初始化 data
 
 
 // console.log(data);
@@ -620,11 +620,9 @@ const mdStyle = {
     'font-family': 'monospace',
     'font-size': '25px',
     'overflow': 'auto',
-    'border-bottom': '1px solid white',
-    'border-radius': '5px',
-    'background-color': '#161b22',
     'width': '80%',
-    'color': 'white',
+    'background-color': '#0d1117', /* 深灰色背景 */
+    'color': '#f0f0f0', /* 浅灰色文字 */
 }; // style for the markdown content
 
 const mdStyle2 = { // 浅色主题
@@ -632,12 +630,13 @@ const mdStyle2 = { // 浅色主题
     'font-family': 'monospace',
     'font-size': '25px',
     'overflow': 'auto',
-    'border-bottom': '1px solid black',
-    'border-radius': '5px',
     'background-color': 'white',
     'width': '80%',
-    'color': 'black',
+    'background-color': '#ffffff', /* 白色背景 */
+    'color': '#333333', /* 深灰色文字 */
 }; // style for the markdown content
+
+
 function getMDStyle(mode){
     if (mode === 'dark'){
         return mdStyle;

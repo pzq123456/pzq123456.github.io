@@ -48,6 +48,13 @@ export const metalist = [
         "tag" : "info",
         "command": "cd"
     },
+    {
+        "title" : "Blog4",
+        "path" : "blogs/Blog4.md",
+        "date" : "2025-1-1",
+        "tag" : "info",
+        "command": "cd"
+    },
 ]
 
 const tag = [

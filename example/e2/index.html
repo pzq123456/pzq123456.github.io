@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Color Palette Generator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f0f0f0;
+    }
+    #drop-area {
+      border: 2px dashed #ccc;
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+      cursor: pointer;
+      margin-bottom: 20px;
+    }
+    #drop-area.hover {
+      border-color: #000;
+    }
+    #color-palette {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    .color-box {
+      width: 50px;
+      height: 50px;
+      border: 1px solid #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      text-shadow: 1px 1px 2px #000;
+    }
+  </style>
+</head>
+<body>
+  <div id="drop-area">
+    <p>拖拽图片到这里或点击上传</p>
+    <input type="file" id="file-input" accept="image/*" style="display: none;" />
+  </div>
+  <canvas id="canvas"></canvas>
+  <div id="color-palette"></div>
+
+  <script>
+    const canvas = document.querySelector("#canvas");
+    const { offsetWidth, offsetHeight } = document.body;
+    canvas.width = offsetWidth * 0.8;
+    canvas.height = offsetHeight * 0.8;
+    const ctx = canvas.getContext("2d");
+
+    const dropArea = document.getElementById('drop-area');
+    const fileInput = document.getElementById('file-input');
+    const colorPalette = document.getElementById('color-palette');
+
+    dropArea.addEventListener('click', () => fileInput.click());
+    dropArea.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      dropArea.classList.add('hover');
+    });
+    dropArea.addEventListener('dragleave', () => dropArea.classList.remove('hover'));
+    dropArea.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropArea.classList.remove('hover');
+      const file = e.dataTransfer.files[0];
+      handleFile(file);
+    });
+
+    fileInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      handleFile(file);
+    });
+
+    function handleFile(file) {
+      if (file && file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const img = new Image();
+          img.src = e.target.result;
+          img.onload = () => processImage(img);
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function processImage(img) {
+      let { width, height } = img;
+      const maxSize = 400;
+
+      if (width > height && width > maxSize) {
+        const ratio = maxSize / width;
+        width = maxSize;
+        height = ratio * height;
+      }
+      if (height > width && height > maxSize) {
+        const ratio = maxSize / height;
+        height = maxSize;
+        width = ratio * width;
+      }
+
+      ctx.drawImage(img, 0, 0, width, height);
+      const data = ctx.getImageData(0, 0, width, height).data;
+
+      const dict = {};
+      const getKey = (color2) => {
+        const colors = Object.keys(dict).map((c) => c.split(",").map(Number));
+        if (colors.length === 0) return color2.join(",");
+        const delt = 88;
+        let res = color2.join(",");
+        for (let i = 0; i < colors.length; i++) {
+          const color = colors[i];
+          const dis = colorDistance(color, color2);
+          if (dis < delt) {
+            res = color.join(",");
+            break;
+          }
+        }
+        return res;
+      };
+
+      for (let i = 0; i < data.length; i += 4) {
+        const r = data[i];
+        const g = data[i + 1];
+        const b = data[i + 2];
+        const ckey = getKey([r, g, b]);
+        if (!dict[ckey]) dict[ckey] = [];
+        dict[ckey].push([r, g, b]);
+      }
+
+      const result = Object.keys(dict)
+        .map((c) => ({
+          key: c,
+          colors: dict[c],
+        }))
+        .sort((a, b) => b.colors.length - a.colors.length);
+
+      for (let i = 0; i < result.length; i++) {
+        const { colors } = result[i];
+        let r = 0, g = 0, b = 0;
+        for (let j = 0; j < colors.length; j++) {
+          const [r1, g1, b1] = colors[j];
+          r += r1;
+          g += g1;
+          b += b1;
+        }
+        r = Math.round(r / colors.length);
+        g = Math.round(g / colors.length);
+        b = Math.round(b / colors.length);
+        result[i]["key"] = [r, g, b].join(",");
+      }
+
+      const colorss = result.map(({ key }) => key).sort((a, b) => {
+        const [ra, ga, ba] = a.split(",").map(Number);
+        const [rb, gb, bb] = b.split(",").map(Number);
+        const la = ra * 0.299 + ga * 0.587 + ba * 0.114;
+        const lb = rb * 0.299 + gb * 0.587 + bb * 0.114;
+        return lb - la;
+      });
+
+      renderColorPalette(colorss);
+    }
+
+    function renderColorPalette(colors) {
+      colorPalette.innerHTML = '';
+      colors.forEach(color => {
+        const [r, g, b] = color.split(',').map(Number);
+        const hex = rgbToHex(r, g, b);
+        const colorBox = document.createElement('div');
+        colorBox.className = 'color-box';
+        colorBox.style.backgroundColor = hex;
+        colorBox.textContent = hex;
+        colorPalette.appendChild(colorBox);
+      });
+    }
+
+    function rgbToHex(r, g, b) {
+      return '#' + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1).toUpperCase();
+    }
+
+    function colorDistance([r1, g1, b1], [r2, g2, b2]) {
+      const rmean = (r1 + r2) / 2;
+      const r = r1 - r2;
+      const g = g1 - g2;
+      const b = b1 - b2;
+      return Math.sqrt(
+        (2 + rmean / 256) * (r * r) +
+        4 * (g * g) +
+        (2 + (255 - rmean) / 256) * (b * b)
+      );
+    }
+  </script>
+</body>
+</html>

@@ -6,11 +6,11 @@
       <table style="width: 100%; border-collapse: collapse;">
         <tr>
           <td style="padding: 5px;"><strong>Email</strong></td>
-          <!-- <td style="padding: 5px;">panzhiqing15@gmail.com</td> -->
+          <td style="padding: 5px;">panzhiqing15@gmail.com</td>
         </tr>
         <tr>
           <td style="padding: 5px;"><strong>Phone</strong></td>
-          <!-- <td style="padding: 5px;">+852 59569258</td> -->
+          <td style="padding: 5px;">+852 59569258</td>
         </tr>
         <tr>
           <td style="padding: 5px;"><strong>GitHub</strong></td>
@@ -39,19 +39,21 @@
 - 2020.09 - 2024.06: **Bachelor of Scienc**e in Geodesy and Geomatics, [Shan Dong University of Science and Technology](https://en.sdust.edu.cn), Qingdao, China.
 
 ## Skills
+- **Programming Languages**:
+  - **TypeScript**: Developed a spatial information analysis and visualization library [RVGeo](https://pzq123456.github.io/RVGeo/) : https://pzq123456.github.io/RVGeo/
+  - **Python**: Proficient in using Python for spatial data processing, including data cleaning, transformation, and analysis.
 
-I have experience in developing Web Geo-spatial Information System (WebGIS) applications, with expertise in both programming and front-end technologies:
+- **WebGIS Development Tools**:
+  - **Front-end Frameworks and Tools**: Used **Node.js**, **Vite**, and **Vue** to create dynamic interfaces to enhance user experience.
+  - **Web Mapping Engines**: Familiar with the principles of **Leaflet.js** and **Deck.gl** and developed a simple browser-side map renderer [RVScripter](https://pzq123456.github.io/RVScripter/) : https://pzq123456.github.io/RVScripter/
 
-- **Programming languages**: I primarily work with **TypeScript** and **Python**. Using Python, I process and prepare spatial data into formats optimized for front-end integration. With TypeScript, I developed a library called [RVGeo](https://pzq123456.github.io/RVGeo/) to facilitate spatial information analysis and visualization.  
-- **Front-end toolchains and frameworks**: I leverage modern tools like **Node.js**, **Vite**, and **Vue** to enhance development efficiency and create dynamic, user-friendly interfaces.  
-- **Web map engines and principles**: I have a solid understanding of the underlying principles of web map engines, including concepts like the Web Mercator projection(EPSG:3857), tiled maps, and vector maps. Additionally, I built a web map rendering framework, [RVScripter](https://pzq123456.github.io/RVScripter/), inspired by Leaflet.js, to implement custom mapping solutions.  
 
 ## Work Experience
 
-**Part-Time Research Assistant**  
-*Department of Land Surveying and Geo-Informatics (LSGI), Hong Kong Polytechnic University, Hong Kong*  
-**November 2024 – June 2025**  
+**Part-Time Research Assistant**
+*Department of Land Surveying and Geo-Informatics (LSGI), Hong Kong Polytechnic University, Hong Kong*
+**November 2024 – June 2025**
 
-- Contributed to the development of a WebGIS platform for research on global EV charging station location optimization and planning.  
-- Played a key role in designing and implementing the platform to support data visualization and decision-making.  
-- Explore the project [here](https://pzq123456.github.io/EVChargerSite/map/).  
+- Participated in the development of a WebGIS platform for the global electric vehicle charging station location optimization project, providing data support and visual display for charging station layout optimization.
+- Developed an interactive map using **Leaflet.js** and **Vue.js** to help users browse and analyze charging station data at different locations and their relationships with population density, traffic networks, etc.
+- Project results: [EVChargerSite](https://pzq123456.github.io/EVChargerSite/map/) ： https://pzq123456.github.io/EVChargerSite/map/

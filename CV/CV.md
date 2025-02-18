@@ -32,11 +32,13 @@
   </tr>
 </table>
 
-
 ## Education
 
-- 2024.09 - 2025.12: **Master of Science** in Geomatics, [Department of Land Surveying and Geo-Informatics (LSGI)](https://www.polyu.edu.hk/lsgi/), Hong Kong Polytechnic University, Hong Kong, China.
-- 2020.09 - 2024.06: **Bachelor of Scienc**e in Geodesy and Geomatics, [Shan Dong University of Science and Technology](https://en.sdust.edu.cn), Qingdao, China.
+| Education | Major | School | Time | GPA(4.0) |
+| :---: | :---: | :---: | :---: | :---: |
+| Master of Scinence | Geomatics | [Hong Kong Polytechnic University](https://www.polyu.edu.hk/lsgi/) | 2024.09 - **2025.12** | 3.9/4.0(Sem1) |
+| Bachelor of Science | Geodesy and Geomatics | [Shan Dong University of Science and Technology](https://en.sdust.edu.cn) | 2020.09 - **2024.06** | 3.8/4.0 |
+
 
 ## Skills
 - **Programming Languages**:

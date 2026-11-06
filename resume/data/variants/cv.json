@@ -1,0 +1,58 @@
+{
+  "extends": "../base.json",
+  "basics": {
+    "label": {
+      "en": "Computer Vision Engineer · Industrial Vision · Visual Inspection · Edge AI",
+      "zh": "计算机视觉工程师 · 工业视觉 · 视觉检测 · 边缘 AI"
+    }
+  },
+  "skills": [
+    "skill.vision",
+    {
+      "ref": "skill.llm",
+      "keywords": ["RAG", "Qwen", "BGE-M3", "Qdrant", "FastAPI", "Vector Search"]
+    },
+    {
+      "ref": "skill.se",
+      "keywords": [
+        "Python",
+        "TypeScript",
+        "React",
+        "Vue 3",
+        "Node.js",
+        "PostgreSQL",
+        "Linux",
+        "Docker",
+        "Docker Compose"
+      ]
+    },
+    "skill.lang"
+  ],
+  "work": ["work.4s", "work.edtech", "work.polyu"],
+  "projects": [
+    {
+      "ref": "project.vision",
+      "stack": ["YOLO", "DeepStream", "TensorRT", "ONNX", "PyTorch", "Docker"],
+      "highlights": [
+        {
+          "en": "Two-stage real-time detection (DeepStream + TensorRT FP16): **153.7 fps** single-stream (RTX 5060).",
+          "zh": "两阶段实时检测（DeepStream + TensorRT FP16）：单流 **153.7 fps**（RTX 5060）。"
+        },
+        {
+          "en": "**PyTorch → ONNX → TensorRT** pipeline: FP16 inference **0.83–3.02 ms**/model; two-stage p50/p95 22.6 / 27.1 ms.",
+          "zh": "**PyTorch → ONNX → TensorRT** 流水线：FP16 推理 **0.83–3.02 ms**/模型；两阶段 p50/p95 22.6 / 27.1 ms。"
+        },
+        {
+          "en": "Helmet / smoking mAP50 **0.964 / 0.913** (training-time val); per-rule thresholds + consecutive-frame alerting.",
+          "zh": "安全帽 / 吸烟 mAP50 **0.964 / 0.913**（训练期验证集）；分规则阈值 + 连续帧确认告警。"
+        }
+      ]
+    },
+    "project.rag"
+  ],
+  "education": ["edu.polyu", "edu.sdust"],
+  "publications": ["pub.hkfire"],
+  "meta": {
+    "accent": "#B14E2E"
+  }
+}

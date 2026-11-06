@@ -1,0 +1,89 @@
+{
+  "extends": "../base.json",
+  "basics": {
+    "label": {
+      "en": "Quant Data Intern · Web Scraping / ETL / Python Data Engineering",
+      "zh": "量化数据实习生 · Web Scraping / ETL / Python 数据工程"
+    }
+  },
+  "skills": [
+    {
+      "name": { "en": "Data Collection", "zh": "数据采集" },
+      "keywords": [
+        "**Web Scraping**",
+        "Requests",
+        { "en": "API Reverse Engineering", "zh": "接口逆向" },
+        "REST API",
+        { "en": "Multi-source Integration", "zh": "多源数据整合" }
+      ]
+    },
+    {
+      "name": { "en": "Data Processing", "zh": "数据处理" },
+      "keywords": [
+        "**pandas / NumPy**",
+        { "en": "Data Cleaning / ETL", "zh": "数据清洗 / ETL" },
+        "SQL",
+        "SQLite",
+        "GeoPandas",
+        { "en": "Spatiotemporal Analysis", "zh": "时空数据分析" }
+      ]
+    },
+    {
+      "name": { "en": "Visualization & Engineering", "zh": "可视化与工程" },
+      "keywords": [
+        "Leaflet",
+        "Chart.js",
+        "Deck.gl",
+        "FastAPI",
+        "Linux",
+        "Docker",
+        "Git"
+      ]
+    },
+    {
+      "name": { "en": "Languages", "zh": "语言" },
+      "keywords": [
+        "English",
+        "**IELTS 6.5**",
+        "CET-4",
+        "CET-6",
+        "Technical Discussion"
+      ]
+    }
+  ],
+  "work": [
+    {
+      "ref": "work.polyu",
+      "highlights": [
+        {
+          "en": "Contributed to the Global EV Data Initiative: multi-source collection, cleaning and validation of global EV charging-station data, producing standardized datasets and a web visualization platform.",
+          "zh": "参与 Global EV Data Initiative：负责全球 EV 充电站**多源数据采集、清洗与校核**，产出标准化数据集并搭建 Web 可视化平台。"
+        },
+        {
+          "en": "Built a SHP → GeoJSON processing pipeline with GeoPandas and an interactive distribution / statistics dashboard using Leaflet / Chart.js.",
+          "zh": "基于 GeoPandas 构建 SHP → GeoJSON 数据处理流程，结合 Leaflet / Chart.js 实现分布与统计的交互式仪表盘。"
+        }
+      ]
+    },
+    {
+      "ref": "work.4s",
+      "highlights": [
+        {
+          "en": "Built in-house data-collection tooling to support vision-model training; enterprise RAG data pipeline: document parsing → embedding → retrieval → answer (BGE-M3 + Qdrant + Qwen), deployed with Docker.",
+          "zh": "开发内部数据采集工具，为视觉模型训练提供数据支持；企业级 RAG 数据链路：文档解析 → 向量化 → 检索 → 问答（BGE-M3 + Qdrant + Qwen），Docker 部署。"
+        },
+        {
+          "en": "Led a real-time industrial vision system: multi-stream inference with DeepStream + YOLO + TensorRT, 32 concurrent RTSP feeds, two-stage detection plus an alert state machine.",
+          "zh": "主导实时工业视觉系统：DeepStream + YOLO + TensorRT 多路推理，32 路 RTSP 并发，两阶段检测 + 告警状态机。"
+        }
+      ]
+    },
+    "work.edtech"
+  ],
+  "projects": ["project.lianjia", "project.bike", "project.ev"],
+  "education": ["edu.polyu", "edu.sdust"],
+  "publications": ["pub.hkfire"],
+  "meta": {
+    "accent": "#B14E2E"
+  }
+}

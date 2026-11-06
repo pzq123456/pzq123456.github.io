@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ title }}</title>
+
+<style>
+  :root {
+    /* ─────────────────────────────────────────
+       Core palette
+       ───────────────────────────────────────── */
+
+    --ink: #111111;
+    --ink-soft: #333333;
+
+    --muted: #555555;
+    --faint: #999999;
+
+    --hairline: #E5E5E5;
+    --paper: #ffffff;
+    --screen: #F2F2F2;
+
+    /* User supplied accent */
+    --accent: {{ theme.accent }};
+    --accent-wash: {{ theme.accent_wash }};
+
+    /* Explicit accent layers (computed in Python, no color-mix) */
+    --accent-soft: {{ theme.accent_soft }};
+    --accent-pale: {{ theme.accent_pale }};
+
+    /* Layout */
+    --page-top: 13mm;
+    --page-right: 14mm;
+    --page-bottom: 12mm;
+    --page-left: 14mm;
+  }
+
+
+  /* ─────────────────────────────────────────
+     Reset
+     ───────────────────────────────────────── */
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+  }
+
+
+  /* ─────────────────────────────────────────
+     Page
+     ───────────────────────────────────────── */
+
+  @page {
+    size: A4;
+    margin: var(--page-top)
+            var(--page-right)
+            var(--page-bottom)
+            var(--page-left);
+  }
+
+  body {
+    font-family:
+      "Helvetica Neue",
+      "Segoe UI",
+      Arial,
+      "Microsoft YaHei",
+      "Noto Sans SC",
+      sans-serif;
+
+    font-size: 9.25pt;
+    line-height: 1.52;
+
+    color: var(--ink);
+    background: var(--paper);
+
+    -webkit-font-smoothing: antialiased;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+
+  /* ─────────────────────────────────────────
+     Screen presentation
+     ───────────────────────────────────────── */
+
+  @media screen {
+    body {
+      background: var(--screen);
+      padding: 28px 14px;
+    }
+
+    .sheet {
+      width: min(800px, 100%);
+      margin: 0 auto;
+
+      background: var(--paper);
+
+      padding: 46px 52px;
+
+      border: 1px solid rgba(0, 0, 0, .035);
+      border-radius: 6px;
+
+      box-shadow:
+        0 1px 3px rgba(0, 0, 0, .05),
+        0 10px 30px rgba(0, 0, 0, .07);
+    }
+  }
+
+  @media print {
+    .sheet {
+      padding: 0;
+    }
+  }
+
+
+  /* ─────────────────────────────────────────
+     Links
+     ───────────────────────────────────────── */
+
+  a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  @media print {
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+  }
+
+
+  /* ─────────────────────────────────────────
+     Header
+     ───────────────────────────────────────── */
+
+  header {
+    margin: 0 0 11pt 0;
+    padding: 0 0 10pt 0;
+
+    border-bottom: 1px solid var(--hairline);
+  }
+
+  h1 {
+    margin: 0;
+
+    font-size: 21pt;
+    line-height: 1.12;
+    font-weight: 750;
+
+    letter-spacing: -.15pt;
+
+    color: var(--ink);
+  }
+
+  h1 .sep {
+    color: var(--faint);
+    font-weight: 400;
+    margin: 0 6pt;
+  }
+
+  .role {
+    margin: 4pt 0 4pt 0;
+
+    font-size: 9.8pt;
+    line-height: 1.35;
+
+    color: var(--ink);
+
+    font-weight: 600;
+    letter-spacing: .2pt;
+  }
+
+  .contact {
+    margin: 0;
+
+    font-size: 8.25pt;
+    line-height: 1.5;
+
+    color: var(--muted);
+
+    letter-spacing: .05pt;
+  }
+
+  .contact a {
+    color: inherit;
+  }
+
+  .contact a:hover {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+
+  /* ─────────────────────────────────────────
+     Main content
+     ───────────────────────────────────────── */
+
+  main {
+    display: block;
+  }
+
+  section {
+    margin: 0 0 9pt 0;
+
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  section:last-child {
+    margin-bottom: 0;
+  }
+
+
+  /* ─────────────────────────────────────────
+     Section heading
+     ───────────────────────────────────────── */
+
+  h2 {
+    display: flex;
+    align-items: baseline;
+    gap: 8pt;
+
+    margin: 0 0 5pt 0;
+    padding: 0 0 3pt 0;
+
+    font-size: 8.35pt;
+    line-height: 1.35;
+
+    font-weight: 700;
+
+    letter-spacing: 1.2pt;
+    text-transform: uppercase;
+
+    color: var(--ink);
+
+    border-bottom: .65pt solid var(--hairline);
+  }
+
+  h2 .cn {
+    margin-left: 0;
+
+    font-size: 8.7pt;
+    font-weight: 650;
+
+    letter-spacing: 1.2pt;
+
+    color: var(--ink-soft);
+  }
+
+
+  /* ─────────────────────────────────────────
+     Skills
+     ───────────────────────────────────────── */
+
+  .skills {
+    list-style: none;
+
+    margin: 0;
+    padding: 0;
+  }
+
+  .skills li {
+    margin: 0 0 2pt 0;
+  }
+
+
+  /* ─────────────────────────────────────────
+     Entries
+     ───────────────────────────────────────── */
+
+  article.entry {
+    margin: 0 0 6pt 0;
+
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  article.entry:last-child {
+    margin-bottom: 0;
+  }
+
+  .row {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: baseline;
+
+    gap: 14pt;
+  }
+
+  h3 {
+    margin: 0;
+
+    font-size: 9.25pt;
+    line-height: 1.4;
+
+    font-weight: 700;
+
+    color: var(--ink);
+  }
+
+  h3 .title-link {
+    color: inherit;
+  }
+
+  h3 .title-link:hover {
+    color: var(--ink);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  time,
+  .date {
+    flex: none;
+
+    font-size: 8.15pt;
+    line-height: 1.35;
+
+    color: var(--faint);
+
+    white-space: nowrap;
+  }
+
+
+  /* ─────────────────────────────────────────
+     Body copy
+     ───────────────────────────────────────── */
+
+  p {
+    margin: 0;
+  }
+
+  p + p {
+    margin-top: 2pt;
+  }
+
+  ul.bullets {
+    margin: 2pt 0 0 13pt;
+    padding: 0;
+  }
+
+  ul.bullets li {
+    margin: 0 0 1.5pt 0;
+    padding-left: 1pt;
+  }
+
+  ul.bullets li::marker {
+    color: var(--faint);
+    font-size: .75em;
+  }
+
+
+  /* ─────────────────────────────────────────
+     Secondary information
+     ───────────────────────────────────────── */
+
+  .stack {
+    margin: 1.5pt 0 0 0;
+
+    font-size: 8.35pt;
+    line-height: 1.45;
+
+    color: var(--muted);
+  }
+
+  .links {
+    margin: 2pt 0 0 0;
+
+    font-size: 8.25pt;
+    line-height: 1.45;
+
+    color: var(--muted);
+  }
+
+
+  /* ─────────────────────────────────────────
+     Highlight
+     ───────────────────────────────────────── */
+
+  mark {
+    background: #EFEFEF;
+
+    color: var(--ink);
+
+    font-weight: 600;
+
+    padding: 0 2pt;
+
+    border-radius: 2pt;
+
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+  }
+
+
+  /* ─────────────────────────────────────────
+     Inline code / technical terms
+     ───────────────────────────────────────── */
+
+  code {
+    font-family:
+      "SFMono-Regular",
+      Consolas,
+      "Liberation Mono",
+      Menlo,
+      monospace;
+
+    font-size: 8.15pt;
+
+    color: var(--ink-soft);
+
+    background: #F5F5F5;
+
+    padding: 0 3pt;
+
+    border: 1px solid #E5E5E5;
+
+    border-radius: 3px;
+  }
+
+
+  /* ─────────────────────────────────────────
+     Print safety
+     ───────────────────────────────────────── */
+
+  @media print {
+    section,
+    article.entry,
+    .row {
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+
+    h2 {
+      break-after: avoid;
+      page-break-after: avoid;
+    }
+
+    h3 {
+      break-after: avoid;
+      page-break-after: avoid;
+    }
+  }
+
+</style>
+</head>
+
+<body>
+
+<div class="sheet">
+
+  <header>
+    <h1>{{ name | safe }}</h1>
+
+    <p class="role">
+      {{ role | safe }}
+    </p>
+
+    <p class="contact">
+      {{ contact | safe }}
+    </p>
+  </header>
+
+  <main data-slot="main">
+    {% for s in slots.main %}{{ s.html | safe }}{% endfor %}
+  </main>
+
+</div>
+
+</body>
+</html>
+

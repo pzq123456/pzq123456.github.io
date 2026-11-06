@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# /cv/ PDFs are public career documents for recruiters. Kept indexable.
+Allow: /cv/

@@ -1,0 +1,86 @@
+{
+  "extends": "../base.json",
+  "basics": {
+    "label": {
+      "en": "AI Full-Stack Engineer · LLM Agent / RAG · React · FastAPI",
+      "zh": "AI 全栈工程师 · LLM Agent / RAG · React · FastAPI"
+    }
+  },
+  "skills": [
+    {
+      "name": { "en": "AI / LLM", "zh": "AI / LLM" },
+      "keywords": [
+        "**RAG**",
+        "**AI Agent**",
+        "Qwen",
+        "BGE-M3",
+        "Qdrant",
+        "Pydantic AI",
+        "FastAPI",
+        "Vector Search",
+        "SSE"
+      ]
+    },
+    {
+      "name": { "en": "Frontend", "zh": "前端" },
+      "keywords": [
+        "**TypeScript**",
+        "**React**",
+        "**Vue 3**",
+        "Deck.gl",
+        "MapLibre",
+        "Node.js"
+      ]
+    },
+    {
+      "name": { "en": "Vision / Backend", "zh": "视觉 / 后端" },
+      "keywords": [
+        "Python",
+        "YOLO",
+        "DeepStream",
+        "TensorRT",
+        "PostgreSQL",
+        "Linux",
+        "Docker",
+        "Docker Compose"
+      ]
+    },
+    {
+      "name": { "en": "Languages", "zh": "语言" },
+      "keywords": [
+        "English",
+        "**IELTS 6.5**",
+        "CET-4",
+        "CET-6",
+        "Technical Discussion"
+      ]
+    }
+  ],
+  "work": [
+    {
+      "ref": "work.4s",
+      "highlights": [
+        {
+          "en": "Independently built an enterprise RAG knowledge base: document parsing → embedding → retrieval → answer (BGE-M3 + Qdrant + Qwen), split into three services and deployed with Docker Compose.",
+          "zh": "独立搭建企业级 RAG 知识库：文档解析 → 向量化 → 检索 → 问答（BGE-M3 + Qdrant + Qwen），三服务拆分 + Docker Compose 部署。"
+        },
+        {
+          "en": "Led a real-time industrial vision system: multi-stream inference with DeepStream + YOLO + TensorRT, 32 concurrent RTSP feeds, two-stage detection plus an alert state machine with evidence-frame output.",
+          "zh": "主导实时工业视觉系统：DeepStream + YOLO + TensorRT 多路视频推理，32 路 RTSP 并发，两阶段检测 + 告警状态机，配套证据帧输出。"
+        },
+        {
+          "en": "Automated PyTorch → ONNX → TensorRT build and deployment plus camera calibration; services containerized on a Linux GPU server (4× NVIDIA L20).",
+          "zh": "PyTorch → ONNX → TensorRT 自动构建部署 + 相机标定；服务 Docker 化托管于 Linux GPU 服务器（4× NVIDIA L20）。"
+        }
+      ]
+    },
+    "work.edtech",
+    "work.polyu"
+  ],
+  "projects": ["project.rag", "project.geoai", "project.vision"],
+  "education": ["edu.polyu", "edu.sdust"],
+  "publications": ["pub.hkfire"],
+  "meta": {
+    "accent": "#B14E2E"
+  }
+}

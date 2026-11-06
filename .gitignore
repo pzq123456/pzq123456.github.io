@@ -1,0 +1,63 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# CV pipeline:本地产物不进 Git，可再生
+resume/output/
+output/
+
+# PDF 忽略：CI 产物为 dist/cv/*.pdf（upload artifact，不 commit）。
+# CV/*.pdf（含 简历.pdf / Assessment Results.pdf）已在收口阶段 git rm --cached，
+# 本地文件保留；线上 PDF 统一走 dist/cv/<variant>.pdf。
+*.pdf
+
+# CV/ 历史文件（旧简历 markdown），已由 resume/ + dist/cv/*.pdf 取代，不再跟踪（本地保留）
+CV/简历.md
+
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+dataset
+tmp
+
+*.tar.gz
+
+runs
+*.pt
+
+logs
+exp_highway_*/
+
+# 设计/实现/审计文档：本地保留，不进 Git
+WEBSITE_IMPLEMENTATION.md
+WEBSITE_REDESIGN.md
+AUDIT.md
+resume/data/STEP2_REPORT.md

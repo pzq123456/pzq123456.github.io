@@ -1,0 +1,191 @@
+@import "tailwindcss";
+
+@theme {
+  /* Claude-inspired warm palette */
+  --color-accent: var(--brand-accent);
+  --color-accent-soft: var(--brand-accent-soft);
+
+  /* 背景层次 */
+  --color-canvas: var(--bg-main);
+  --color-canvas-sub: var(--bg-sub);
+
+  /* 文字层级 */
+  --color-ink-bold: var(--text-bold);
+  --color-ink-base: var(--text-base);
+  --color-ink-muted: var(--text-muted);
+  --color-ink-faint: var(--text-faint);
+
+  /* 线条与分割 */
+  --color-line: var(--border-color);
+  --color-coral: var(--brand-coral);
+  --color-blue: var(--brand-blue);
+  --color-olive: var(--brand-olive);
+
+  /* Display / editorial / body / technical */
+  --font-display: "Instrument Serif", "Songti SC", "Noto Serif SC", "SimSun",
+    Georgia, serif;
+  --font-serif: "Newsreader", "Songti SC", "Noto Serif SC", "SimSun", Georgia,
+    "Times New Roman", serif;
+  --font-sans: "DM Sans", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",
+    "Noto Sans SC", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas,
+    monospace;
+}
+
+:root {
+  /* Light Mode — warm paper / coral / digital blue / olive */
+  --brand-accent: #c15f3c;
+  --brand-accent-soft: #f1e3dc;
+  --brand-coral: #d97757;
+  --brand-blue: #6a9bcc;
+  --brand-olive: #788c5d;
+  --bg-main: #f0eee6;
+  --bg-sub: #e7e1d5;
+  --text-bold: #141413;
+  --text-base: #3b3832;
+  --text-muted: #6b665c;
+  --text-faint: #ada699;
+  --border-color: #ddd6c8;
+  --map-land: #6a9bcc;
+  --map-anchor: #d97757;
+
+  /* Tag Colors - Light */
+  --tag-frontend-bg: #efddd2;
+  --tag-frontend-text: #8f452b;
+  --tag-backend-bg: #e6e1d7;
+  --tag-backend-text: #4f4a41;
+  --tag-spatial-bg: #e4e6d4;
+  --tag-spatial-text: #555c3f;
+  --tag-infra-bg: #efe0cf;
+  --tag-infra-text: #7a4c2c;
+  --tag-ai-bg: #ecdad6;
+  --tag-ai-text: #7f4238;
+  --tag-lang-bg: #e6e1d8;
+  --tag-lang-text: #4f4b42;
+
+  /* Barely-there paper fibre, reused by muted section bands */
+  --paper-noise: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.032'/%3E%3C/svg%3E");
+}
+
+.dark,
+.theme-dark {
+  /* Dark Mode — warm charcoal / muted coral */
+  color-scheme: dark;
+  --brand-accent: #d97757;
+  --brand-accent-soft: rgba(217, 119, 87, 0.12);
+  --brand-coral: #d97757;
+  --brand-blue: #7fa9d4;
+  --brand-olive: #9aae7f;
+  --bg-main: #141413;
+  --bg-sub: #23211f;
+  --text-bold: #f2eee4;
+  --text-base: #d7d1c4;
+  --text-muted: #a79f91;
+  --text-faint: #6f685c;
+  --border-color: #37332d;
+  --map-land: #7fa9d4;
+  --map-anchor: #d97757;
+
+  /* Re-bind Tailwind colour tokens so a local dark scope resolves correctly */
+  --color-canvas: var(--bg-main);
+  --color-canvas-sub: var(--bg-sub);
+  --color-ink-bold: var(--text-bold);
+  --color-ink-base: var(--text-base);
+  --color-ink-muted: var(--text-muted);
+  --color-ink-faint: var(--text-faint);
+  --color-line: var(--border-color);
+  --color-accent: var(--brand-accent);
+  --color-accent-soft: var(--brand-accent-soft);
+  --color-coral: var(--brand-coral);
+  --color-blue: var(--brand-blue);
+  --color-olive: var(--brand-olive);
+
+  /* Tag Colors - Dark */
+  --tag-frontend-bg: rgba(217, 119, 87, 0.16);
+  --tag-frontend-text: #eab49d;
+  --tag-backend-bg: rgba(216, 211, 199, 0.1);
+  --tag-backend-text: #c4beb1;
+  --tag-spatial-bg: rgba(154, 159, 126, 0.16);
+  --tag-spatial-text: #c0c6a4;
+  --tag-infra-bg: rgba(193, 141, 92, 0.16);
+  --tag-infra-text: #dfb48e;
+  --tag-ai-bg: rgba(191, 105, 94, 0.16);
+  --tag-ai-text: #e5aaa1;
+  --tag-lang-bg: rgba(200, 193, 180, 0.1);
+  --tag-lang-text: #c9c2b4;
+}
+
+/* 全局基础样式 */
+@layer base {
+  html {
+    background-color: var(--bg-main);
+    scroll-padding-top: 5rem;
+  }
+
+  body {
+    @apply bg-canvas text-ink-base font-sans transition-colors duration-300;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    background-image: var(--paper-noise),
+      radial-gradient(
+        120% 70% at 50% 0%,
+        rgba(255, 255, 255, 0.3),
+        transparent 62%
+      );
+    background-repeat: repeat, no-repeat;
+    background-size: 180px 180px, auto;
+  }
+
+  .dark body {
+    background-image: var(--paper-noise),
+      radial-gradient(
+        120% 70% at 50% 0%,
+        rgba(255, 245, 225, 0.025),
+        transparent 60%
+      );
+  }
+
+  ::selection {
+    @apply bg-accent/15 text-ink-bold;
+  }
+}
+
+/* Alternating chapter backgrounds, full-bleed from a centred container */
+.section-tone-muted {
+  background-color: var(--bg-sub);
+  background-image: var(--paper-noise);
+  background-repeat: repeat;
+  background-size: 180px 180px;
+}
+
+.section-tone-dark {
+  background-color: #141413;
+  background-image: var(--paper-noise);
+  background-repeat: repeat;
+  background-size: 180px 180px;
+}
+
+.footer-dark {
+  background-color: #141413;
+  background-image: var(--paper-noise);
+  background-repeat: repeat;
+  background-size: 180px 180px;
+}
+
+
+
+/* 混合模式处理 */
+.mix-blend-difference {
+  isolation: isolate;
+}
+
+.dark .select-none {
+  mix-blend-mode: plus-lighter;
+}
+
+/* 滚动条优化 */
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-ink-faint rounded-full hover:bg-ink-muted transition-colors;
+}

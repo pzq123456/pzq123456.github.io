@@ -46,7 +46,7 @@ jobs:
         run: npm run cv:sync
       - name: Build site
         run: npm run build
-      - name: CV render (4 variants x 2 langs -> dist/cv, QA included)
+      - name: CV render (2 variants x 2 langs -> dist/cv, QA included)
         run: npm run cv:render
       - name: Verify dist/cv artifacts
         run: npm run cv:verify

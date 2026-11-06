@@ -3,7 +3,7 @@
 // preview_<variant>-<lang>.png for every variant x language.
 import { existsSync } from "node:fs";
 
-const VARIANTS = ["cv", "fullstack", "quant", "industry"];
+const VARIANTS = ["fullstack", "industry"];
 const LANGS = ["en", "zh"];
 
 const missing = [];

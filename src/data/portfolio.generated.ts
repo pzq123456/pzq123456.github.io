@@ -44,7 +44,7 @@ export const SKILLS_DATA: { category: I18nText; iconName: string; items: string[
       "PyTorch",
       "ONNX",
       "Real-time Inference",
-      "Defect Detection",
+      "Visual Inspection",
       "Small Object Detection",
       "Camera Calibration"
     ]

@@ -7,33 +7,24 @@ import { useApp } from "@/context/AppContext";
 // Previews/PDFs are produced by the resume pipeline into dist/cv
 // (preview_<variant>-<lang>.png / <variant>-<lang>.pdf).
 
-type Variant = "cv" | "fullstack" | "quant" | "industry";
+type Variant = "fullstack" | "industry";
 
-const VARIANTS: { id: Variant; label: string; blurb: { en: string; zh: string } }[] = [
-  {
-    id: "cv",
-    label: "CV",
-    blurb: { en: "Concise default CV.", zh: "默认精简简历。" },
-  },
+const VARIANTS: {
+  id: Variant;
+  label: { en: string; zh: string };
+  blurb: { en: string; zh: string };
+}[] = [
   {
     id: "fullstack",
-    label: "Full-Stack",
+    label: { en: "Full-Stack", zh: "全栈" },
     blurb: {
       en: "Full-stack emphasis (React/TS · RAG · FastAPI).",
       zh: "全栈方向（React/TS · RAG · FastAPI）。",
     },
   },
   {
-    id: "quant",
-    label: "Quant",
-    blurb: {
-      en: "Quant & data emphasis (Python · scraping · ETL).",
-      zh: "量化与数据方向（Python · 采集 · ETL）。",
-    },
-  },
-  {
     id: "industry",
-    label: "Industry",
+    label: { en: "Machine Vision", zh: "机器视觉" },
     blurb: {
       en: "Industrial one-pager (machine vision · inspection).",
       zh: "工业界一页纸（机器视觉 · 质检）。",
@@ -46,7 +37,7 @@ const previewUrlFor = (variant: Variant, lang: string) =>
 
 export default function CvWorkspace() {
   const { t, lang } = useApp();
-  const [variant, setVariant] = useState<Variant>("cv");
+  const [variant, setVariant] = useState<Variant>("fullstack");
   const [loadedUrl, setLoadedUrl] = useState<string | null>(null);
   const [failedUrl, setFailedUrl] = useState<string | null>(null);
 
@@ -61,7 +52,7 @@ export default function CvWorkspace() {
   useEffect(() => {
     const id = window.setTimeout(() => {
       const img = new Image();
-      img.src = previewUrlFor("cv", lang);
+      img.src = previewUrlFor("fullstack", lang);
     }, 1200);
     return () => window.clearTimeout(id);
   }, [lang]);
@@ -103,7 +94,7 @@ export default function CvWorkspace() {
                     : "border-line/60 text-ink-muted hover:border-accent/50 hover:text-ink-bold"
                 }`}
               >
-                {v.label}
+                {t(v.label)}
               </button>
             ))}
           </div>

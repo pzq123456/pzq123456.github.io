@@ -19,7 +19,7 @@ covered exactly once, no rewrites.
 
 Usage (from repo root):
     python resume/render.py resume/data/base.json dist/cv --lang en
-    python resume/render.py resume/data/variants/cv.json dist/cv --lang zh
+    python resume/render.py resume/data/variants/fullstack.json dist/cv --lang zh
     python resume/render.py --selftest
 """
 from __future__ import annotations

@@ -5,7 +5,7 @@
 import { spawnSync } from "node:child_process";
 import { mkdirSync } from "node:fs";
 
-const VARIANTS = ["cv", "fullstack", "quant", "industry"];
+const VARIANTS = ["fullstack", "industry"];
 const LANGS = ["en", "zh"];
 const OUT = "dist/cv";
 

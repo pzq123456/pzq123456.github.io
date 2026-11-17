@@ -120,17 +120,6 @@ export default function Hero() {
         <motion.div variants={itemVariants} className="w-full lg:col-span-5">
           <div className="flex items-center gap-6 lg:justify-end">
             <AvatarImage className="w-32 h-40 md:w-44 md:h-56" />
-            <div className="text-xs leading-relaxed text-ink-muted">
-              <span className="mb-1 block text-[12px] text-ink-faint">
-                {lang === "zh" ? "所在地" : "Based in"}
-              </span>
-              <span className="text-sm text-ink-bold">
-                {PERSONAL_INFO.contact.location}
-              </span>
-              <span className="mt-1 block font-mono text-[12px] text-blue">
-                22°18′N · 114°10′E
-              </span>
-            </div>
           </div>
         </motion.div>
       </motion.div>

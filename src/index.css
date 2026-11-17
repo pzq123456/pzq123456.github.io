@@ -189,3 +189,257 @@
 ::-webkit-scrollbar-thumb {
   @apply bg-ink-faint rounded-full hover:bg-ink-muted transition-colors;
 }
+
+/* ---------- Blog article typography ---------- */
+
+.article-body {
+  font-family: var(--font-serif);
+  font-size: 17px;
+  line-height: 1.85;
+  color: var(--text-base);
+}
+
+@media (min-width: 768px) {
+  .article-body {
+    font-size: 18px;
+  }
+}
+
+.article-body > :first-child {
+  margin-top: 0;
+}
+
+.article-body > :last-child {
+  margin-bottom: 0;
+}
+
+.article-body p,
+.article-body ul,
+.article-body ol,
+.article-body dl,
+.article-body blockquote,
+.article-body pre,
+.article-body figure,
+.article-body table {
+  margin-top: 1.45em;
+  margin-bottom: 1.45em;
+}
+
+.article-body h1,
+.article-body h2,
+.article-body h3,
+.article-body h4,
+.article-body h5,
+.article-body h6 {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--text-bold);
+  scroll-margin-top: 6rem;
+}
+
+.article-body :where(h1, h2, h3, h4, h5, h6):first-child {
+  margin-top: 0;
+}
+
+.article-body h1 {
+  margin-bottom: 0.55em;
+  font-size: 2.1em;
+  line-height: 1.1;
+}
+
+.article-body h2 {
+  margin-top: 2.35em;
+  margin-bottom: 0.6em;
+  font-size: 1.65em;
+}
+
+.article-body h3 {
+  margin-top: 1.9em;
+  margin-bottom: 0.5em;
+  font-size: 1.3em;
+}
+
+.article-body h4 {
+  margin-top: 1.7em;
+  margin-bottom: 0.45em;
+  font-size: 1.1em;
+}
+
+.article-body h5,
+.article-body h6 {
+  margin-top: 1.5em;
+  margin-bottom: 0.4em;
+  font-size: 1em;
+}
+
+.article-body a {
+  color: var(--brand-accent);
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  text-decoration-color: color-mix(
+    in srgb,
+    var(--brand-accent) 38%,
+    transparent
+  );
+  transition:
+    color 180ms ease,
+    text-decoration-color 180ms ease;
+}
+
+.article-body a:hover {
+  color: var(--text-bold);
+  text-decoration-color: currentColor;
+}
+
+.article-body strong {
+  color: var(--text-bold);
+  font-weight: 600;
+}
+
+.article-body ul,
+.article-body ol {
+  padding-left: 1.45em;
+}
+
+.article-body ul {
+  list-style: disc;
+}
+
+.article-body ol {
+  list-style: decimal;
+}
+
+.article-body li {
+  margin: 0.38em 0;
+  padding-left: 0.2em;
+}
+
+.article-body li::marker {
+  color: var(--brand-accent);
+}
+
+.article-body li > ul,
+.article-body li > ol {
+  margin-top: 0.38em;
+  margin-bottom: 0.38em;
+}
+
+.article-body blockquote {
+  border-left: 2px solid
+    color-mix(in srgb, var(--brand-accent) 42%, transparent);
+  padding-left: 1.15em;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.article-body blockquote p {
+  margin-top: 0.6em;
+  margin-bottom: 0.6em;
+}
+
+.article-body code {
+  font-family: var(--font-mono);
+  font-size: 0.82em;
+  padding: 0.12em 0.35em;
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-sub);
+  color: var(--text-bold);
+  overflow-wrap: anywhere;
+}
+
+.article-body pre {
+  overflow-x: auto;
+  padding: 1.1em 1.25em;
+  border: 1px solid #2c2a26;
+  background-color: #1b1a18;
+  color: #ece7db;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.7;
+  tab-size: 2;
+}
+
+.article-body pre code {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font-size: inherit;
+  overflow-wrap: normal;
+}
+
+.article-body .katex {
+  font-size: 1.05em;
+}
+
+.article-body .katex-display {
+  margin: 1.7em 0;
+  padding: 0.15em 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.article-body .katex-display > .katex {
+  max-width: 100%;
+}
+
+.article-body img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--border-color);
+}
+
+.article-body > img {
+  margin-top: 2em;
+  margin-bottom: 2em;
+}
+
+.article-body p > img:only-child {
+  margin-top: 0.35em;
+  margin-bottom: 0.35em;
+}
+
+.article-body figure {
+  margin-top: 2em;
+  margin-bottom: 2em;
+}
+
+.article-body figcaption {
+  margin-top: 0.65em;
+  color: var(--text-faint);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.article-body hr {
+  margin: 2.6em 0;
+  border: 0;
+  border-top: 1px solid var(--border-color);
+}
+
+.article-body table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.article-body th,
+.article-body td {
+  padding: 0.55em 0.7em;
+  border-bottom: 1px solid var(--border-color);
+  text-align: left;
+}
+
+.article-body th {
+  color: var(--text-bold);
+  font-weight: 600;
+}

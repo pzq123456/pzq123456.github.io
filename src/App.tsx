@@ -8,7 +8,6 @@ import Gallery from "./components/sections/Gallery";
 import CvWorkspace from "./components/sections/CvWorkspace";
 import AcademicRecord from "./components/sections/AcademicRecord";
 import Footer from "./components/sections/Footer";
-import QuantLab from "./components/sections/QuantLab";
 import Blog from "./blog/Blog";
 import { getPost } from "./blog/posts";
 import { useHashRoute } from "./blog/useHashRoute";
@@ -69,7 +68,6 @@ export default function AcademicPortfolio() {
               <Skills />
               <Experience />
               <Gallery />
-              <QuantLab />
               <AcademicRecord />
               <CvWorkspace />
             </main>

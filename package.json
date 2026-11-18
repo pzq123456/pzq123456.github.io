@@ -13,7 +13,7 @@
     "cv:render": "node scripts/render-cv.mjs",
     "cv:qa": "npm run cv:render",
     "cv:verify": "node scripts/verify-cv.mjs",
-    "ci:local": "npm run cv:validate && npm run cv:sync && npm run build && npm run cv:render && npm run cv:verify"
+    "ci:local": "npm run cv:validate && npm run cv:sync && npm run cv:render && npm run cv:verify && npm run build"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.18",

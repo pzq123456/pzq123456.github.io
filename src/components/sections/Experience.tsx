@@ -1,4 +1,4 @@
-import { BlueprintBox } from "../BlueprintLayout";
+import { Chapter } from "../Chapter";
 import { EXPERIENCE_DATA } from "@/data/portfolio.generated";
 import { useApp } from "@/context/AppContext";
 import { getTechStyle } from "@/utils/tech";
@@ -10,11 +10,10 @@ export default function Experience() {
   const { t, lang } = useApp();
 
   return (
-    <BlueprintBox
+    <Chapter
       title={t({ en: "Experience", zh: "经历" })}
       id="experience"
       index="02"
-      kicker="EXPERIENCE"
       display="EXPERIENCE"
     >
       <div className="space-y-16">
@@ -24,10 +23,10 @@ export default function Experience() {
             <div key={idx} className="grid md:grid-cols-12 gap-12 relative">
               <div className="md:col-span-3">
                 <div className="sticky top-24 space-y-4">
-                  <div className="text-ink-muted font-mono text-[12px] tracking-tight">
+                  <div className="text-ink-muted text-[14px] tracking-tight">
                     {exp.period}
                   </div>
-                  <h4 className="text-[13px] text-ink-muted font-medium leading-snug">
+                  <h4 className="text-[16px] text-ink-muted">
                     {t(exp.role)}
                   </h4>
                 </div>
@@ -65,6 +64,6 @@ export default function Experience() {
           );
         })}
       </div>
-    </BlueprintBox>
+    </Chapter>
   );
 }

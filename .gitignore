@@ -27,12 +27,13 @@ dist-ssr
 resume/output/
 output/
 
-# PDF 忽略：CI 产物为 dist/cv/*.pdf（upload artifact，不 commit）。
+# PDF 忽略：CV 线上产物是 public/cv/*.pdf（本地渲染后 commit，Vite 拷进 dist）。
 # CV/*.pdf（含 简历.pdf / Assessment Results.pdf）已在收口阶段 git rm --cached，
-# 本地文件保留；线上 PDF 统一走 dist/cv/<variant>.pdf。
+# 本地文件保留；线上 PDF 统一走 dist/cv/<variant>.pdf（由 public/cv 拷贝）。
 *.pdf
+!public/cv/*.pdf
 
-# CV/ 历史文件（旧简历 markdown），已由 resume/ + dist/cv/*.pdf 取代，不再跟踪（本地保留）
+# CV/ 历史文件（旧简历 markdown），已由 resume/ + public/cv/*.pdf 取代，不再跟踪（本地保留）
 CV/简历.md
 
 # Python-generated files

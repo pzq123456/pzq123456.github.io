@@ -1,6 +1,5 @@
 import { motion, type Variants } from "framer-motion";
 import { Github, Globe } from "lucide-react";
-import { BlueprintBox } from "../BlueprintLayout";
 import { PERSONAL_INFO } from "@/data/portfolio.generated";
 import { useApp } from "@/context/AppContext";
 
@@ -40,19 +39,9 @@ export default function Hero() {
   const [firstName, ...restName] = name.split(" ");
 
   return (
-    <BlueprintBox
+    <section
       id="about"
-      padded={false}
-      className="min-h-[calc(100svh-4rem)] flex flex-col justify-center py-8 md:py-12"
-      bottom={
-        <div className="hidden md:flex items-center gap-3 text-[13px] tracking-wide text-ink-muted">
-          <span className="h-px w-8 bg-olive/60" />
-          {t({ en: "Scroll to explore", zh: "向下滚动" })}
-          <span aria-hidden="true" className="text-olive">
-            ↓
-          </span>
-        </div>
-      }
+      className="relative flex min-h-[calc(100svh-4rem)] flex-col justify-center overflow-visible px-8 py-8 md:px-16 md:py-12"
     >
       <motion.div
         variants={containerVariants}
@@ -123,6 +112,19 @@ export default function Hero() {
           </div>
         </motion.div>
       </motion.div>
-    </BlueprintBox>
+
+      <motion.div
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.8, ease: "easeOut" }}
+        className="absolute bottom-6 left-8 z-20 hidden items-center gap-3 text-[13px] tracking-wide text-ink-muted md:left-16 md:flex"
+      >
+        <span className="h-px w-8 bg-olive/60" />
+        {t({ en: "Scroll to explore", zh: "向下滚动" })}
+        <span aria-hidden="true" className="text-olive">
+          ↓
+        </span>
+      </motion.div>
+    </section>
   );
 }

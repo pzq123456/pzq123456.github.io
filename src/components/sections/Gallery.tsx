@@ -1,5 +1,5 @@
 import { Github, Globe, ArrowUpRight } from "lucide-react";
-import { BlueprintBox } from "../BlueprintLayout";
+import { Chapter } from "../Chapter";
 import { GALLERY_PROJECTS } from "@/data/projects";
 import { useApp } from "@/context/AppContext";
 
@@ -13,12 +13,11 @@ export default function Gallery() {
   const { t } = useApp();
 
   return (
-    <BlueprintBox
+    <Chapter
       title={t({ en: "Featured Projects", zh: "精选项目" })}
       id="projects"
       tone="muted"
       index="03"
-      kicker="PROJECTS"
       display="WORK"
     >
       <div className="space-y-14 md:space-y-20">
@@ -115,6 +114,6 @@ export default function Gallery() {
           );
         })}
       </div>
-    </BlueprintBox>
+    </Chapter>
   );
 }

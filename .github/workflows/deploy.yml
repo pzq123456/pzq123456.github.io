@@ -1,4 +1,6 @@
-# Build + Deploy: validate -> sync -> build site -> render PDFs -> verify -> Pages
+# Build + Deploy: verify committed CV artifacts -> sync -> build site -> Pages
+# CV PDFs/previews are rendered locally (`npm run cv:render`) into public/cv and
+# committed; CI never installs Python/Chrome or renders a PDF.
 # 本地等价: npm run ci:local ; workflow 验证: act -j build
 name: Deploy static content to Pages
 
@@ -28,28 +30,14 @@ jobs:
         with:
           node-version: lts/*
           cache: 'npm'
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-      - name: Set up Chrome
-        uses: browser-actions/setup-chrome@v1
-      - name: Install CJK fonts
-        run: sudo apt-get update && sudo apt-get install -y fonts-noto-cjk && fc-cache -f
+      - name: Verify committed CV artifacts
+        run: npm run cv:verify
       - name: Install node dependencies
         run: npm ci
-      - name: Install python dependencies
-        run: pip install jinja2 pillow reportlab requests pymupdf
-      - name: CV validate (selftest)
-        run: npm run cv:validate
       - name: CV sync (frontend adapter)
         run: npm run cv:sync
       - name: Build site
         run: npm run build
-      - name: CV render (2 variants x 2 langs -> dist/cv, QA included)
-        run: npm run cv:render
-      - name: Verify dist/cv artifacts
-        run: npm run cv:verify
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact

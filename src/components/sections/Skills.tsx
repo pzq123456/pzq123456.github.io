@@ -1,4 +1,4 @@
-import { BlueprintBox } from "../BlueprintLayout";
+import { Chapter } from "../Chapter";
 import { SKILLS_DATA } from "@/data/portfolio.generated";
 import { useApp } from "@/context/AppContext";
 import { getTechStyle } from "@/utils/tech";
@@ -9,12 +9,11 @@ export default function Skills() {
   const { t } = useApp();
 
   return (
-    <BlueprintBox
+    <Chapter
       title={t({ en: "Skills", zh: "技能" })}
       id="skills"
       tone="muted"
       index="01"
-      kicker="EXPERTISE"
       display="EXPERTISE"
     >
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-10">
@@ -43,6 +42,6 @@ export default function Skills() {
           </div>
         ))}
       </div>
-    </BlueprintBox>
+    </Chapter>
   );
 }

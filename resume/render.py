@@ -4,13 +4,13 @@ Pipeline:
     resume.json / variant overlay -> resolve (base + overlay) -> localize(lang)
                 -> validate (schema) -> normalize (ResumeModel)
                 -> placement spec (WHERE) -> Jinja template (HOW)
-                -> HTML -> Chromium -> PDF -> preview PNG -> QA
+                -> HTML -> Chromium -> PDF -> preview WebP -> QA
 
 The fact source is bilingual: translatable leaves are ``{"en": ..., "zh": ...}``.
 ``base.json`` is the single catalog (entries carry stable ids); each
 ``data/variants/*.json`` is an overlay listing only composition + overrides.
 Everything renders per language (``--lang en|zh``) into
-``<variant>-<lang>.pdf`` plus one stacked ``preview_<variant>-<lang>.png``.
+``<variant>-<lang>.pdf`` plus one stacked ``preview_<variant>-<lang>.webp``.
 
 Only Schema, Template, Renderer, QA are deterministic. Content-to-slot
 mapping lives in resume/placement.json (hand-written today, agent-written
@@ -103,14 +103,14 @@ def build_pdf(html_path: Path, pdf_path: Path) -> bool:
     return True
 
 
-def build_preview(pdf_path: Path, png_path: Path) -> None:
+def build_preview(pdf_path: Path, webp_path: Path) -> None:
     """Write one deterministic preview image for the whole PDF.
 
     Every page is rendered full-width (real page margins preserved) with only
     its trailing blank rows trimmed, then stacked vertically. Applying the same
     rule to single- and multi-page PDFs keeps EN and ZH previews consistent.
     Exactly one file is written so the frontend can link
-    ``preview_<variant>-<lang>.png`` without knowing the page count.
+    ``preview_<variant>-<lang>.webp`` without knowing the page count.
     """
     try:
         import pymupdf
@@ -120,11 +120,13 @@ def build_preview(pdf_path: Path, png_path: Path) -> None:
     d = pymupdf.open(str(pdf_path))
     if len(d) == 0:
         return
-    pixmaps = [d[i].get_pixmap(dpi=110) for i in range(len(d))]
+    # 96 DPI keeps the preview ~794px wide: enough for the 400px card on 2x
+    # screens, while WebP q80 cuts the committed image size by ~70%.
+    pixmaps = [d[i].get_pixmap(dpi=96) for i in range(len(d))]
     try:
         from PIL import Image, ImageChops
     except ImportError:
-        pixmaps[0].save(str(png_path))
+        print("Pillow missing, skipped preview")
         return
     slices = []
     for p in pixmaps:
@@ -138,7 +140,10 @@ def build_preview(pdf_path: Path, png_path: Path) -> None:
             continue  # fully blank page
         slices.append(im.crop((0, 0, im.width, bottom)))
     if not slices:
-        pixmaps[0].save(str(png_path))
+        p = pixmaps[0]
+        Image.frombytes("RGB", (p.width, p.height), p.samples).save(
+            str(webp_path), format="WEBP", quality=80, method=6
+        )
         return
     width = max(im.width for im in slices)
     height = sum(im.height for im in slices)
@@ -147,7 +152,7 @@ def build_preview(pdf_path: Path, png_path: Path) -> None:
     for im in slices:
         canvas.paste(im, (0, y))
         y += im.height
-    canvas.save(str(png_path))
+    canvas.save(str(webp_path), format="WEBP", quality=80, method=6)
 
 
 # ---------------- pipeline ----------------
@@ -310,7 +315,7 @@ def main(argv=None) -> int:
 
     pdf_path = out_dir / f"{stem}.pdf"
     if build_pdf(html_path, pdf_path):
-        build_preview(pdf_path, out_dir / f"preview_{stem}.png")
+        build_preview(pdf_path, out_dir / f"preview_{stem}.webp")
 
     print("\nPlacement:")
     for name, assignments in ordered.items():

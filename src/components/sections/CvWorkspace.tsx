@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { Download } from "lucide-react";
-import { BlueprintBox } from "../BlueprintLayout";
+import { Chapter } from "../Chapter";
 import { useApp } from "@/context/AppContext";
 
 // CV section: pick a version -> preview -> download the PDF.
-// Previews/PDFs are produced by the resume pipeline into dist/cv
-// (preview_<variant>-<lang>.png / <variant>-<lang>.pdf).
+// Previews/PDFs are rendered locally by the resume pipeline into public/cv
+// and committed (preview_<variant>-<lang>.webp / <variant>-<lang>.pdf).
 
 type Variant = "fullstack" | "industry";
 
@@ -33,7 +33,7 @@ const VARIANTS: {
 ];
 
 const previewUrlFor = (variant: Variant, lang: string) =>
-  `/cv/preview_${variant}-${lang}.png`;
+  `/cv/preview_${variant}-${lang}.webp`;
 
 export default function CvWorkspace() {
   const { t, lang } = useApp();
@@ -63,12 +63,11 @@ export default function CvWorkspace() {
   };
 
   return (
-    <BlueprintBox
+    <Chapter
       title={t({ en: "CV", zh: "简历" })}
       id="cv"
       tone="muted"
-      index="06"
-      kicker="CURRICULUM VITAE"
+      index="05"
       display="DOCUMENT"
     >
       <div className="grid gap-10 lg:grid-cols-12 lg:gap-12">
@@ -161,6 +160,6 @@ export default function CvWorkspace() {
           </div>
         </div>
       </div>
-    </BlueprintBox>
+    </Chapter>
   );
 }

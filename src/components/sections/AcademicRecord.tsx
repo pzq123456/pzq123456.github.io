@@ -1,5 +1,5 @@
 import { Globe, Github, FileText, ExternalLink } from "lucide-react";
-import { BlueprintBox } from "../BlueprintLayout";
+import { Chapter } from "../Chapter";
 import { PUBLICATION_DATA, EDUCATION_DATA } from "@/data/portfolio.generated";
 import { useApp } from "@/context/AppContext";
 
@@ -20,11 +20,10 @@ export default function AcademicRecord() {
   };
 
   return (
-    <BlueprintBox
+    <Chapter
       title={t({ en: "The record.", zh: "留下记录。" })}
       id="publications"
-      index="05"
-      kicker="RECORD"
+      index="04"
       display="ARCHIVE"
     >
       <div className="grid gap-12 lg:grid-cols-12 lg:gap-0">
@@ -100,6 +99,6 @@ export default function AcademicRecord() {
           </div>
         </div>
       </div>
-    </BlueprintBox>
+    </Chapter>
   );
 }

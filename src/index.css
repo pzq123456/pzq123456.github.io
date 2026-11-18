@@ -157,13 +157,6 @@
   background-size: 180px 180px;
 }
 
-.section-tone-dark {
-  background-color: #141413;
-  background-image: var(--paper-noise);
-  background-repeat: repeat;
-  background-size: 180px 180px;
-}
-
 .footer-dark {
   background-color: #141413;
   background-image: var(--paper-noise);

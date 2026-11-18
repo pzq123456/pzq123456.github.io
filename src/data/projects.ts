@@ -1,9 +1,9 @@
 // Website-only gallery data, extracted verbatim from src/data/portfolio.ts (M2 website adapter).
 // Not sourced from resume/data/base.json — resume projects stay in the PDF/CV pipeline.
 
-import evImage from "../../imgs/Population&EVChargeStation.png";
-import busImage from "../../imgs/HKbus.png";
-import campusImage from "../../imgs/3D Campus for PolyU.png";
+import evImage from "../../imgs/Population&EVChargeStation.webp";
+import busImage from "../../imgs/HKbus.webp";
+import campusImage from "../../imgs/3D Campus for PolyU.webp";
 
 /**
  * 项目集 (Gallery)

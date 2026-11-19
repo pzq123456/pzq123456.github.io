@@ -28,7 +28,9 @@ $$
 
 文章的标题、日期和摘要放在 `src/blog/posts.ts`，正文从普通段落开始，不需要再写一次一级标题。代码块、引用和列表会沿用网站已有的字体与颜色。
 
-```tsx
+代码块支持文件名标题、行号和行高亮：
+
+```tsx title="ExampleDemo.tsx" showLineNumbers {3}
 import ExampleDemo from "../demos/ExampleDemo";
 
 <ExampleDemo />

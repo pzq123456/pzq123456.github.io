@@ -1,4 +1,5 @@
 import type { ComponentType } from "react";
+import type { MDXComponents } from "mdx/types";
 import HelloWorld from "./posts/hello-world.mdx";
 
 export interface BlogPost {
@@ -7,7 +8,7 @@ export interface BlogPost {
   /** ISO date, e.g. "2026-11-17". Newest posts are listed first. */
   date: string;
   description: string;
-  Content: ComponentType;
+  Content: ComponentType<{ components?: MDXComponents }>;
 }
 
 /**

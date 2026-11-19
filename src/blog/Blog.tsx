@@ -1,6 +1,12 @@
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
+import type { MDXComponents } from "mdx/types";
 import { useApp } from "@/context/AppContext";
+import CodeFigure from "./components/CodeBlock";
 import { POSTS, getPost, type BlogPost } from "./posts";
+
+const blogMdxComponents: MDXComponents = {
+  figure: CodeFigure,
+};
 
 function formatDate(value: string, lang: "en" | "zh") {
   return new Intl.DateTimeFormat(lang === "zh" ? "zh-CN" : "en-GB", {
@@ -107,7 +113,7 @@ function BlogArticle({ post }: { post: BlogPost }) {
         </header>
 
         <div className="article-body mt-9 md:mt-11">
-          <Content />
+          <Content components={blogMdxComponents} />
         </div>
 
         <footer className="mt-14 flex items-center justify-between border-t border-line/60 pt-6">

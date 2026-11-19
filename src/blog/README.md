@@ -10,6 +10,7 @@ src/blog/
   posts.ts              # register posts here
   Blog.tsx              # list + article views
   useHashRoute.ts       # #/blog and #/blog/<slug>
+  components/CodeBlock.tsx  # code-block title bar + copy button
   posts/*.mdx           # articles
   demos/*.tsx           # interactive components used by articles
 ```
@@ -68,6 +69,31 @@ $$
 No client-side math runtime is shipped; only the KaTeX stylesheet and font files
 are part of the built site.
 
+## Code highlighting
+
+Fenced blocks are highlighted at build time with Shiki's `vitesse-light` /
+`vitesse-dark` theme pair, so code blocks follow the site theme. Every block
+gets a faint copy button in its top-right corner; hover or keyboard focus
+brings it forward. Optional fence metadata:
+
+````md
+```ts title="greet.ts" showLineNumbers {2}
+export function greet(name: string) {
+  return `Hello, ${name}!`;
+}
+```
+````
+
+- `title="..."` adds a filename header.
+- `showLineNumbers` adds line numbers.
+- `{2,5-7}` highlights those lines (ranges are allowed).
+
+There is no client-side highlighter; the copy button is the only runtime
+addition. Shiki emits both palettes as CSS variables and `.dark` selects one, so
+theme switches are pure CSS. The theme pair and plugin live in `vite.config.ts`;
+the frame, title and button are styled in `.article-body` inside `src/index.css`,
+and the copy behaviour lives in `src/blog/components/CodeBlock.tsx`.
+
 ## Images
 
 Put files in `public/blog/` and reference them with normal Markdown:
@@ -78,5 +104,5 @@ Put files in `public/blog/` and reference them with normal Markdown:
 
 ## Not included
 
-Comments, RSS, search, tags, pagination, TOC, and math rendering are deliberately
+Comments, RSS, search, tags, pagination, TOC, and a copy button are deliberately
 left out. The article typography lives in `.article-body` in `src/index.css`.

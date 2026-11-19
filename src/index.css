@@ -49,6 +49,11 @@
   --map-land: #6a9bcc;
   --map-anchor: #d97757;
 
+  /* Code block surface. Token colours come from the Shiki theme. */
+  --code-bg: #f7f4ec;
+  --code-title-bg: #ece7db;
+  --code-border: #ddd6c8;
+
   /* Tag Colors - Light */
   --tag-frontend-bg: #efddd2;
   --tag-frontend-text: #8f452b;
@@ -85,6 +90,11 @@
   --border-color: #37332d;
   --map-land: #7fa9d4;
   --map-anchor: #d97757;
+
+  /* Code block surface. Token colours come from the Shiki theme. */
+  --code-bg: #1b1a18;
+  --code-title-bg: #141311;
+  --code-border: #2c2a26;
 
   /* Re-bind Tailwind colour tokens so a local dark scope resolves correctly */
   --color-canvas: var(--bg-main);
@@ -346,9 +356,9 @@
 .article-body pre {
   overflow-x: auto;
   padding: 1.1em 1.25em;
-  border: 1px solid #2c2a26;
-  background-color: #1b1a18;
-  color: #ece7db;
+  border: 1px solid var(--code-border);
+  background-color: var(--code-bg);
+  color: var(--text-base);
   font-family: var(--font-mono);
   font-size: 13px;
   line-height: 1.7;
@@ -362,6 +372,133 @@
   color: inherit;
   font-size: inherit;
   overflow-wrap: normal;
+}
+
+/* rehype-pretty-code: every fenced block gets a figure wrapper. */
+.article-body figure[data-rehype-pretty-code-figure] {
+  position: relative;
+  margin: 1.45em 0;
+}
+
+.article-body figure[data-rehype-pretty-code-figure] pre {
+  margin: 0;
+}
+
+/*
+ * Dual Shiki themes emit both palettes as CSS variables on each token.
+ * Switching is pure CSS: no duplicated markup and no client-side highlighting.
+ */
+.article-body figure[data-rehype-pretty-code-figure] :is(pre, code, span) {
+  color: var(--shiki-light);
+}
+
+.dark .article-body figure[data-rehype-pretty-code-figure] :is(pre, code, span),
+.theme-dark .article-body figure[data-rehype-pretty-code-figure] :is(pre, code, span) {
+  color: var(--shiki-dark);
+}
+
+.article-body [data-rehype-pretty-code-title] {
+  margin: 0;
+  padding: 0.55em 3.1em 0.55em 1.25em;
+  border: 1px solid var(--code-border);
+  border-bottom: 0;
+  background-color: var(--code-title-bg);
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-align: left;
+  text-transform: none;
+}
+
+.article-body .code-copy {
+  position: absolute;
+  top: 0.25rem;
+  right: 0.45rem;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  padding: 0;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  opacity: 0.4;
+  transition:
+    opacity 160ms ease,
+    color 160ms ease,
+    background-color 160ms ease,
+    border-color 160ms ease;
+}
+
+.article-body figure[data-rehype-pretty-code-figure]:hover .code-copy,
+.article-body .code-copy:focus-visible {
+  opacity: 1;
+}
+
+.article-body .code-copy:hover,
+.article-body .code-copy:focus-visible {
+  border-color: var(--border-color);
+  background-color: var(--bg-sub);
+  color: var(--text-bold);
+}
+
+.article-body .code-copy:focus-visible {
+  outline: 1px solid var(--brand-accent);
+  outline-offset: 1px;
+}
+
+.article-body .code-copy[data-copied] {
+  color: var(--brand-olive);
+  opacity: 1;
+}
+
+@media (hover: none) {
+  .article-body .code-copy {
+    opacity: 0.55;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .article-body .code-copy {
+    transition: none;
+  }
+}
+
+/* Line numbers are opt-in via the `showLineNumbers` fence meta. */
+.article-body code[data-line-numbers] {
+  counter-reset: line;
+}
+
+.article-body code[data-line-numbers] > [data-line]::before {
+  counter-increment: line;
+  content: counter(line);
+  display: inline-block;
+  width: 1.4rem;
+  margin-right: 1rem;
+  color: var(--text-faint);
+  text-align: right;
+  user-select: none;
+}
+
+.article-body code[data-line-numbers-max-digits="2"] > [data-line]::before {
+  width: 2rem;
+}
+
+.article-body code[data-line-numbers-max-digits="3"] > [data-line]::before {
+  width: 3rem;
+}
+
+/* Line highlights are opt-in via `{2,4-6}` fence meta. */
+.article-body [data-highlighted-line] {
+  margin: 0 -1.25em;
+  padding: 0 1.25em;
+  background-color: color-mix(in srgb, var(--brand-accent) 15%, transparent);
+  box-shadow: inset 2px 0 0 var(--brand-accent);
 }
 
 .article-body .katex {

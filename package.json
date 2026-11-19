@@ -36,7 +36,9 @@
     "globals": "^16.5.0",
     "katex": "^0.19.1",
     "rehype-katex": "^7.0.1",
+    "rehype-pretty-code": "^0.14.6",
     "remark-math": "^6.0.0",
+    "shiki": "^4.6.0",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.46.4",
     "vite": "^7.2.4"

@@ -45,7 +45,7 @@ export default function Footer() {
   return (
     <footer
       id="contact"
-      className="footer-dark theme-dark relative overflow-visible py-12 text-ink-base md:py-16"
+      className="relative overflow-visible border-t border-line/30 py-12 text-ink-base transition-colors duration-300 md:py-16"
     >
       <div className="relative z-10 mx-auto w-full max-w-6xl px-8 md:px-16">
         <h2 className="mt-5 font-serif text-[28px] font-medium tracking-tight text-ink-bold md:text-[34px]">

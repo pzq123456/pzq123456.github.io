@@ -1,6 +1,7 @@
 import type { ComponentType } from "react";
 import type { MDXComponents } from "mdx/types";
 import HelloWorld from "./posts/hello-world.mdx";
+import TimeTopography from "./posts/time-topography.mdx";
 
 export interface BlogPost {
   slug: string;
@@ -16,6 +17,14 @@ export interface BlogPost {
  * Add a post by importing its MDX file and appending one entry here.
  */
 const REGISTRY: BlogPost[] = [
+  {
+    slug: "time-topography",
+    title: "把时间画进等高线：一张会呼吸的地形背景",
+    date: "2026-11-20",
+    description:
+      "从三维梯度噪声到 Marching Squares，拆解首页地形背景的数学原理，以及为什么时间可以直接寻址。",
+    Content: TimeTopography,
+  },
   {
     slug: "hello-world",
     title: "你好，MDX",

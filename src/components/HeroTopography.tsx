@@ -41,7 +41,7 @@ export type HeroTopographyProps = {
   timeScale?: number;
 
   /**
-   * 海岸层相对细节层的放慢倍数，默认 24（分钟 → 小时）。
+   * 海岸层相对细节层的放慢倍数，默认 60（分钟 → 小时）。
    */
   coastSlowdown?: number;
 
@@ -829,9 +829,9 @@ export default function HeroTopography({
   animate = true,
   seed = 2026,
   timestamp,
-  // 细节层约 1 分钟一个噪声格点；海岸 / 大陆分别再放慢 24 / 1440 倍
+  // 细节层约 1 分钟一个噪声格点；海岸 / 大陆分别再放慢 60 / 1440 倍
   timeScale = 1 / 60,
-  coastSlowdown = 24,
+  coastSlowdown = 60,
   macroSlowdown = 1440,
   // 3D 噪声重绘成本高，默认 1 秒一次，兼顾连续感与性能
   renderIntervalMs = 1000,

@@ -5,6 +5,7 @@ import mdx from '@mdx-js/rollup'
 import rehypeKatex from 'rehype-katex'
 import rehypePrettyCode from 'rehype-pretty-code'
 import remarkMath from 'remark-math'
+import remarkGfm from 'remark-gfm'
 import path from 'path'
 
 // https://vite.dev/config/
@@ -15,7 +16,7 @@ export default defineConfig({
       enforce: 'pre',
       ...mdx({
         jsxImportSource: 'react',
-        remarkPlugins: [remarkMath],
+        remarkPlugins: [remarkMath, remarkGfm],
         rehypePlugins: [
           [rehypeKatex, { throwOnError: false }],
           [

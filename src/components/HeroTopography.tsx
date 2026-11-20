@@ -35,10 +35,26 @@ export type HeroTopographyProps = {
   timestamp?: number;
 
   /**
-   * 时间流速。
-   * 单位：噪声时间坐标 / 秒。
+   * 最快层（细节）的时间流速，单位：噪声时间坐标 / 秒。
+   * 默认 1/60，即细节层约每 1 分钟经历一个噪声格点。
    */
   timeScale?: number;
+
+  /**
+   * 海岸层相对细节层的放慢倍数，默认 24（分钟 → 小时）。
+   */
+  coastSlowdown?: number;
+
+  /**
+   * 大陆层相对细节层的放慢倍数，默认 1440（分钟 → 天）。
+   */
+  macroSlowdown?: number;
+
+  /**
+   * 动画态下完整重绘的最小间隔（毫秒），默认 1000。
+   * 3D 噪声单次重绘成本较高，低频重绘是主要的性能保障。
+   */
+  renderIntervalMs?: number;
 
   /**
    * 时间原点，Unix milliseconds。
@@ -349,14 +365,22 @@ const readPalette = (
     dark ? 0.86 : 0.74,
   );
 
+  // 海陆色带：保留墨蓝 / 暖岩的身份，但减少纸色稀释、拉开相邻色阶，
+  // 让色带更饱满，不再整体发灰发淡。
+  const seaShallow = mix(paper, inkBlue, dark ? 0.48 : 0.42);
+
   return {
     dark,
     accent,
-    seaShallow: mix(paper, inkBlue, dark ? 0.32 : 0.28),
-    seaDeep: mix(inkBlue, deepTone, dark ? 0.52 : 0.46),
-    landLow: mix(paper, olive, dark ? 0.22 : 0.16),
-    landMid: mix(olive, paper, dark ? 0.18 : 0.26),
-    landHigh: mix(olive, accent, dark ? 0.26 : 0.18),
+    // 海洋三段：纸蓝 → 中蓝 → 暖炭灰蓝
+    seaShallow,
+    seaMid: mix(seaShallow, inkBlue, 0.6),
+    seaDeep: mix(inkBlue, deepTone, dark ? 0.42 : 0.38),
+    // 陆地四段：砂橄榄 → 橄榄 → 暖岩 → 陶土高点
+    landLow: mix(paper, olive, dark ? 0.28 : 0.26),
+    landMid: mix(olive, paper, dark ? 0.18 : 0.12),
+    landHigh: mix(olive, accent, dark ? 0.3 : 0.26),
+    landPeak: mix(accent, paper, dark ? 0.2 : 0.18),
     seaLine: mix(inkBlue, olive, 0.4),
     coastLine: mix(inkBlue, accent, 0.3),
     landLine: mix(
@@ -367,36 +391,63 @@ const readPalette = (
   };
 };
 
+/** 由 seed 派生的宏观形态：让不同世界的大陆位置与轮廓真正不同。 */
+type TerrainShape = {
+  cx: number;
+  cy: number;
+  cos: number;
+  sin: number;
+  span: number;
+  islandA: number;
+  islandB: number;
+};
+
+const seedUnit = (seed: number, n: number) =>
+  hash3(n, 17, 31, seed) / 4294967296;
+
+const makeTerrainShape = (seed: number): TerrainShape => {
+  const angle = (seedUnit(seed, 3) - 0.5) * 0.6;
+
+  return {
+    cx: 0.52 + seedUnit(seed, 1) * 0.12,
+    cy: 0.4 + seedUnit(seed, 2) * 0.12,
+    cos: Math.cos(angle),
+    sin: Math.sin(angle),
+    span: 0.38 + seedUnit(seed, 4) * 0.08,
+    islandA: 0.78 + seedUnit(seed, 5) * 0.12,
+    islandB: 0.6 + seedUnit(seed, 6) * 0.12,
+  };
+};
+
 /**
  * 时间连续的地形采样。
  *
- * 同一个 seed 下：
- * sampleElevation(x, y, t)
- * 和 sampleElevation(x, y, t + dt)
- * 会产生平滑相关的地形。
+ * 三层使用各自的时间坐标：
+ * 大陆轮廓 macroTime（默认按天）、海岸线 coastTime（按小时）、
+ * 山脊细节 detailTime（按分钟）。
  */
 const sampleElevation = (
   nx: number,
   ny: number,
   aspect: number,
   seed: number,
-  time: number,
+  macroTime: number,
+  coastTime: number,
+  detailTime: number,
+  shape: TerrainShape,
 ) => {
-  const dx0 = (nx - 0.58) * aspect;
-  const dy0 = ny - 0.46;
+  const dx0 = (nx - shape.cx) * aspect;
+  const dy0 = ny - shape.cy;
 
-  const cos = 0.97;
-  const sin = -0.24;
+  const rx0 = dx0 * shape.cos - dy0 * shape.sin;
+  const ry0 = dx0 * shape.sin + dy0 * shape.cos;
 
-  const rx0 = dx0 * cos - dy0 * sin;
-  const ry0 = dx0 * sin + dy0 * cos;
-
-  // 大尺度地形形变：缓慢变化
+  // 大陆轮廓：按天变化
   const warpX =
     fbm3D(
       rx0 * 1.15,
       ry0 * 1.15,
-      time * 0.32,
+      macroTime,
       seed + 11,
       2,
     ) * 0.14;
@@ -405,7 +456,7 @@ const sampleElevation = (
     fbm3D(
       rx0 * 1.15,
       ry0 * 1.15,
-      time * 0.32,
+      macroTime,
       seed + 29,
       2,
     ) * 0.12;
@@ -413,7 +464,7 @@ const sampleElevation = (
   const wx = rx0 + warpX;
   const wy = ry0 + warpY;
 
-  const spanX = Math.max(0.55, aspect * 0.42);
+  const spanX = Math.max(0.55, aspect * shape.span);
 
   const mainDist2 =
     (wx / spanX) ** 2 +
@@ -422,31 +473,31 @@ const sampleElevation = (
   const mainMask = Math.exp(-mainDist2 * 1.25);
 
   const isl1Dist2 =
-    ((wx + spanX * 0.82) / 0.14) ** 2 +
+    ((wx + spanX * shape.islandA) / 0.14) ** 2 +
     ((wy + 0.14) / 0.09) ** 2;
 
   const isl2Dist2 =
-    ((wx + spanX * 0.64) / 0.1) ** 2 +
+    ((wx + spanX * shape.islandB) / 0.1) ** 2 +
     ((wy - 0.18) / 0.075) ** 2;
 
   const islands =
     Math.exp(-isl1Dist2 * 1.8) * 0.34 +
     Math.exp(-isl2Dist2 * 2.0) * 0.26;
 
-  // 海岸线：中等时间频率
+  // 海岸线：按小时变化
   const coastNoise = fbm3D(
     wx * 1.85 + 3.1,
     wy * 1.85 + 1.4,
-    time * 0.8,
+    coastTime,
     seed + 61,
     3,
   );
 
-  // 山脊：相对更丰富的时间细节
+  // 山脊细节：按分钟变化
   const ridge = ridgedFbm3D(
     wx * 2.3,
     wy * 2.3,
-    time * 1.15,
+    detailTime,
     seed + 89,
     3,
   );
@@ -778,7 +829,12 @@ export default function HeroTopography({
   animate = true,
   seed = 2026,
   timestamp,
-  timeScale = 0.012,
+  // 细节层约 1 分钟一个噪声格点；海岸 / 大陆分别再放慢 24 / 1440 倍
+  timeScale = 1 / 60,
+  coastSlowdown = 24,
+  macroSlowdown = 1440,
+  // 3D 噪声重绘成本高，默认 1 秒一次，兼顾连续感与性能
+  renderIntervalMs = 1000,
   timeOrigin = 0,
 }: HeroTopographyProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -888,20 +944,25 @@ export default function HeroTopography({
       if (width <= 1 || height <= 1 || !reliefImage) return;
 
       /**
-       * 时间坐标。
-       *
-       * animate = true:
-       * 从 baseTimestamp 开始连续向前演化。
-       *
-       * animate = false:
-       * 精确渲染 baseTimestamp 对应的历史状态。
+       * 三个视觉层各自的时间坐标（噪声单位）：
+       * 细节按分钟、海岸按小时、大陆按天。
+       * animate=false 时 elapsed 恒为 0，精确渲染 timestamp 对应的历史状态。
        */
       const timestampNow =
         baseTimestamp + elapsedSec * 1000;
 
-      const time =
-        ((timestampNow - timeOrigin) / 1000) *
-        timeScale;
+      const seconds =
+        (timestampNow - timeOrigin) / 1000;
+
+      // 细节层最快；其余两层按比例放慢，形成多尺度时间语言。
+      // 用 Math.max 兜底，避免 0 / 负数导致除零或时间倒流。
+      const detailTime = seconds * timeScale;
+      const coastTime =
+        detailTime / Math.max(1, coastSlowdown);
+      const macroTime =
+        detailTime / Math.max(1, macroSlowdown);
+
+      const shape = makeTerrainShape(seed);
 
       let minV = -0.02;
       let maxV = 0.02;
@@ -917,7 +978,10 @@ export default function HeroTopography({
             ny,
             aspect,
             seed,
-            time,
+            macroTime,
+            coastTime,
+            detailTime,
+            shape,
           );
 
           values[rowOff + x] = v;
@@ -959,36 +1023,51 @@ export default function HeroTopography({
               Math.abs(h) / Math.abs(minV),
             );
 
-            color = mix(
-              palette.seaShallow,
-              palette.seaDeep,
-              depth,
-            );
+            // 三段海带：浅滩 → 中水道 → 深海
+            color =
+              depth < 0.45
+                ? mix(
+                    palette.seaShallow,
+                    palette.seaMid,
+                    depth / 0.45,
+                  )
+                : mix(
+                    palette.seaMid,
+                    palette.seaDeep,
+                    (depth - 0.45) / 0.55,
+                  );
 
             alpha =
-              (palette.dark ? 0.22 : 0.26) +
-              depth * 0.18;
+              (palette.dark ? 0.26 : 0.3) +
+              depth * 0.24;
 
             shadeFactor = 0.35;
           } else {
             const elev = clamp01(h / maxV);
 
+            // 四段陆带：低地 → 丘陵 → 高地 → 陶土色山峰
             color =
-              elev < 0.55
+              elev < 0.4
                 ? mix(
                     palette.landLow,
                     palette.landMid,
-                    elev / 0.55,
+                    elev / 0.4,
                   )
-                : mix(
-                    palette.landMid,
-                    palette.landHigh,
-                    (elev - 0.55) / 0.45,
-                  );
+                : elev < 0.75
+                  ? mix(
+                      palette.landMid,
+                      palette.landHigh,
+                      (elev - 0.4) / 0.35,
+                    )
+                  : mix(
+                      palette.landHigh,
+                      palette.landPeak,
+                      (elev - 0.75) / 0.25,
+                    );
 
             alpha =
-              (palette.dark ? 0.28 : 0.34) +
-              elev * 0.24;
+              (palette.dark ? 0.38 : 0.42) +
+              elev * 0.28;
 
             shadeFactor = 1.05;
           }
@@ -1128,7 +1207,9 @@ export default function HeroTopography({
     let lastTick = 0;
     let lastRender = 0;
 
-    const frameInterval = 1000 / 15;
+    // 3D 噪声单次采样远贵于 2D，15fps 全量重算属于算力与收益错配。
+    // 多尺度时间下细节层也已经放慢到分钟级，1 秒一次足够连续。
+    const frameInterval = Math.max(16, renderIntervalMs);
 
     const loop = (now: number) => {
       raf = requestAnimationFrame(loop);
@@ -1205,6 +1286,9 @@ export default function HeroTopography({
     seed,
     timestamp,
     timeScale,
+    coastSlowdown,
+    macroSlowdown,
+    renderIntervalMs,
     timeOrigin,
   ]);
 

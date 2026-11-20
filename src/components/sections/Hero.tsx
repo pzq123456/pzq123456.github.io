@@ -1,5 +1,6 @@
+import { useEffect, useState } from "react";
 import { motion, type Variants } from "framer-motion";
-import { Github, Globe } from "lucide-react";
+import { Github, Globe, Maximize2, Minimize2 } from "lucide-react";
 import { PERSONAL_INFO } from "@/data/portfolio.generated";
 import { useApp } from "@/context/AppContext";
 import HeroTopography from "@/components/HeroTopography";
@@ -9,6 +10,10 @@ const containerVariants: Variants = {
   visible: {
     opacity: 1,
     transition: { staggerChildren: 0.1, delayChildren: 0.3 }
+  },
+  concealed: {
+    opacity: 0,
+    transition: { duration: 0.5 }
   }
 };
 
@@ -33,11 +38,56 @@ const AvatarImage = ({ className }: { className?: string }) => (
   </div>
 );
 
+/** 独立组件：每秒只重渲染时钟本身，不牵连整个 Hero 子树。 */
+function HeroClock({ lang }: { lang: "en" | "zh" }) {
+  const [now, setNow] = useState(() => new Date());
+
+  useEffect(() => {
+    const timer = window.setInterval(() => setNow(new Date()), 1000);
+
+    return () => window.clearInterval(timer);
+  }, []);
+
+  const timeText = now.toLocaleTimeString(
+    lang === "zh" ? "zh-CN" : "en-GB",
+    { hour12: false },
+  );
+  const dateText = now.toLocaleDateString(
+    lang === "zh" ? "zh-CN" : "en-US",
+    {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      weekday: "long",
+    },
+  );
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.7, ease: "easeOut" }}
+      className="pointer-events-none absolute left-8 top-1/2 z-20 -translate-y-1/2 md:left-16"
+    >
+      <p className="mt-2 font-mono text-[52px] leading-none tracking-[-0.05em] text-ink-bold tabular-nums sm:text-[68px] md:text-[84px]">
+        {timeText}
+      </p>
+      <p className="mt-4 font-serif text-[15px] italic text-ink-muted">
+        {dateText}
+      </p>
+      <span className="mt-6 block h-px w-16 bg-olive/60" />
+    </motion.div>
+  );
+}
+
 export default function Hero() {
   const { t, lang } = useApp();
   const name =
     lang === "zh" ? PERSONAL_INFO.name.zh : PERSONAL_INFO.name.en;
   const [firstName, ...restName] = name.split(" ");
+
+  // 沉浸模式：隐藏文案，只留地形与时钟
+  const [immersive, setImmersive] = useState(false);
 
   return (
     <section
@@ -49,8 +99,10 @@ export default function Hero() {
       <motion.div
         variants={containerVariants}
         initial="hidden"
-        animate="visible"
-        className="relative z-10 flex flex-col items-start gap-10 lg:grid lg:grid-cols-12 lg:items-center lg:gap-12"
+        animate={immersive ? "concealed" : "visible"}
+        className={`relative z-10 flex flex-col items-start gap-10 lg:grid lg:grid-cols-12 lg:items-center lg:gap-12 ${
+          immersive ? "pointer-events-none" : ""
+        }`}
       >
         <div className="w-full lg:col-span-7">
           <motion.h1
@@ -118,8 +170,8 @@ export default function Hero() {
 
       <motion.div
         initial={{ opacity: 0, y: 8 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.8, ease: "easeOut" }}
+        animate={immersive ? { opacity: 0, y: 8 } : { opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: immersive ? 0 : 0.8, ease: "easeOut" }}
         className="absolute bottom-6 left-8 z-20 hidden items-center gap-3 text-[13px] tracking-wide text-ink-muted md:left-16 md:flex"
       >
         <span className="h-px w-8 bg-olive/60" />
@@ -128,6 +180,27 @@ export default function Hero() {
           ↓
         </span>
       </motion.div>
+
+      {immersive && <HeroClock lang={lang} />}
+
+      <button
+        type="button"
+        onClick={() => setImmersive((value) => !value)}
+        aria-label={
+          immersive
+            ? t({ en: "Exit immersive mode", zh: "退出沉浸模式" })
+            : t({ en: "Enter immersive mode", zh: "全屏欣赏地形" })
+        }
+        aria-pressed={immersive}
+        title={
+          immersive
+            ? t({ en: "Exit immersive mode", zh: "退出沉浸模式" })
+            : t({ en: "Enter immersive mode", zh: "全屏欣赏地形" })
+        }
+        className="absolute bottom-6 right-8 z-30 flex h-11 w-11 items-center justify-center border border-line/60 bg-canvas/90 text-ink-muted transition-colors duration-200 hover:border-accent hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent md:bottom-8 md:right-16"
+      >
+        {immersive ? <Minimize2 size={18} /> : <Maximize2 size={18} />}
+      </button>
     </section>
   );
 }

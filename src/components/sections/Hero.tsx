@@ -2,6 +2,7 @@ import { motion, type Variants } from "framer-motion";
 import { Github, Globe } from "lucide-react";
 import { PERSONAL_INFO } from "@/data/portfolio.generated";
 import { useApp } from "@/context/AppContext";
+import HeroTopography from "@/components/HeroTopography";
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
@@ -43,11 +44,13 @@ export default function Hero() {
       id="about"
       className="relative flex min-h-[calc(100svh-4rem)] flex-col justify-center overflow-visible px-8 py-8 md:px-16 md:py-12"
     >
+      <HeroTopography />
+
       <motion.div
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        className="relative flex flex-col items-start gap-10 lg:grid lg:grid-cols-12 lg:items-center lg:gap-12"
+        className="relative z-10 flex flex-col items-start gap-10 lg:grid lg:grid-cols-12 lg:items-center lg:gap-12"
       >
         <div className="w-full lg:col-span-7">
           <motion.h1

@@ -3,14 +3,16 @@ import { ArrowUpRight } from "lucide-react";
 import { Chapter } from "../Chapter";
 import { useApp } from "@/context/AppContext";
 
-type Variant = "fullstack" | "industry";
+type Lang = "en" | "zh";
 
-const VARIANTS: {
-  id: Variant;
+// Both languages are rendered up front (fullstack-<lang>.pdf / preview).
+// These cards only decide which pre-rendered document sits on top.
+const LANGS: {
+  id: Lang;
   label: { en: string; zh: string };
 }[] = [
-  { id: "fullstack", label: { en: "Full-Stack", zh: "全栈" } },
-  { id: "industry", label: { en: "Machine Vision", zh: "机器视觉" } },
+  { id: "en", label: { en: "English", zh: "英文" } },
+  { id: "zh", label: { en: "Chinese", zh: "中文" } },
 ];
 
 const GHOST_CARDS = [
@@ -33,7 +35,25 @@ const GHOST_CARDS = [
 
 export default function CvWorkspace() {
   const { t, lang } = useApp();
-  const [variant, setVariant] = useState<Variant>("fullstack");
+
+  // `lang` (site) is the external input the resume follows by default.
+  // `manualLang` is local: only a manual card switch writes it, so switching
+  // the resume never changes the site language.
+  //
+  // React's documented pattern for adjusting state when a prop changes: detect
+  // the change during render and drop the override. Unlike `key` or an effect,
+  // this keeps the DOM mounted, so the CSS card-rotation transition still runs
+  // when the site language changes.
+  const [seenSiteLang, setSeenSiteLang] = useState<Lang>(lang);
+  const [manualLang, setManualLang] = useState<Lang | null>(null);
+
+  if (lang !== seenSiteLang) {
+    setSeenSiteLang(lang);
+    setManualLang(null);
+  }
+
+  const activeLang = manualLang ?? lang;
+
   const [brokenSrcs, setBrokenSrcs] = useState<Record<string, boolean>>({});
   const [hovered, setHovered] = useState(false);
 
@@ -43,10 +63,10 @@ export default function CvWorkspace() {
   const dragStartX = useRef<number | null>(null);
   const movedDuringDrag = useRef(false);
 
-  const cycleVariant = (dir: 1 | -1 = 1) => {
-    const idx = VARIANTS.findIndex((v) => v.id === variant);
-    const nextIdx = (idx + dir + VARIANTS.length) % VARIANTS.length;
-    setVariant(VARIANTS[nextIdx].id);
+  const cycleLang = (dir: 1 | -1 = 1) => {
+    const idx = LANGS.findIndex((v) => v.id === activeLang);
+    const nextIdx = (idx + dir + LANGS.length) % LANGS.length;
+    setManualLang(LANGS[nextIdx].id);
   };
 
   const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
@@ -78,7 +98,7 @@ export default function CvWorkspace() {
 
     const threshold = 52;
     if (Math.abs(dragX) > threshold) {
-      cycleVariant(dragX < 0 ? 1 : -1);
+      cycleLang(dragX < 0 ? 1 : -1);
     }
 
     dragStartX.current = null;
@@ -118,11 +138,11 @@ export default function CvWorkspace() {
             />
           ))}
 
-          {/* 真实简历叠放卡组 */}
-          {VARIANTS.map((item) => {
-            const isActive = item.id === variant;
-            const previewSrc = `/cv/preview_${item.id}-${lang}.webp`;
-            const pdfHref = `/cv/${item.id}-${lang}.pdf`;
+          {/* 中英两份简历叠放卡组 */}
+          {LANGS.map((item) => {
+            const isActive = item.id === activeLang;
+            const previewSrc = `/cv/preview_fullstack-${item.id}.webp`;
+            const pdfHref = `/cv/fullstack-${item.id}.pdf`;
             const isBroken = brokenSrcs[previewSrc];
 
             const dragTilt = isActive ? dragX * 0.045 : 0;
@@ -140,7 +160,7 @@ export default function CvWorkspace() {
                 return;
               }
               if (!isActive) {
-                setVariant(item.id);
+                setManualLang(item.id);
               }
             };
 
@@ -155,7 +175,7 @@ export default function CvWorkspace() {
                 onKeyDown={(e) => {
                   if ((e.key === "Enter" || e.key === " ") && !isActive) {
                     e.preventDefault();
-                    setVariant(item.id);
+                    setManualLang(item.id);
                   }
                 }}
                 style={{
@@ -194,13 +214,13 @@ export default function CvWorkspace() {
                     />
                   )}
 
-                  {/* 底部操作条：左侧切牌标签，右侧 PDF 独立动作 */}
+                  {/* 底部操作条：左侧语言标签，右侧 PDF 独立动作 */}
                   <div className="pointer-events-none absolute inset-x-0 bottom-0 flex items-center justify-between bg-linear-to-t from-canvas via-canvas/90 to-transparent px-3.5 pt-8 pb-3">
                     <button
                       type="button"
                       onClick={(e) => {
                         e.stopPropagation();
-                        setVariant(item.id);
+                        setManualLang(item.id);
                       }}
                       className={`pointer-events-auto rounded-full border px-2.5 py-0.5 text-[12px] font-medium transition-all duration-200 ${
                         isActive

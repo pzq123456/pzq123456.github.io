@@ -125,10 +125,6 @@ export default function Hero() {
             {t(PERSONAL_INFO.title)}
           </motion.h2>
 
-          <motion.p variants={itemVariants} className="text-[16px] md:text-[17px] text-ink-base leading-[1.75] mb-9 max-w-[52ch]">
-            {t({ en: "AI / Full-Stack developer working across Computer Vision, LLM systems and WebGIS.", zh: "专注计算机视觉、LLM 系统与 WebGIS 的 AI / 全栈开发者。" })}
-          </motion.p>
-
           <motion.div variants={itemVariants} className="flex flex-row flex-wrap items-center gap-3">
             <a
               href="#cv"

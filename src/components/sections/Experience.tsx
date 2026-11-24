@@ -35,22 +35,17 @@ export default function Experience() {
                 <h3 className="text-3xl font-serif font-medium text-ink-bold tracking-tight">
                   {t(exp.company)}
                 </h3>
-                <ul className="space-y-4">
-                  {details.map((detail, i) => (
-                    <li key={i} className="flex gap-4 text-ink-base">
-                      <span className="mt-2 w-1.5 h-1.5 shrink-0 bg-accent/40" />
-                      <p className="text-[16px] md:text-[17px] leading-[1.75]">{stripMd(detail)}</p>
-                    </li>
-                  ))}
-                </ul>
+
+                {/* Skills used in this role — the skill catalog lives inside
+                    each experience in base.json, not as a standalone list. */}
                 {!!exp.tags.length && (
-                  <div className="flex flex-wrap gap-1.5 pt-2">
+                  <div className="flex flex-wrap gap-1.5">
                     {exp.tags.map((tag) => {
                       const style = getTechStyle(tag);
                       return (
                         <span
                           key={tag}
-                          className="px-2.5 py-1 text-[12px] font-medium leading-none"
+                          className="px-2.5 py-1 text-[12px] font-medium leading-none ring-1 ring-line/40"
                           style={{ backgroundColor: style.bg, color: style.text }}
                         >
                           {tag}
@@ -59,6 +54,15 @@ export default function Experience() {
                     })}
                   </div>
                 )}
+
+                <ul className="space-y-4">
+                  {details.map((detail, i) => (
+                    <li key={i} className="flex gap-4 text-ink-base">
+                      <span className="mt-2 w-1.5 h-1.5 shrink-0 bg-accent/40" />
+                      <p className="text-[16px] md:text-[17px] leading-[1.75]">{stripMd(detail)}</p>
+                    </li>
+                  ))}
+                </ul>
               </div>
             </div>
           );

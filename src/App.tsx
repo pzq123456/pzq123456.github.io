@@ -2,7 +2,6 @@ import { useEffect, useRef } from "react";
 import { AppProvider } from "./context/AppContext";
 import Navbar from "./components/sections/Navbar";
 import Hero from "./components/sections/Hero";
-import Skills from "./components/sections/Skills";
 import Experience from "./components/sections/Experience";
 import Gallery from "./components/sections/Gallery";
 import CvWorkspace from "./components/sections/CvWorkspace";
@@ -65,7 +64,6 @@ export default function AcademicPortfolio() {
           <>
             <main className="max-w-6xl mx-auto relative z-10">
               <Hero />
-              <Skills />
               <Experience />
               <Gallery />
               <AcademicRecord />

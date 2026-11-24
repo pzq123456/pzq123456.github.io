@@ -1,16 +1,11 @@
-import { Github, Globe, ArrowUpRight } from "lucide-react";
+import { Github, Globe, BookOpen, ArrowUpRight } from "lucide-react";
 import { Chapter } from "../Chapter";
 import { GALLERY_PROJECTS } from "@/data/projects";
 import { useApp } from "@/context/AppContext";
-
-const PROJECT_META = [
-  { en: "Spatial clustering · WebGIS", zh: "空间聚类 · WebGIS" },
-  { en: "Trajectory data · WebWorkers", zh: "轨迹数据 · WebWorkers" },
-  { en: "3D map · Deck.gl", zh: "三维地图 · Deck.gl" },
-];
+import ArchitectureDiagram from "./ArchitectureDiagram";
 
 export default function Gallery() {
-  const { t } = useApp();
+  const { t, lang } = useApp();
 
   return (
     <Chapter
@@ -22,43 +17,54 @@ export default function Gallery() {
     >
       <div className="space-y-14 md:space-y-20">
         {GALLERY_PROJECTS.map((proj, idx) => {
-          const feature = idx === 0;
-          const meta = PROJECT_META[idx] ?? PROJECT_META[0];
+          const feature = idx === 0 || !!proj.architecture;
           const reversed = idx === 1;
+
+          const visual = proj.image ? (
+            <img
+              src={proj.image}
+              alt={t(proj.title)}
+              loading={feature ? "eager" : "lazy"}
+              className="h-full w-full object-cover opacity-95 transition-transform duration-700 group-hover:scale-[1.015] group-hover:opacity-100"
+            />
+          ) : proj.architecture ? (
+            <div className="flex h-full w-full items-center justify-center p-4 md:p-8">
+              <ArchitectureDiagram architecture={proj.architecture} lang={lang} />
+            </div>
+          ) : null;
 
           return (
             <article
-              key={idx}
-              className={
-                feature
-                  ? ""
-                  : "grid gap-6 md:grid-cols-12 md:gap-10"
-              }
+              key={proj.id}
+              className={feature ? "" : "grid gap-6 md:grid-cols-12 md:gap-10"}
             >
-              <a
-                href={proj.resources.website}
-                target="_blank"
-                rel="noreferrer"
-                className={`group relative block overflow-hidden border border-line/60 bg-ink ${
-                  feature ? "" : `md:col-span-7 ${reversed ? "md:order-2" : ""}`
-                }`}
-              >
-                <div
-                  className={`overflow-hidden ${
-                    feature ? "aspect-[16/8]" : "aspect-[16/10]"
+              {proj.resources.website ? (
+                <a
+                  href={proj.resources.website}
+                  target="_blank"
+                  rel="noreferrer"
+                  className={`group relative block overflow-hidden border border-line/60 bg-ink ${
+                    feature ? "" : `md:col-span-7 ${reversed ? "md:order-2" : ""}`
                   }`}
                 >
-                  <img
-                    src={proj.image}
-                    alt={t(proj.title)}
-                    loading={feature ? "eager" : "lazy"}
-                    className="h-full w-full object-cover opacity-95 transition-transform duration-700 group-hover:scale-[1.015] group-hover:opacity-100"
-                  />
+                  <div className={`overflow-hidden ${feature ? "aspect-[16/8]" : "aspect-[16/10]"}`}>
+                    {visual}
+                  </div>
+                  <span className="absolute bottom-3 right-3 flex h-9 w-9 items-center justify-center rounded-full bg-canvas/90 text-ink-bold opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                    <ArrowUpRight size={16} />
+                  </span>
+                </a>
+              ) : (
+                <div
+                  className={`group relative overflow-hidden border border-line/60 bg-canvas-sub ${
+                    feature ? "" : `md:col-span-7 ${reversed ? "md:order-2" : ""}`
+                  }`}
+                >
+                  <div className={`overflow-hidden ${feature ? "aspect-[16/8]" : "aspect-[16/10]"}`}>
+                    {visual}
+                  </div>
                 </div>
-                <span className="absolute bottom-3 right-3 flex h-9 w-9 items-center justify-center rounded-full bg-canvas/90 text-ink-bold opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                  <ArrowUpRight size={16} />
-                </span>
-              </a>
+              )}
 
               <div
                 className={
@@ -71,7 +77,7 @@ export default function Gallery() {
                   <p className="font-mono text-[12px] uppercase tracking-[0.16em] text-ink-muted">
                     <span className="text-coral">0{idx + 1}</span>
                     <span className="mx-2 text-line">/</span>
-                    {t(meta)}
+                    {t(proj.meta)}
                   </p>
                   <h3 className="mt-3 font-serif text-[26px] font-medium leading-tight tracking-tight text-ink-bold md:text-[32px]">
                     {t(proj.title)}
@@ -84,16 +90,18 @@ export default function Gallery() {
                   </p>
 
                   <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2">
-                    <a
-                      href={proj.resources.website}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="inline-flex items-center gap-1.5 text-[13px] font-medium text-ink-muted transition-colors hover:text-accent"
-                    >
-                      <Globe size={13} />
-                      {t({ en: "Live demo", zh: "在线演示" })}
-                      <ArrowUpRight size={12} />
-                    </a>
+                    {proj.resources.website && (
+                      <a
+                        href={proj.resources.website}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex items-center gap-1.5 text-[13px] font-medium text-ink-muted transition-colors hover:text-accent"
+                      >
+                        <Globe size={13} />
+                        {t({ en: "Live demo", zh: "在线演示" })}
+                        <ArrowUpRight size={12} />
+                      </a>
+                    )}
 
                     {proj.resources.github && (
                       <a
@@ -104,6 +112,17 @@ export default function Gallery() {
                       >
                         <Github size={13} />
                         {t({ en: "Source", zh: "源代码" })}
+                        <ArrowUpRight size={12} />
+                      </a>
+                    )}
+
+                    {proj.blogSlug && (
+                      <a
+                        href={`#/blog/${proj.blogSlug}`}
+                        className="inline-flex items-center gap-1.5 text-[13px] font-medium text-ink-muted transition-colors hover:text-accent"
+                      >
+                        <BookOpen size={13} />
+                        {t({ en: "Architecture notes", zh: "架构拆解" })}
                         <ArrowUpRight size={12} />
                       </a>
                     )}

@@ -1,256 +1,331 @@
 {
-  "basics": {
-    "name": { "en": "Pan Zhiqing", "zh": "潘志清" },
-    "label": {
-      "en": "AI / Full-Stack Engineer · LLM / RAG · Computer Vision",
-      "zh": "AI / 全栈工程师 · LLM / RAG · 计算机视觉"
+  "meta": {
+    "accent": "#B14E2E",
+    "target": {
+      "en": "AI Agent Engineer",
+      "zh": "AI Agent 开发工程师"
     },
-    "location": "Hong Kong",
+    "source": {
+      "zh": "data/fullstack-zh.pdf",
+      "code": "tmp/knowledge, GeoAI, ednexus"
+    }
+  },
+  "basics": {
+    "name": {
+      "en": "Pan Zhiqing",
+      "zh": "潘志清"
+    },
+    "label": {
+      "en": "AI Agent Engineer",
+      "zh": "AI Agent 开发工程师"
+    },
+    "location": {
+      "en": "Hong Kong",
+      "zh": "香港"
+    },
     "email": "panzhiqing15@gmail.com",
     "phone": "+86 18352874270",
     "url": "https://pzq123456.github.io/",
     "profiles": [
-      {
-        "network": "GitHub",
-        "username": "pzq123456",
-        "url": "https://github.com/pzq123456"
-      }
+      { "network": "GitHub", "url": "https://github.com/pzq123456" }
     ]
   },
-  "skills": [
-    {
-      "id": "skill.vision",
-      "name": {
-        "en": "Computer Vision / Industrial AI",
-        "zh": "计算机视觉 / 工业 AI"
-      },
-      "keywords": [
-        "**YOLO**",
-        "**DeepStream**",
-        "**TensorRT**",
-        "PyTorch",
-        "ONNX",
-        "Real-time Inference",
-        "**Visual Inspection**",
-        "Small Object Detection",
-        "**Camera Calibration**"
-      ]
-    },
-    {
-      "id": "skill.llm",
-      "name": { "en": "AI / LLM", "zh": "AI / LLM" },
-      "keywords": [
-        "RAG",
-        "**AI Agent**",
-        "Qwen",
-        "BGE-M3",
-        "Qdrant",
-        "Pydantic AI",
-        "FastAPI",
-        "Vector Search",
-        "SSE",
-        "Llama",
-        "n8n"
-      ]
-    },
-    {
-      "id": "skill.se",
-      "name": { "en": "Software Engineering", "zh": "软件工程" },
-      "keywords": [
-        "Python",
-        "TypeScript",
-        "React",
-        "Vue 3",
-        "Node.js",
-        "PostgreSQL",
-        "Linux",
-        "Docker",
-        "Docker Compose",
-        "Prisma",
-        "tRPC",
-        "Deck.gl",
-        "MapLibre"
-      ]
-    },
-    {
-      "id": "skill.lang",
-      "name": { "en": "Languages", "zh": "语言" },
-      "keywords": [
-        "English",
-        "**IELTS 6.5**",
-        "CET-4",
-        "CET-6",
-        "Technical Discussion"
-      ]
-    }
-  ],
   "work": [
     {
-      "id": "work.4s",
+      "id": "work.rag-cv",
       "position": {
-        "en": "AI & Computer Vision Engineer",
-        "zh": "AI 与计算机视觉工程师"
+        "en": "AI Engineer",
+        "zh": "AI 开发工程师"
       },
-      "company": { "en": "A 4S Engineering Company", "zh": "某 4S 工程公司" },
-      "location": { "en": "Hong Kong", "zh": "香港" },
-      "startDate": "2026.04",
-      "endDate": "2026.09",
+      "company": {
+        "en": "Engineering Survey and Geophysics Limited",
+        "zh": "佳为工程勘察测绘有限公司"
+      },
+      "location": {
+        "en": "Hong Kong",
+        "zh": "香港"
+      },
+      "startDate": "2026.03",
+      "endDate": "2026.10",
+      "skills": [
+        "RAG",
+        "Pydantic AI",
+        "FastAPI",
+        "TEI",
+        "BGE-M3",
+        "Qdrant",
+        "Qwen",
+        "Docker",
+        "Docker Compose",
+        "Linux"
+      ],
       "highlights": [
         {
-          "en": "Led a real-time industrial vision system: **DeepStream + YOLO + TensorRT** multi-stream video inference with **32 concurrent RTSP feeds**, covering helmet / reflective-vest / safety-belt / smoking detection.",
-          "zh": "主导实时工业视觉系统：**DeepStream + YOLO + TensorRT** 多路视频推理，**32 路 RTSP 并发**，覆盖安全帽 / 反光衣 / 安全带 / 吸烟检测。"
+          "id": "work.rag-cv.b1",
+          "text": {
+            "en": "Enterprise-grade bilingual RAG Agent delivery: Led the knowledge QA Agent for internal business and customer support, solving the problem of mixed Chinese-English surveying standards and historical project documents that were difficult to retrieve.",
+            "zh": "企业级双语 RAG Agent 落地：主导面向内部业务与客服的知识问答 Agent，解决测绘规范与历史项目文档中英混排、检索困难的问题。"
+          }
         },
         {
-          "en": "Designed a **two-stage vision architecture** (full-frame detection + secondary classification / detection) with dynamic batching, frame sampling and **TensorRT FP16** to optimize throughput; added consecutive-frame confirmation, alert cooldown and evidence-frame mechanisms that turn single-frame detections into stable event alerts delivered over Webhook / RTSP, with an architecture ready to **scale to 100+ streams**.",
-          "zh": "设计**两阶段视觉检测架构**（整帧检测 + 二级分类 / 检测），结合动态 Batch、抽帧与 **TensorRT FP16** 优化吞吐；配套连续帧确认、告警冷却与证据帧机制，将单帧检测转换为稳定事件告警并以 Webhook / RTSP 输出，架构具备向**百路级扩展**的基础。"
-        },
-        {
-          "en": "Built a **PyTorch → ONNX → TensorRT** automated build and deployment pipeline and completed camera calibration with pixel-to-physical coordinate mapping; all services run in Docker on a **Linux GPU server (4 × NVIDIA L20)**, plus in-house data-collection tooling closing the data-to-deployment loop.",
-          "zh": "搭建 **PyTorch → ONNX → TensorRT** 自动化构建与部署流程，完成相机标定与像素—物理坐标映射；所有服务以 Docker 形式托管于 **Linux GPU 服务器（4 × NVIDIA L20）**，并开发内部数据采集工具，打通数据到部署的迭代闭环。"
+          "id": "work.rag-cv.b2",
+          "text": {
+            "en": "High-availability inference architecture and compute deployment: Responsible for the decoupled service architecture based on FastAPI + TEI, as well as the Docker-based orchestration of a 4 × NVIDIA L20 GPU server, supporting production deployment.",
+            "zh": "高可用推理架构与算力部署：负责 FastAPI + TEI 解耦的服务化架构，以及 4 × NVIDIA L20 GPU 服务器的 Docker 化编排，支撑生产环境部署。"
+          }
         }
       ]
     },
     {
-      "id": "work.edtech",
+      "id": "work.edtech-intern",
       "position": {
-        "en": "Full-Stack Developer Intern",
-        "zh": "全栈开发实习生"
+        "en": "AI Application & Full-Stack Development Intern",
+        "zh": "AI 应用与全栈开发实习生"
       },
-      "company": { "en": "An EdTech Startup", "zh": "某教育科技初创公司" },
-      "location": { "en": "Hong Kong", "zh": "香港" },
+      "company": {
+        "en": "EdNexus",
+        "zh": "EdNexus（活樂研學平台）"
+      },
+      "location": {
+        "en": "Hong Kong",
+        "zh": "香港"
+      },
       "startDate": "2025.08",
       "endDate": "2025.12",
+      "skills": [
+        "React 19",
+        "TypeScript",
+        "tRPC",
+        "Prisma",
+        "Llama",
+        "n8n",
+        "Git Hooks",
+        "PM2"
+      ],
       "highlights": [
         {
-          "en": "Took an education SaaS from half-finished to production: full-stack development in React / TypeScript, core feature delivery and system integration.",
-          "zh": "主导教育 SaaS 从半成品到生产上线：React / TypeScript 全栈开发，核心功能交付与系统集成。"
+          "id": "work.edtech-intern.b1",
+          "text": {
+            "en": "Inquiry-based AI teaching assistant and context engineering: Orchestrated a Llama workflow with n8n, maintained multi-turn conversation context via session_id, and concatenated conversation history with the latest reply into the recommended-question prompt to generate guided follow-up questions instead of direct answers.",
+            "zh": "探究式 AI 助教与上下文工程：基于 n8n 编排 Llama 工作流，用 session_id 维护多轮对话上下文，并把对话历史与最新回复拼接进推荐问题 Prompt，生成引导式追问而不是直接给答案。"
+          }
         },
         {
-          "en": "Refactored the API layer with Prisma + tRPC, and automated deployment with Docker + Git Hooks.",
-          "zh": "用 Prisma + tRPC 重构 API 层，Docker + Git Hooks 实现自动部署。"
+          "id": "work.edtech-intern.b2",
+          "text": {
+            "en": "Multi-stage study workflow loop: Led the platform from a half-finished state to production launch, building the state-transition chain across 8 learning stages with React 19 + TypeScript, connecting the student learning process with teacher-side grading and evaluation.",
+            "zh": "多阶段研学工作流闭环：主导平台从半成品到生产上线，用 React 19 + TypeScript 构建贯穿 8 个学习阶段的状态流转链路，打通学生学习过程与教师端批改评价环节。"
+          }
         },
         {
-          "en": "Built an agent that orchestrates inquiry-based learning using the Llama LLM and n8n workflows.",
-          "zh": "基于 Llama 大模型及 n8n 工作流编排智能代理，构建学生自主探究式学习系统。"
+          "id": "work.edtech-intern.b3",
+          "text": {
+            "en": "Full-stack type contracts and automated delivery: Used tRPC + shared types to eliminate frontend-backend interface integration errors, modeled business and conversation data with Prisma; configured Git Hooks to automatically trigger builds and PM2 restarts, establishing a standardized release process.",
+            "zh": "全栈类型契约与自动化交付：以 tRPC + 共享类型消除前后端接口联调误差，结合 Prisma 完成业务与对话数据建模；配置 Git Hook 自动触发构建与 PM2 重启，沉淀标准化发布流程。"
+          }
         }
       ]
     },
     {
-      "id": "work.polyu",
-      "position": { "en": "Research Assistant", "zh": "研究助理" },
+      "id": "work.ra-ev",
+      "position": {
+        "en": "Research Assistant",
+        "zh": "研究助理"
+      },
       "company": {
         "en": "The Hong Kong Polytechnic University",
         "zh": "香港理工大学"
       },
-      "location": { "en": "Hong Kong", "zh": "香港" },
+      "location": {
+        "en": "Hong Kong",
+        "zh": "香港"
+      },
       "startDate": "2024.11",
       "endDate": "2025.07",
+      "url": "https://pzq123456.github.io/EVChargerSite/",
+      "skills": [
+        "Python",
+        "GeoPandas",
+        "Vue 3",
+        "Leaflet",
+        "Chart.js",
+        "WebGIS"
+      ],
       "highlights": [
         {
-          "en": "Contributed to the [Global EV Data Initiative](https://pzq123456.github.io/EVChargerSite/): multi-source cleaning, spatial processing and web visualization of global EV charging-station data, building a dynamic geospatial dashboard.",
-          "zh": "参与 [Global EV Data Initiative](https://pzq123456.github.io/EVChargerSite/)，负责全球 EV 充电站多源数据清洗、空间处理与 Web 可视化，构建动态地理信息仪表盘。"
+          "id": "work.ra-ev.b1",
+          "text": {
+            "en": "Large-scale spatial data governance and analytics platform: Contributed to the Global EV Data Initiative, built a pipeline to normalize multi-source heterogeneous EV charging-station data into standard spatial data, and developed a dynamic geospatial analytics dashboard, accumulating spatial data engineering foundations for domain-specific Spatial Agents.",
+            "zh": "大规模空间数据治理与分析平台：参与 Global EV Data Initiative，构建管线把多源异构充电桩数据归一为标准空间数据，并开发动态地理分析仪表盘，为垂直领域 Spatial Agent 积累空间数据工程基础。"
+          }
         }
       ]
     }
   ],
   "projects": [
     {
-      "id": "project.vision",
-      "name": {
-        "en": "Industrial Vision Inference",
-        "zh": "工业视觉推理管线"
-      },
-      "url": "https://github.com/pzq123456/VideoInspector",
-      "stack": ["YOLO", "DeepStream", "TensorRT", "ONNX", "Docker"],
-      "highlights": [
-        {
-          "en": "A **two-stage real-time inference pipeline** built on DeepStream with **32 concurrent RTSP streams** (dynamic batching + frame sampling + TensorRT FP16), designed to **scale to 100+ streams**; planar-homography camera calibration with pixel-to-physical mapping reusable for packaging-line visual inspection; containerized with Docker and automated model builds.",
-          "zh": "基于 DeepStream 的**两阶段实时推理管线**，**32 路 RTSP 并发**（动态 Batch + 抽帧 + TensorRT FP16），面向**百路级扩展**；平面单应性相机标定 + 像素—物理坐标映射，可复用于封装产线视觉检测；Docker 容器化部署，模型自动构建。"
-        }
-      ]
-    },
-    {
-      "id": "project.rag",
-      "name": {
-        "en": "Enterprise RAG Knowledge Base",
-        "zh": "企业 RAG 知识库"
-      },
-      "url": "https://github.com/pzq123456/knowledge",
-      "stack": ["FastAPI", "Qdrant", "BGE-M3", "Qwen", "Docker"],
-      "highlights": [
-        {
-          "en": "Enterprise document QA pipeline: Word / PDF → Markdown → embedding → retrieval → answer (BGE-M3 + Qdrant + Qwen).",
-          "zh": "企业文档问答链路：Word / PDF → Markdown → 向量化 → 检索 → 问答（BGE-M3 + Qdrant + Qwen）。"
-        },
-        {
-          "en": "Split into three services by compute profile: a GPU-resident TEI embedding service, a stateless FastAPI QA agent, and stateful Qdrant (persistent volume + snapshot recovery); each service restarts and scales independently (decoupled via environment variables) and is orchestrated with Docker Compose.",
-          "zh": "按计算特性拆为三服务：GPU 常驻的 TEI 向量化服务、无状态的 FastAPI 问答 Agent、有状态的 Qdrant（持久化卷 + 快照恢复）；各服务独立重启与扩缩容（环境变量解耦），Docker Compose 一键编排。"
-        }
-      ]
-    },
-    {
       "id": "project.geoai",
       "name": {
-        "en": "GeoAI Professional Service",
-        "zh": "GeoAI 专业服务"
+        "en": "GeoAI: Spatial Analysis Tool-Use Agent",
+        "zh": "GeoAI：空间分析 Tool-Use Agent"
       },
       "url": "https://github.com/pzq123456/GeoAI",
-      "stack": ["FastAPI", "Pydantic AI", "Vue 3", "Deck.gl", "MapLibre"],
+      "stack": ["Pydantic AI", "FastAPI", "SSE", "Deck.gl", "MapLibre"],
       "highlights": [
         {
-          "en": "Pydantic AI agent orchestrating GIS tools (spatial queries, buffer analysis) to drive analysis from natural language, streaming status and results over SSE.",
-          "zh": "Pydantic AI Agent 编排空间查询与缓冲区分析等 GIS Tools，自然语言驱动分析流程，SSE 流式推送状态与结果。"
+          "id": "project.geoai.b1",
+          "text": {
+            "en": "To address the high barrier to GIS analysis, designed a strongly typed Tool-Use architecture based on Pydantic AI: wrapped operators such as spatial queries and buffer analysis into standardized tools, enabling the Agent to autonomously decompose intent and dispatch tools, and outputting validated GeoJSON and analysis reports.",
+            "zh": "面向 GIS 分析门槛高的问题，基于 Pydantic AI 设计强类型 Tool-Use 架构：把空间查询、缓冲区分析等算子封装为标准化工具，Agent 自主拆解意图并调度工具，输出经校验的 GeoJSON 与分析报告。"
+          }
         },
         {
-          "en": "Real-time map visualization with Vue 3 + Deck.gl / MapLibre, GeoJSON overlays and Pinia state management.",
-          "zh": "Vue 3 + Deck.gl / MapLibre 实时地图可视化，GeoJSON 上图，Pinia 状态管理。"
+          "id": "project.geoai.b2",
+          "text": {
+            "en": "Staged streaming status feedback: For time-consuming spatial computing scenarios, used SSE to push intent parsing, tool execution and rendering status in stages; the frontend incrementally renders layers via Deck.gl / MapLibre with deduplication and metadata management, balancing smooth interaction with traceable results.",
+            "zh": "分阶段流式状态反馈：针对空间计算耗时长的场景，用 SSE 分阶段推送意图解析、工具执行与渲染状态；前端通过 Deck.gl / MapLibre 增量渲染图层，并做去重与元数据管理，兼顾交互流畅与结果可追溯。"
+          }
         }
       ]
     },
     {
-      "id": "project.lianjia",
+      "id": "project.rag-kb",
       "name": {
-        "en": "Second-hand Housing Scraper",
-        "zh": "二手房数据采集与清洗"
+        "en": "Enterprise RAG Knowledge Base Engine",
+        "zh": "企业级 RAG 知识库引擎"
       },
-      "url": "https://github.com/pzq123456/LianjiaSpider",
-      "stack": ["Python", "Jupyter", "pandas"],
+      "url": "https://github.com/pzq123456/knowledge",
+      "stack": ["FastAPI", "Pydantic AI", "Qwen", "BGE-M3", "TEI", "Qdrant", "Docker Compose"],
       "highlights": [
         {
-          "en": "Extended an open-source scraper via API reverse engineering to collect **60+ fields** (price, coordinates, …) from Lianjia listings, building reusable scraping and cleaning scripts.",
-          "zh": "基于开源爬虫二次开发：通过接口逆向采集链家二手房 **60+ 字段**（价格、经纬度等），构建可复用的数据采集与清洗脚本。"
+          "id": "project.rag-kb.b1",
+          "text": {
+            "en": "High-precision document ETL and hybrid chunking: Used Docling to clean thousands of unstructured enterprise PDF / Word documents into hierarchy-preserving Markdown, applied HybridChunker to chunk by semantic and structural boundaries, then batch-encoded and idempotently wrote to Qdrant via deterministic IDs.",
+            "zh": "高精度文档 ETL 与混合分块：基于 Docling 把企业内部数千份 PDF / Word 等非结构化文档清洗为保留层级的 Markdown，用 HybridChunker 结合语义与结构边界分块，批量编码后通过确定性 ID 幂等写入 Qdrant。"
+          }
+        },
+        {
+          "id": "project.rag-kb.b2",
+          "text": {
+            "en": "Agentic query rewriting and concurrent retrieval: To bridge the semantic gap in cross-lingual retrieval, used a Qwen Agent to generate at least 2 Chinese-English bilingual queries before retrieval, concurrently recalled Top-K chunks from Qdrant and deduplicated by ID, enforcing answers with source attribution and confidence scores.",
+            "zh": "Agentic Query 改写与并发召回：为缓解跨语言检索的语义鸿沟，用 Qwen Agent 在检索前生成至少 2 组中英双语 Query，并发召回 Qdrant Top-K 切片并按 ID 去重，强制输出带原文溯源与置信度的回答。"
+          }
+        },
+        {
+          "id": "project.rag-kb.b3",
+          "text": {
+            "en": "High-concurrency deployment with separated storage and compute: Deployed BGE-M3 embedding inference independently with TEI, decoupled from the stateless FastAPI Agent gateway; the vector store is persisted with snapshot recovery, and encoding, retrieval and generation nodes can scale independently.",
+            "zh": "存算分离的高并发部署：用 TEI 独立部署 BGE-M3 向量推理服务，与无状态 FastAPI Agent 网关解耦；向量库持久化并支持快照恢复，编码、检索与生成节点可独立扩容。"
+          }
         }
       ]
+    }
+  ],
+  "gallery": [
+    {
+      "id": "gallery.ev",
+      "title": {
+        "en": "Global EV Charge Stations",
+        "zh": "全球充电站可视化"
+      },
+      "meta": {
+        "en": "Spatial clustering · WebGIS",
+        "zh": "空间聚类 · WebGIS"
+      },
+      "desc": {
+        "en": "Visualizing 100,000+ points using advanced spatial clustering.",
+        "zh": "利用空间聚类算法展示全球 10w+ 充电桩分布。"
+      },
+      "imageKey": "ev",
+      "resources": {
+        "github": "https://github.com/pzq123456/EVChargerSite",
+        "website": "https://pzq123456.github.io/EVChargerSite/"
+      }
     },
     {
-      "id": "project.bike",
-      "name": {
-        "en": "Bike-sharing Trajectory Analysis (Thesis)",
-        "zh": "共享单车轨迹数据分析（毕业论文）"
+      "id": "gallery.bus",
+      "title": {
+        "en": "HK Bus Trajectory",
+        "zh": "香港巴士轨迹大数据"
       },
-      "url": "https://github.com/pzq123456/bike",
-      "stack": ["Python", "pandas", "OSM", "QGIS"],
-      "highlights": [
-        {
-          "en": "Cleaned and analyzed **100k+** bike trajectories against OSM road-network data, performing spatial joins and visualization for a thesis and thematic maps.",
-          "zh": "清洗并分析 **10 万级**骑行轨迹与 OSM 路网数据，完成空间连接与可视化，产出毕业论文与专题地图。"
-        }
-      ]
+      "meta": {
+        "en": "Trajectory data · WebWorkers",
+        "zh": "轨迹数据 · WebWorkers"
+      },
+      "desc": {
+        "en": "Real-time parsing of 1GB+ trajectory data using WebWorkers.",
+        "zh": "通过 WebWorker 异步解析 1GB+ 的巴士轨迹时空数据。"
+      },
+      "imageKey": "bus",
+      "resources": {
+        "github": "https://github.com/pzq123456/HKebus",
+        "website": "https://pzq123456.github.io/HKebus/"
+      }
     },
     {
-      "id": "project.ev",
-      "name": {
-        "en": "EV Charging-station Data Visualization",
-        "zh": "EV 充电站数据可视化平台"
+      "id": "gallery.campus",
+      "title": {
+        "en": "3D Campus for PolyU",
+        "zh": "理大 3D 校园"
       },
-      "url": "https://github.com/pzq123456/EVChargerSite",
-      "stack": ["Vue 3", "Leaflet", "Chart.js", "GeoPandas"],
-      "highlights": [
-        {
-          "en": "Integrated and standardized multi-source global EV charging-station data; SHP → GeoJSON processing pipeline with an interactive distribution and statistics dashboard.",
-          "zh": "全球 EV 充电站多源数据整合与标准化，SHP → GeoJSON 处理管线，交互式分布与统计仪表盘。"
+      "meta": {
+        "en": "3D map · Deck.gl",
+        "zh": "三维地图 · Deck.gl"
+      },
+      "desc": {
+        "en": "Hybrid 3D map using DeckGL and OpenStreetMap building data.",
+        "zh": "结合 DeckGL 与 OSM 构建的 3D 混合虚拟校园地图。"
+      },
+      "imageKey": "campus",
+      "resources": {
+        "website": "https://pzq123456.github.io/LSGI548/dev/"
+      }
+    },
+    {
+      "id": "gallery.rag",
+      "title": {
+        "en": "Enterprise RAG Knowledge Base",
+        "zh": "企业级 RAG 知识库"
+      },
+      "meta": {
+        "en": "LLM Agent · Retrieval-Augmented Generation",
+        "zh": "LLM Agent · 检索增强生成"
+      },
+      "desc": {
+        "en": "From thousands of unstructured documents to a bilingual QA agent: structure-preserving ETL, hybrid chunking, decoupled embedding and vector search, with every answer traced back to its source.",
+        "zh": "把数千份非结构化文档变成可溯源的双语问答 Agent：保留层级的文档解析、语义与结构混合分块、存算分离的向量检索，每个回答都带原文出处。"
+      },
+      "imageKey": null,
+      "blogSlug": "bilingual-rag-architecture",
+      "resources": {
+        "github": "https://github.com/pzq123456/knowledge"
+      },
+      "architecture": {
+        "en": {
+          "laneIndex": { "label": "INDEXING PIPELINE", "hint": "" },
+          "laneQuery": { "label": "QUERY PIPELINE", "hint": "" },
+          "documents": { "label": "Enterprise documents", "hint": "PDF · Word · Excel · PPT" },
+          "etl": { "label": "Docling ETL", "hint": "Structure-preserving Markdown" },
+          "chunk": { "label": "HybridChunker", "hint": "Semantic + structural boundaries" },
+          "embed": { "label": "TEI · BGE-M3", "hint": "Independent embedding service" },
+          "store": { "label": "Qdrant", "hint": "Vectors · snapshots · ID dedup" },
+          "rewrite": { "label": "Qwen query rewrite", "hint": "2+ bilingual queries" },
+          "agent": { "label": "Pydantic AI Agent", "hint": "Concurrent top-K retrieval" },
+          "answer": { "label": "Grounded answer", "hint": "Sources + confidence" }
+        },
+        "zh": {
+          "laneIndex": { "label": "索引构建链路", "hint": "" },
+          "laneQuery": { "label": "问答检索链路", "hint": "" },
+          "documents": { "label": "企业文档", "hint": "PDF · Word · Excel · PPT" },
+          "etl": { "label": "Docling ETL", "hint": "保留层级转换为 Markdown" },
+          "chunk": { "label": "HybridChunker", "hint": "语义 + 结构边界分块" },
+          "embed": { "label": "TEI · BGE-M3", "hint": "独立向量化服务" },
+          "store": { "label": "Qdrant", "hint": "向量持久化 · 快照 · ID 去重" },
+          "rewrite": { "label": "Qwen Query 改写", "hint": "≥2 组中英双语 Query" },
+          "agent": { "label": "Pydantic AI Agent", "hint": "并发召回 Top-K" },
+          "answer": { "label": "带溯源的回答", "hint": "原文出处 + 置信度" }
         }
-      ]
+      }
     }
   ],
   "education": [
@@ -263,8 +338,8 @@
       "startDate": "2024.09",
       "endDate": "2026.03",
       "summary": {
-        "en": "MSc, Land Surveying & Geo-Informatics · **Distinction** · GPA **3.9 / 4.3**",
-        "zh": "MSc, 土地测量与地理信息学 · **Distinction** · GPA **3.9 / 4.3**"
+        "en": "MSc, Land Surveying and Geo-Informatics · Distinction · GPA 3.9 / 4.3",
+        "zh": "MSc, 土地测量与地理信息学 · Distinction · GPA 3.9 / 4.3"
       }
     },
     {
@@ -276,26 +351,23 @@
       "startDate": "2020.09",
       "endDate": "2024.06",
       "summary": {
-        "en": "BSc, Geographic Information Science · GPA **3.8 / 5.0** · Top 10%",
-        "zh": "BSc, 地理信息科学 · GPA **3.8 / 5.0** · Top 10%"
+        "en": "BSc, Geographic Information Science · GPA 3.8 / 5.0 · Top 10%",
+        "zh": "BSc, 地理信息科学 · GPA 3.8 / 5.0 · Top 10%"
       }
     }
   ],
   "publications": [
     {
-      "id": "pub.hkfire",
-      "name": {
-        "en": "Decoding wildland-urban interface fire regimes in Hong Kong",
-        "zh": "Decoding wildland-urban interface fire regimes in Hong Kong"
-      },
+      "id": "pub.wui-fire",
+      "name": "Decoding wildland-urban interface fire regimes in Hong Kong",
       "releaseDate": "2025",
       "summary": {
-        "en": "Co-first Author · **SCI Q2 Top (CAS) · JCR Q1** · Led spatiotemporal data preprocessing, spatial analysis and fire-regime interpretation.",
-        "zh": "Co-first Author · **SCI 二区 Top（中科院）· JCR Q1** · 负责时空数据预处理、空间分析与火灾模式解译。"
+        "en": "Co-first author, SCI Q2 Top (CAS) / JCR Q1; responsible for spatiotemporal data preprocessing, spatial analysis and fire-regime interpretation, deriving interpretable fire patterns from raw observations.",
+        "zh": "共同一作，SCI 二区 Top（中科院）/ JCR Q1；负责时空数据预处理、空间分析与火灾模式解译，从原始观测中提炼可解释的火灾规律。"
       },
       "links": [
         {
-          "text": "DOI: 10.1016/j.ufug.2025.129095",
+          "text": "DOI",
           "href": "https://doi.org/10.1016/j.ufug.2025.129095"
         },
         {
@@ -304,11 +376,5 @@
         }
       ]
     }
-  ],
-  "meta": {
-    "accent": "#B14E2E",
-    "review_pending": [
-      "GPA 3.9 / 4.3 待正式成绩单最终确认，不阻塞技术迁移"
-    ]
-  }
+  ]
 }

@@ -2,23 +2,21 @@
 //
 // Website adapter: sync the bilingual resume catalog -> src/data/portfolio.generated.ts
 //
-// Run (see package.json "cv:sync"): npx --yes tsx scripts/sync-resume.ts
-// Direct (Node >= 22.6, erasable syntax only): node scripts/sync-resume.ts
-//
 // Single source of truth = resume/data/base.json (the fact catalog). Variants
 // (resume/data/variants/*.json) are overlays for PDF output only; the website
 // always reads the shared catalog.
 //
 // Localization convention: a translatable leaf is either a plain string
 // (language-neutral, e.g. a tech name or a date) or { en, zh }.
+// Catalog bullets are authored as { id, text: { en, zh } }; the id is metadata
+// and is dropped when generating website copy.
 //
 // Mapping rules:
 // - basics.name / label -> PERSONAL_INFO name / title (kept bilingual).
-// - skills[].name -> SKILLS_DATA.category; keywords -> items (bold stripped).
-// - work[] -> EXPERIENCE_DATA: role / company bilingual, details per language,
-//   tags = best-matching project stack (>= 2 keyword hits), else [].
-// - education[] -> EDUCATION_DATA (school/degree bilingual; gpa via /GPA .../).
-// - publications[0] -> PUBLICATION_DATA (single-object website contract).
+// - work[].skills       -> EXPERIENCE_DATA tags (skills shown on each job).
+// - work[].highlights   -> EXPERIENCE_DATA details per language.
+// - education[]         -> EDUCATION_DATA; publications[0] -> PUBLICATION_DATA.
+// - gallery[]           -> GALLERY_PROJECTS (all website copy lives in base.json).
 
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
@@ -35,14 +33,14 @@ type Localized = I18nText | string;
 
 interface ResumeProfile {
   network: string;
-  username: string;
+  username?: string;
   url: string;
 }
 
 interface ResumeBasics {
   name: Localized;
   label: Localized;
-  location: string;
+  location: Localized;
   email: string;
   phone: string;
   url: string;
@@ -54,20 +52,24 @@ interface ResumeSkill {
   keywords: Localized[];
 }
 
+// Bullets in the catalog carry a stable id; older/plain forms are also accepted.
+type ResumeHighlight = Localized | { id?: string; text: Localized };
+
 interface ResumeWork {
   position: Localized;
   company: Localized;
   location?: Localized;
   startDate: string;
   endDate: string;
-  highlights: Localized[];
+  skills?: string[];
+  highlights: ResumeHighlight[];
 }
 
 interface ResumeProject {
   name: Localized;
   url: string;
   stack: string[];
-  highlights: Localized[];
+  highlights: ResumeHighlight[];
 }
 
 interface ResumeEducation {
@@ -89,11 +91,32 @@ interface ResumePublication {
   links: ResumeLink[];
 }
 
+interface ArchNode {
+  label: string;
+  hint: string;
+}
+interface Architecture {
+  en: Record<string, ArchNode>;
+  zh: Record<string, ArchNode>;
+}
+
+interface ResumeGalleryProject {
+  id: string;
+  title: Localized;
+  meta: Localized;
+  desc: Localized;
+  imageKey: string | null;
+  blogSlug?: string;
+  resources: { github?: string; website?: string };
+  architecture?: Architecture;
+}
+
 interface ResumeBase {
   basics: ResumeBasics;
-  skills: ResumeSkill[];
+  skills?: ResumeSkill[];
   work: ResumeWork[];
   projects: ResumeProject[];
+  gallery: ResumeGalleryProject[];
   education: ResumeEducation[];
   publications: ResumePublication[];
 }
@@ -109,6 +132,14 @@ function pick(v: Localized | null | undefined, lang: Lang): string {
   return v[lang] || v.en || v.zh || "";
 }
 
+/** Pick a catalog bullet, whether it is { id, text } or a plain localized leaf. */
+function pickHighlight(h: ResumeHighlight, lang: Lang): string {
+  if (typeof h === "object" && h !== null && "text" in h) {
+    return pick((h as { text: Localized }).text, lang);
+  }
+  return pick(h as Localized, lang);
+}
+
 /** Normalize any localized leaf to an I18nText (strings duplicated). */
 function toI18n(v: Localized): I18nText {
   if (typeof v === "string") return { en: v.trim(), zh: v.trim() };
@@ -117,25 +148,6 @@ function toI18n(v: Localized): I18nText {
 
 function stripBold(s: string): string {
   return s.replaceAll("**", "");
-}
-
-/** Best-matching project stack by keyword overlap (>= 2 hits), else []. */
-function deriveTags(job: ResumeWork, projects: ResumeProject[]): string[] {
-  const text = (Array.isArray(job.highlights) ? job.highlights : [])
-    .map((h) => pick(h, "en") + "\n" + pick(h, "zh"))
-    .join("\n")
-    .toLowerCase();
-  let best: string[] = [];
-  let bestScore = 0;
-  for (const p of projects) {
-    if (!Array.isArray(p.stack)) continue;
-    const score = p.stack.filter((t) => text.includes(t.toLowerCase())).length;
-    if (score > bestScore) {
-      bestScore = score;
-      best = p.stack;
-    }
-  }
-  return bestScore >= 2 ? [...best] : [];
 }
 
 const GPA_RE = /GPA\s*\**\s*([\d.]+\s*\/\s*[\d.]+)/;
@@ -172,7 +184,7 @@ function main(): void {
   const basics: ResumeBasics = raw.basics;
   const skills: ResumeSkill[] = Array.isArray(raw.skills) ? raw.skills : [];
   const work: ResumeWork[] = Array.isArray(raw.work) ? raw.work : [];
-  const projects: ResumeProject[] = Array.isArray(raw.projects) ? raw.projects : [];
+  const gallery: ResumeGalleryProject[] = Array.isArray(raw.gallery) ? raw.gallery : [];
   const education: ResumeEducation[] = Array.isArray(raw.education) ? raw.education : [];
   const publications: ResumePublication[] = Array.isArray(raw.publications) ? raw.publications : [];
   if (publications.length === 0 || publications[0] === undefined) {
@@ -181,13 +193,17 @@ function main(): void {
   const firstPub: ResumePublication = publications[0];
 
   const profiles = Array.isArray(basics.profiles) ? basics.profiles : [];
-  const github = profiles.find((p) => p.network.toLowerCase() === "github")?.username ?? "";
+  const githubProfile = profiles.find((p) => p.network.toLowerCase() === "github");
+  const github =
+    githubProfile?.username ||
+    githubProfile?.url?.split("/").filter(Boolean).pop() ||
+    "";
 
   const personalInfo = {
     name: toI18n(basics.name),
     title: toI18n(basics.label),
     contact: {
-      location: basics.location,
+      location: pick(basics.location, "en"),
       github,
       website: basics.url,
     },
@@ -210,12 +226,24 @@ function main(): void {
       role: toI18n(j.position),
       company,
       details: {
-        en: (j.highlights ?? []).map((h) => pick(h, "en")),
-        zh: (j.highlights ?? []).map((h) => pick(h, "zh")),
+        en: (j.highlights ?? []).map((h) => pickHighlight(h, "en")),
+        zh: (j.highlights ?? []).map((h) => pickHighlight(h, "zh")),
       },
-      tags: deriveTags(j, projects),
+      // Explicit skills per experience come straight from the catalog.
+      tags: Array.isArray(j.skills) ? [...j.skills] : [],
     };
   });
+
+  const galleryData = gallery.map((p) => ({
+    id: p.id,
+    title: toI18n(p.title),
+    meta: toI18n(p.meta),
+    desc: toI18n(p.desc),
+    imageKey: p.imageKey,
+    blogSlug: p.blogSlug ?? null,
+    resources: p.resources,
+    architecture: p.architecture ?? null,
+  }));
 
   const educationData = education.map((e) => {
     const en = pick(e.summary, "en");
@@ -254,19 +282,35 @@ export interface I18nText {
   zh: string;
 }
 
-// resume basics -> PERSONAL_INFO (bilingual; status/graduation stay website-only)
+export interface ArchNode { label: string; hint: string }
+export interface Architecture {
+  en: Record<string, ArchNode>;
+  zh: Record<string, ArchNode>;
+}
+
+export interface GalleryProject {
+  id: string;
+  title: I18nText;
+  meta: I18nText;
+  desc: I18nText;
+  imageKey: string | null;
+  blogSlug: string | null;
+  resources: { github?: string; website?: string };
+  architecture: Architecture | null;
+}
+
+// resume basics -> PERSONAL_INFO
 export const PERSONAL_INFO: {
   name: I18nText;
   title: I18nText;
   contact: { location: string; github: string; website: string };
 } = ${ts(personalInfo)};
 
-// resume skills -> SKILLS_DATA (category bilingual; iconName mapped to a lucide-react
-// component by the frontend — the generated file carries no icon component)
+// Optional legacy skill catalog (the website now highlights skills per experience).
 export const SKILLS_DATA: { category: I18nText; iconName: string; items: string[] }[] = ${ts(skillsData)};
 
-// resume work -> EXPERIENCE_DATA (period = "startDate — endDate"; details per language;
-// tags = best-matching resume project stack with >= 2 keyword hits, else [])
+// resume work -> EXPERIENCE_DATA (period, bilingual role/company/details,
+// tags = work[].skills from the catalog)
 export const EXPERIENCE_DATA: {
   period: string;
   role: I18nText;
@@ -275,8 +319,10 @@ export const EXPERIENCE_DATA: {
   tags: string[];
 }[] = ${ts(experienceData)};
 
-// resume education -> EDUCATION_DATA (school/degree bilingual; gpa via /GPA .../ on summary;
-// isDistinction = summary includes "Distinction")
+// resume gallery -> GALLERY_PROJECTS (all copy lives in base.json)
+export const GALLERY_PROJECTS: GalleryProject[] = ${ts(galleryData)};
+
+// resume education -> EDUCATION_DATA
 export const EDUCATION_DATA: {
   school: I18nText;
   degree: I18nText;
@@ -285,7 +331,7 @@ export const EDUCATION_DATA: {
   isDistinction: boolean;
 }[] = ${ts(educationData)};
 
-// resume publications[0] -> PUBLICATION_DATA (single-object website contract).
+// resume publications[0] -> PUBLICATION_DATA
 export const PUBLICATION_DATA: {
   title: I18nText;
   journal: string;
@@ -299,7 +345,7 @@ export const PUBLICATION_DATA: {
   writeFileSync(outPath, out, "utf8");
   console.log(`sync-resume: ${basePath} -> ${outPath}`);
   console.log(
-    `sync-resume: skills=${skillsData.length} work=${experienceData.length} education=${educationData.length} publications=1`,
+    `sync-resume: work=${experienceData.length} gallery=${galleryData.length} education=${educationData.length} publications=1`,
   );
 }
 

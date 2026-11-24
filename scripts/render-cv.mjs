@@ -12,7 +12,7 @@ import {
 } from "node:fs";
 import { join } from "node:path";
 
-const VARIANTS = ["fullstack", "industry"];
+const VARIANTS = ["fullstack"];
 const LANGS = ["en", "zh"];
 const STAGE = "tmp/cv";
 const OUT = "public/cv";

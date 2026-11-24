@@ -2,6 +2,7 @@ import type { ComponentType } from "react";
 import type { MDXComponents } from "mdx/types";
 import HelloWorld from "./posts/hello-world.mdx";
 import TimeTopography from "./posts/time-topography.mdx";
+import BilingualRagArchitecture from "./posts/bilingual-rag-architecture.mdx";
 
 export interface BlogPost {
   slug: string;
@@ -17,6 +18,14 @@ export interface BlogPost {
  * Add a post by importing its MDX file and appending one entry here.
  */
 const REGISTRY: BlogPost[] = [
+  {
+    slug: "bilingual-rag-architecture",
+    title: "从 PDF 堆到可溯源问答：一套自托管双语 RAG 的三层架构",
+    date: "2026-11-24",
+    description:
+      "用 Docling、BGE-M3、Qdrant、TEI 与 Pydantic AI 在 Python + Docker 上搭一套测绘文档 RAG：三层架构、八个节点，以及每个节点背后的取舍。",
+    Content: BilingualRagArchitecture,
+  },
   {
     slug: "time-topography",
     title: "把时间画进等高线：一张会呼吸的地形背景",

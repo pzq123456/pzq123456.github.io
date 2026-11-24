@@ -89,10 +89,6 @@ export default function Footer() {
         </div>
 
         <div className="mx-auto mt-4 flex max-w-250 flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-[13px] leading-relaxed text-ink-muted">
-            <span className="text-ink-bold">World map benchmark.</span> 128 × 64
-            · Google Earth Engine · remote sensing
-          </p>
           <button
             type="button"
             onClick={downloadWorldMapBenchmark}

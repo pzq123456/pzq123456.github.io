@@ -2,7 +2,6 @@
   "template": "editorial",
   "slots": {
     "main": [
-      { "source": "skills", "title": { "en": "Skills", "cn": "技术技能" }, "presentation": "full" },
       { "source": "work", "title": { "en": "Experience", "cn": "工作经历" }, "presentation": "full" },
       { "source": "projects", "title": { "en": "Selected Projects", "cn": "代表项目" }, "presentation": "full" },
       { "source": "education", "title": { "en": "Education", "cn": "教育" }, "presentation": "full" },

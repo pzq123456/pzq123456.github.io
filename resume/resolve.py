@@ -44,10 +44,18 @@ def pick(value, lang: str):
 
 
 def localize(value, lang: str):
-    """Recursively collapse every localized leaf to the chosen language."""
+    """Recursively collapse every localized leaf to the chosen language.
+
+    Catalog bullets are authored as ``{"id": ..., "text": {"en", "zh"}}`` so
+    each one has a stable id for editing/translation. Downstream (schema,
+    normalize, renderer) consumes plain strings, so the id wrapper is dropped
+    here and the localized ``text`` is returned in its place.
+    """
     if is_localized(value):
         return pick(value, lang)
     if isinstance(value, dict):
+        if set(value) == {"id", "text"}:
+            return localize(value["text"], lang)
         return {k: localize(v, lang) for k, v in value.items()}
     if isinstance(value, list):
         return [localize(v, lang) for v in value]

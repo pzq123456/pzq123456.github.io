@@ -4,7 +4,7 @@
 // language. Vite copies public/ into dist/ at build time.
 import { existsSync } from "node:fs";
 
-const VARIANTS = ["fullstack", "industry"];
+const VARIANTS = ["fullstack"];
 const LANGS = ["en", "zh"];
 
 const missing = [];

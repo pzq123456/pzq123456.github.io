@@ -1,0 +1,92 @@
+import CoverShaderDemo from "../demos/CoverShaderDemo";
+
+那张参考图把问题暴露得很清楚：我们一直在用 CSS 渐变解决一个本质上属于**艺术生成**的问题。细线、角标、百叶窗条纹、徽章——每加一个“设计元素”，画面就离那种安静的色块更远一点。真正好看的封面没有这些，它只有颜色、边界、光和一点点纸张的呼吸感。
+
+于是这次不只是换配色，而是换技术路线：从“画几个光源”的 CSS，转向真正做程序化绘画的 WebGL2 Shader。
+
+## 一、问题不在颜色，而在表达工具
+
+CSS 的 `radial-gradient` 擅长规则、平滑、可预期的过渡。它能做出漂亮的柔光，但做不出自然形态：
+
+- 光斑总是圆形的，边界总是由数学函数直接给出；
+- 多尺度噪声、域扭曲、有机边界这些形成“自然感”的手段，它都没有；
+- 叠加越多层，越容易出现那种一眼就能认出的“AI 渐变背景”。
+
+我们想要的是一张被遗忘在 1978 年的未来主义杂志内页：有机但不杂乱，有质感但不脏，有未来感但不冰冷。这不是调色板能解决的，它需要一套**生成系统**。
+
+## 二、一张封面由五种视觉技术组成
+
+新的渲染管线不再把封面当作几个渐变图层，而是把它当作一个很小的绘画过程：
+
+1. **Organic Noise Field**：低频 FBM 作为基础色彩场，再做一次温和的 Domain Warping，让边界变得不规则却仍然安定。只用三个八度、低增益，避免碎裂的分形感。
+2. **Atmospheric Depth**：用低频噪声和渐变映射制造远景、地平线、薄雾的层次，让颜色有前后关系。
+3. **Analog Grain**：非均匀颗粒加纸张纤维，颗粒权重集中在中间调，高光和暗部自然衰减。
+4. **Print Aesthetic**：在线性空间混色，再做丝网印刷式叠印，配极轻微的暖色偏移，避免数字渐变的干净感。
+5. **Cinematic Lighting**：方向性光照和非常柔和的暗角，给画面一个视觉重心。
+
+同时准备了五组构图原型——地平线、斜切、日晕、层理、非对称叠印——和十组低饱和油墨配色。seed 决定用哪一组，也决定光在哪里。
+
+## 三、架构：seed → 参数 → 着色器 → 纹理
+
+第一步是把“生成”变成纯数据。这个函数不碰 DOM、不碰 React，只接受一个字符串：
+
+```ts
+export function createCoverParams(seed: string): CoverParams {
+  // 每个视觉轴从独立的流里取值，避免相邻 seed 产生相关结果。
+  const r = (axis: string) => axisRandom(seed, axis);
+
+  return {
+    seed: Math.floor(r("phase") * 65535),
+    palette: Math.floor(r("palette") * COVER_PALETTES.length),
+    composition: Math.floor(r("composition") * COMPOSITION_COUNT),
+    zoom: 0.75 + r("zoom") * 0.95,
+    panX: (r("panX") - 0.5) * 0.5,
+    panY: (r("panY") - 0.5) * 0.4,
+    noiseScale: 0.9 + r("noise") * 2.4,
+    warpStrength: 0.1 + r("warp") * 0.35,
+    fieldBias: (r("fieldBias") - 0.5) * 0.3,
+    grainStrength: 0.018 + r("grain") * 0.035,
+    grainProfile: r("grainProfile"),
+    lightX: r("lightX"),
+    lightY: r("lightY"),
+    lightStrength: 0.25 + r("lightStrength") * 0.95,
+    vignette: 0.15 + r("vignette") * 0.8,
+    accentStrength: 0.25 + r("accent") * 0.75,
+    overprint: 0.3 + r("overprint") * 0.7,
+    bandCount: 2 + Math.floor(r("bandCount") * 4),
+    contrast: 0.82 + r("contrast") * 0.36,
+  };
+}
+```
+
+一开始我只让一条随机数流依次产出所有参数，结果几篇文章的封面明显趋同：不是因为随机数不够随机，而是因为构图和配色只有十几种离散组合，而且它们共享同一个底层模板。后来我把构图拆成正交的轴——取景缩放与裁切、层数、光强、暗角、叠印强度、颗粒 profile、底色偏移——每个轴独立取值。组合空间一下子从几十种扩大到几千种，而 seed 仍然只需要一个字符串。
+
+第二步是 GLSL ES 3.00 片元着色器，它只关心参数和 UV，输出一个像素的颜色。第三步是渲染器：**整个页面只创建一个 WebGL2 context**，离屏渲染后把结果缓存成 data URL，列表和卡片拿到的是一张普通图片，而不是各自持有一个 GL 上下文。
+
+```ts
+export function getCoverImage(seed: string, width = 640, height = 400) {
+  return coverRenderer.get(seed, width, height);
+}
+```
+
+React 组件站在这条链的最末端：拿到图片就渲染 `<img>`，WebGL2 不可用时退回一个低饱和渐变色块。页面结构完全不知道底层是 Shader。
+
+## 四、工程上的几个约束
+
+- **确定性**：同一个 seed 永远得到同一张封面。文章日期加 slug 就是 seed，封面不会因为刷新而改变。
+- **单上下文**：每张卡片建一个 WebGL context 很快就会撞到浏览器上限；共享渲染器加缓存是必须的。
+- **缓存键**：`seed + 渲染尺寸`，重复渲染不产生额外 GPU 工作。
+- **兜底**：着色器编译失败或浏览器不支持 WebGL2 时，封面仍然是一块安静的颜色，不会变成空白。
+- **小坑**：GLSL ES 3.00 片元着色器里要显式写 `precision highp int;`，否则 `uniform int` 在部分浏览器上编译不过。
+
+## 五、交互演示
+
+下面这个演示直接调用博客里那套渲染器。改 seed 会重新生成整张画；配色、构图、取景和滑块则会直接改写着色器参数。拖动时输入保持流畅，重绘走的是 deferred value。底部四个「邻近种子」是自动生成的变体——它们用来直观检查多样性，不需要任何人手工挑选。
+
+<CoverShaderDemo />
+
+## 六、回到写作
+
+这次最值得记下来的不是 Shader 代码，而是一个判断：**表达工具要和问题属于同一类**。用 CSS 渐变模拟绘画，再怎么调参数都是在模仿；换成真正的生成系统之后，有机形态、印刷质感和空间层次是自然长出来的。
+
+博客的交互能力也让这件事变得可验证——文章不只是解释方案，而是把方案本身放进页面里，让每一次拖动都成为一次证明。

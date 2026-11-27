@@ -3,7 +3,9 @@ import type { MDXComponents } from "mdx/types";
 import HelloWorld from "./posts/hello-world.mdx";
 import TimeTopography from "./posts/time-topography.mdx";
 import BilingualRagArchitecture from "./posts/bilingual-rag-architecture.mdx";
-import MapToWorldModel from "./posts/map-to-world-model.mdx";
+import AfterZeroToOne from "./posts/after-zero-to-one.mdx";
+import SubtractionAndWorldModel from "./posts/subtraction-and-world-model.mdx";
+import ProceduralCoverShader from "./posts/procedural-cover-shader.mdx";
 
 export interface BlogPost {
   slug: string;
@@ -20,12 +22,28 @@ export interface BlogPost {
  */
 const REGISTRY: BlogPost[] = [
   {
-    slug: "map-to-world-model",
-    title: "从地图到世界模型：有限观察下的智能与认知环境",
+    slug: "procedural-cover-shader",
+    title: "从渐变到着色器：一次封面生成的技术路线切换",
     date: "2026-11-27",
     description:
-      "从地图的尺度、图层与空间关系出发，探讨智能体如何在有限观察下建立持续演化的世界模型，以及空间化记忆作为外部认知环境的可能。",
-    Content: MapToWorldModel,
+      "记录一次把博客封面从 CSS 渐变换成 WebGL2 程序化绘画的过程：为什么换、五种视觉技术、seed 到参数的架构，以及一个可以直接拖动的交互演示。",
+    Content: ProceduralCoverShader,
+  },
+  {
+    slug: "subtraction-and-world-model",
+    title: "做减法与建模型：有限观察下，智能体究竟在沉淀什么？",
+    date: "2026-11-27",
+    description:
+      "把做减法的工程原则与世界模型的空间化视角接成一条线：在有限观察下，智能体该沉淀什么、如何组织沉淀，以及记忆作为经验刻痕的本质。",
+    Content: SubtractionAndWorldModel,
+  },
+  {
+    slug: "after-zero-to-one",
+    title: "从0到1之后：垄断、平替与 AI 时代的技术平权",
+    date: "2026-11-27",
+    description:
+      "从《从0到1》的垄断逻辑出发，穿过工业现实中的平替反击，走向 AI 时代的脑力工业化与能源终局，重新审视创新的上半场与下半场。",
+    Content: AfterZeroToOne,
   },
   {
     slug: "bilingual-rag-architecture",

@@ -16,12 +16,12 @@ type NavLink = {
 
 const NAV_LINKS: NavLink[] = [
   { id: "about", en: "About", zh: "关于" },
+  { id: "blogs", en: "Blogs", zh: "博客", href: "#/blog" },
   { id: "experience", en: "Experience", zh: "经历" },
   { id: "projects", en: "Projects", zh: "项目" },
   { id: "world", en: "World", zh: "世界" },
   { id: "cv", en: "CV", zh: "简历" },
   { id: "contact", en: "Contact", zh: "联系" },
-  { id: "blogs", en: "Blogs", zh: "博客", href: "#/blog" },
 ];
 
 const isBlogRoute = (hash: string) => hash.startsWith("#/blog");

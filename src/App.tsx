@@ -4,6 +4,7 @@ import Navbar from "./components/sections/Navbar";
 import Hero from "./components/sections/Hero";
 import Experience from "./components/sections/Experience";
 import Gallery from "./components/sections/Gallery";
+import BlogHighlights from "./components/sections/BlogHighlights";
 import CvWorkspace from "./components/sections/CvWorkspace";
 import AcademicRecord from "./components/sections/AcademicRecord";
 import Footer from "./components/sections/Footer";
@@ -64,6 +65,7 @@ export default function AcademicPortfolio() {
           <>
             <main className="max-w-6xl mx-auto relative z-10">
               <Hero />
+              <BlogHighlights />
               <Experience />
               <Gallery />
               <AcademicRecord />

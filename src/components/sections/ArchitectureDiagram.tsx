@@ -265,9 +265,12 @@ function MiniIcon({ nodeKey, color }: { nodeKey: string; color: string }) {
 export default function ArchitectureDiagram({
   architecture,
   lang,
+  framed = true,
 }: {
   architecture: Architecture;
   lang: Lang;
+  /** Gallery cards already supply a border; standalone demos need this one. */
+  framed?: boolean;
 }) {
   const nodes = architecture[lang];
   const [hoveredKey, setHoveredKey] = useState<string | null>(null);
@@ -290,7 +293,13 @@ export default function ArchitectureDiagram({
   }, [hoveredKey]);
 
   return (
-    <div className="w-full overflow-hidden rounded-2xl border border-(--border-color) bg-(--bg-surface,transparent)">
+    <div
+      className={
+        framed
+          ? "w-full overflow-hidden rounded-2xl border border-(--border-color) bg-(--bg-surface,transparent)"
+          : "w-full"
+      }
+    >
       <svg
         viewBox={`0 0 ${VIEW_W} ${VIEW_H}`}
         className="block h-auto w-full select-none"

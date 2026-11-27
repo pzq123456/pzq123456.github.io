@@ -29,7 +29,11 @@ export default function Gallery() {
             />
           ) : proj.architecture ? (
             <div className="flex h-full w-full items-center justify-center p-4 md:p-8">
-              <ArchitectureDiagram architecture={proj.architecture} lang={lang} />
+              <ArchitectureDiagram
+                architecture={proj.architecture}
+                lang={lang}
+                framed={false}
+              />
             </div>
           ) : null;
 

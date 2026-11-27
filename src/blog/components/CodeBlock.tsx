@@ -1,5 +1,6 @@
 import { Check, Copy } from "lucide-react";
 import { useRef, useState, type ComponentPropsWithoutRef } from "react";
+import { copyText } from "./copyText";
 
 type CodeFigureProps = ComponentPropsWithoutRef<"figure"> & {
   "data-rehype-pretty-code-figure"?: string;
@@ -15,13 +16,10 @@ export default function CodeFigure({ children, ...props }: CodeFigureProps) {
     const code = figureRef.current?.querySelector("pre")?.textContent;
     if (!code) return;
 
-    try {
-      await navigator.clipboard.writeText(code.replace(/\n$/, ""));
-      setCopied(true);
-      window.setTimeout(() => setCopied(false), 1600);
-    } catch {
-      // Clipboard access can be blocked; leave the button unchanged.
-    }
+    if (!(await copyText(code.replace(/\n$/, "")))) return;
+
+    setCopied(true);
+    window.setTimeout(() => setCopied(false), 1600);
   }
 
   return (

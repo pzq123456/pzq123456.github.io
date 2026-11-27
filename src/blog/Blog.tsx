@@ -1,24 +1,20 @@
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import type { MDXComponents } from "mdx/types";
+import { useRef } from "react";
 import { useApp } from "@/context/AppContext";
+import ArticleCopyButton from "./components/ArticleCopyButton";
 import CodeFigure from "./components/CodeBlock";
+import CoverArt from "./CoverArt";
+import PostCard from "./components/PostCard";
+import { formatDate } from "./formatDate";
 import { POSTS, getPost, type BlogPost } from "./posts";
 
 const blogMdxComponents: MDXComponents = {
   figure: CodeFigure,
 };
 
-function formatDate(value: string, lang: "en" | "zh") {
-  return new Intl.DateTimeFormat(lang === "zh" ? "zh-CN" : "en-GB", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-    timeZone: "UTC",
-  }).format(new Date(`${value}T00:00:00Z`));
-}
-
 function BlogIndex() {
-  const { t, lang } = useApp();
+  const { t } = useApp();
 
   return (
     <main className="mx-auto w-full max-w-6xl px-8 pb-24 pt-14 md:px-16 md:pb-32 md:pt-20">
@@ -46,35 +42,7 @@ function BlogIndex() {
 
       <div className="mt-14 border-t border-line/70 md:mt-16">
         {POSTS.map((post, index) => (
-          <a
-            key={post.slug}
-            href={`#/blog/${post.slug}`}
-            className="group grid gap-3 border-b border-line/60 py-7 md:grid-cols-12 md:gap-8 md:py-9"
-          >
-            <div className="flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.16em] text-ink-muted md:col-span-3">
-              <span className="text-coral">
-                {String(index + 1).padStart(2, "0")}
-              </span>
-              <span className="h-px w-4 bg-line" />
-              <time dateTime={post.date}>{formatDate(post.date, lang)}</time>
-            </div>
-
-            <div className="md:col-span-8">
-              <h2 className="font-serif text-[26px] font-medium leading-tight tracking-tight text-ink-bold transition-colors duration-300 group-hover:text-accent md:text-[30px]">
-                {post.title}
-              </h2>
-              <p className="mt-2 max-w-2xl text-[15px] leading-[1.7] text-ink-muted">
-                {post.description}
-              </p>
-            </div>
-
-            <div className="hidden items-start justify-end md:col-span-1 md:flex">
-              <ArrowUpRight
-                size={18}
-                className="mt-1 text-ink-faint transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-accent"
-              />
-            </div>
-          </a>
+          <PostCard key={post.slug} post={post} index={index} />
         ))}
       </div>
     </main>
@@ -84,6 +52,7 @@ function BlogIndex() {
 function BlogArticle({ post }: { post: BlogPost }) {
   const { t, lang } = useApp();
   const Content = post.Content;
+  const bodyRef = useRef<HTMLDivElement>(null);
 
   return (
     <main className="mx-auto w-full max-w-6xl px-8 pb-24 pt-12 md:px-16 md:pb-32 md:pt-16">
@@ -97,22 +66,40 @@ function BlogArticle({ post }: { post: BlogPost }) {
 
       <article className="mx-auto mt-10 max-w-[44rem] md:mt-14">
         <header className="border-b border-line/60 pb-8 md:pb-10">
-          <p className="flex flex-wrap items-center gap-2 font-mono text-[11px] uppercase tracking-[0.16em] text-ink-muted">
-            <span className="text-coral">Blogs</span>
-            <span className="text-line">/</span>
-            <time dateTime={post.date}>{formatDate(post.date, lang)}</time>
-          </p>
+          <div className="flex flex-wrap items-start justify-between gap-4">
+            <p className="flex flex-wrap items-center gap-2 pt-2 font-mono text-[11px] uppercase tracking-[0.16em] text-ink-muted">
+              <span className="text-coral">Blogs</span>
+              <span className="text-line">/</span>
+              <time dateTime={post.date}>{formatDate(post.date, lang)}</time>
+            </p>
+            <ArticleCopyButton
+              getText={() =>
+                [
+                  post.title,
+                  formatDate(post.date, lang),
+                  post.description,
+                  bodyRef.current?.innerText.trim() ?? "",
+                ]
+                  .filter(Boolean)
+                  .join("\n\n")
+              }
+            />
+          </div>
 
           <h1 className="mt-5 font-serif text-[36px] font-medium leading-[1.06] tracking-tight text-ink-bold md:text-[48px]">
             {post.title}
           </h1>
 
-          <p className="mt-4 max-w-[38rem] font-serif text-[17px] italic leading-[1.7] text-ink-muted">
+          <div className="mt-7 aspect-[16/10] w-full overflow-hidden rounded-lg">
+            <CoverArt seed={`${post.date}-${post.slug}`} rounded={false} />
+          </div>
+
+          <p className="mt-5 max-w-[38rem] font-serif text-[17px] italic leading-[1.7] text-ink-muted">
             {post.description}
           </p>
         </header>
 
-        <div className="article-body mt-9 md:mt-11">
+        <div ref={bodyRef} className="article-body mt-9 md:mt-11">
           <Content components={blogMdxComponents} />
         </div>
 

@@ -11,9 +11,15 @@ src/blog/
   Blog.tsx              # list + article views
   useHashRoute.ts       # #/blog and #/blog/<slug>
   components/CodeBlock.tsx  # code-block title bar + copy button
+  components/PostCard.tsx   # shared list row / landing-page card
+  CoverArt.tsx          # deterministic pure-gradient post cover
+  formatDate.ts         # shared date formatter
   posts/*.mdx           # articles
   demos/*.tsx           # interactive components used by articles
 ```
+
+The seed-to-style generator itself lives in `src/utils/cover.ts`, outside the
+blog folder, so any renderer can reuse it.
 
 ## Add a post
 
@@ -102,7 +108,35 @@ Put files in `public/blog/` and reference them with normal Markdown:
 ![Alt text](/blog/example.png)
 ```
 
+## Copying content
+
+Each article has a "Copy article" button in its header that copies the title,
+date, description, and plain-text body. Fenced code blocks also have their own
+copy button; both use the shared `copyText` helper in
+`src/blog/components/copyText.ts`, which falls back to `execCommand("copy")` when
+the Clipboard API is unavailable.
+
+## Cover art
+
+Covers are procedurally painted, not CSS gradients. The pipeline has three
+layers:
+
+1. `src/utils/cover.ts` — `createCoverParams(seed)` is pure data: palette,
+   composition, FBM scale, domain warp, grain, lighting. Same seed → same params.
+2. `src/utils/coverShader.ts` + `coverRenderer.ts` — GLSL ES 3.00 field (organic
+   noise, atmospheric depth, print aesthetic, cinematic light) rendered through
+   **one shared WebGL2 context** into cached data URLs. No context per card.
+3. `src/blog/CoverArt.tsx` — React edge: picks the cached image, or a muted CSS
+   fallback when WebGL2 is unavailable.
+
+Pass `${post.date}-${post.slug}` as the seed so each post keeps a stable cover.
+Covers are not standalone decorations: `src/blog/components/PostCard.tsx` embeds
+one in every entry. The `/blog` timeline uses the `row` variant (thumbnail +
+date + title + description), and the landing page uses the `tile` variant for
+the three latest posts via `src/components/sections/BlogHighlights.tsx`. Each
+article also renders its own cover below the title in `src/blog/Blog.tsx`.
+
 ## Not included
 
-Comments, RSS, search, tags, pagination, TOC, and a copy button are deliberately
-left out. The article typography lives in `.article-body` in `src/index.css`.
+Comments, RSS, search, tags, pagination, and TOC are deliberately left out. The
+article typography lives in `.article-body` in `src/index.css`.

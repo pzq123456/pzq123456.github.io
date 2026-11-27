@@ -3,6 +3,7 @@ import type { MDXComponents } from "mdx/types";
 import HelloWorld from "./posts/hello-world.mdx";
 import TimeTopography from "./posts/time-topography.mdx";
 import BilingualRagArchitecture from "./posts/bilingual-rag-architecture.mdx";
+import MapToWorldModel from "./posts/map-to-world-model.mdx";
 
 export interface BlogPost {
   slug: string;
@@ -18,6 +19,14 @@ export interface BlogPost {
  * Add a post by importing its MDX file and appending one entry here.
  */
 const REGISTRY: BlogPost[] = [
+  {
+    slug: "map-to-world-model",
+    title: "从地图到世界模型：有限观察下的智能与认知环境",
+    date: "2026-11-27",
+    description:
+      "从地图的尺度、图层与空间关系出发，探讨智能体如何在有限观察下建立持续演化的世界模型，以及空间化记忆作为外部认知环境的可能。",
+    Content: MapToWorldModel,
+  },
   {
     slug: "bilingual-rag-architecture",
     title: "从 PDF 堆到可溯源问答：一套自托管双语 RAG 的三层架构",

@@ -188,7 +188,7 @@ export default function NoiseFieldDemo() {
           交互演示 · 同一套数学的最小实现
         </span>
         <span className="font-mono text-[12px] text-ink-muted">
-          seed = {seed}　t = {time.toFixed(2)}
+          seed = {seed} · t = {time.toFixed(2)}
         </span>
       </div>
 

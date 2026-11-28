@@ -6,6 +6,7 @@ import BilingualRagArchitecture from "./posts/bilingual-rag-architecture.mdx";
 import AfterZeroToOne from "./posts/after-zero-to-one.mdx";
 import SubtractionAndWorldModel from "./posts/subtraction-and-world-model.mdx";
 import ProceduralCoverShader from "./posts/procedural-cover-shader.mdx";
+import ModernAgentEngineeringGuide from "./posts/modern-agent-engineering-guide.mdx";
 
 export interface BlogPost {
   slug: string;
@@ -21,6 +22,14 @@ export interface BlogPost {
  * Add a post by importing its MDX file and appending one entry here.
  */
 const REGISTRY: BlogPost[] = [
+  {
+    slug: "modern-agent-engineering-guide",
+    title: "从 Demo 到生产：Agent 系统的六个工程关卡",
+    date: "2026-11-28",
+    description:
+      "围绕决策权、上下文、工具接口、记忆、多智能体协作与评测，拆解 Agent 从演示走向生产时的系统机制与工程取舍。",
+    Content: ModernAgentEngineeringGuide,
+  },
   {
     slug: "procedural-cover-shader",
     title: "从渐变到着色器：一次封面生成的技术路线切换",
